@@ -7,16 +7,17 @@
 <title>Deutsch’s Algorithm | qubit-opus</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Deutsch’s Algorithm" />
+<meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Computing for humanity." />
-<meta property="og:description" content="Computing for humanity." />
-<link rel="canonical" href="https://pockerman.github.io/qubit_opus/2021/03/20/deutsch-algo.html" />
-<meta property="og:url" content="https://pockerman.github.io/qubit_opus/2021/03/20/deutsch-algo.html" />
+<meta name="description" content="Brief introduction to Deutsch’s algorithm" />
+<meta property="og:description" content="Brief introduction to Deutsch’s algorithm" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/deutsch/quantum-computing/algorithms/numerics/2021/03/20/deutsch-algo.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/deutsch/quantum-computing/algorithms/numerics/2021/03/20/deutsch-algo.html" />
 <meta property="og:site_name" content="qubit-opus" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-03-20T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/2021/03/20/deutsch-algo.html","@type":"BlogPosting","headline":"Deutsch’s Algorithm","dateModified":"2021-03-20T00:00:00-05:00","datePublished":"2021-03-20T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/2021/03/20/deutsch-algo.html"},"description":"Computing for humanity.","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/deutsch/quantum-computing/algorithms/numerics/2021/03/20/deutsch-algo.html","@type":"BlogPosting","headline":"Deutsch’s Algorithm","dateModified":"2021-03-20T00:00:00-05:00","datePublished":"2021-03-20T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/deutsch/quantum-computing/algorithms/numerics/2021/03/20/deutsch-algo.html"},"author":{"@type":"Person","name":"Alexandros Giavaras"},"description":"Brief introduction to Deutsch’s algorithm","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -87,9 +88,11 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Deutsch&#39;s Algorithm</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-20T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Deutsch&#39;s Algorithm</h1><p class="page-description">Brief introduction to Deutsch's algorithm</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-20T00:00:00-05:00" itemprop="datePublished">
         Mar 20, 2021
-      </time>
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
@@ -98,29 +101,24 @@ window.onload = wrap_img;
 </span></p>
 
     
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#Deutsch">Deutsch</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#quantum-computing">quantum-computing</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#algorithms">algorithms</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#numerics">numerics</a>
+        
+      
+      </p>
+    
 
     
-      
-        <div class="pb-5 d-flex flex-wrap flex-justify-end">
-          <div class="px-2">
-
-    <a href="https://github.com/pockerman/qubit_opus/tree/master/_notebooks/2021-03-20-deutsch-algo.ipynb" role="button" target="_blank">
-<img class="notebook-badge-image" src="/qubit_opus/assets/badges/github.svg" alt="View On GitHub">
-    </a>
-</div>
-
-          <div class="px-2">
-    <a href="https://mybinder.org/v2/gh/pockerman/qubit_opus/master?filepath=_notebooks%2F2021-03-20-deutsch-algo.ipynb" target="_blank">
-        <img class="notebook-badge-image" src="/qubit_opus/assets/badges/binder.svg" alt="Open In Binder"/>
-    </a>
-</div>
-
-          <div class="px-2">
-    <a href="https://colab.research.google.com/github/pockerman/qubit_opus/blob/master/_notebooks/2021-03-20-deutsch-algo.ipynb" target="_blank">
-        <img class="notebook-badge-image" src="/qubit_opus/assets/badges/colab.svg" alt="Open In Colab"/>
-    </a>
-</div>
-        </div>
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
@@ -133,21 +131,6 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<blockquote><p>"Deutsch's algorithm"</p>
-</blockquote>
-<ul>
-<li>toc:false- branch: master</li>
-<li>badges: false</li>
-<li>comments: false</li>
-<li>author: Alexandros Giavaras</li>
-<li>categories: [Deutsch, quantum-computing, algorithms, numerics]</li>
-</ul>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Quantum computers pose as the future of computing. Although,  at the time of writing, the computing harwdare based on quantum mechanics principles can accommodate only a small number of qubits, algorithms have been developed that demonstrate the superiority of quantum computers for certain class problems.</p>
@@ -192,10 +175,9 @@ window.onload = wrap_img;
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<figure>
-  <img src="my_icons/deutsch_algo.png" alt="Deutsch's algorithm circuit" style="width:60%" />
-  <figcaption>Figure 1. Deutsch's algorithm circuit. Image from [1].</figcaption>
-</figure>
+<p><img src="/qubit_opus/images/copied_from_nb/my_icons/deutsch_algo.png" alt="" />
+<em>Figure 1. Deutsch's algorithm circuit. Image from [1].</em></p>
+
 </div>
 </div>
 </div>
@@ -613,7 +595,7 @@ only one function evaluation.</p>
 
 
 
-  </div><a class="u-url" href="/qubit_opus/2021/03/20/deutsch-algo.html" hidden></a>
+  </div><a class="u-url" href="/qubit_opus/deutsch/quantum-computing/algorithms/numerics/2021/03/20/deutsch-algo.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
