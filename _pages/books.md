@@ -4,8 +4,12 @@ title: Books
 permalink: /books/
 ---
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+If you could only read a hundred books in your life which books will these be? Bottom line is make it worh.
+A collection of books that I believe is worth spending some time with.
 
+# Computing
+# History
+# Mathematics
+# Physics
+# Literature
 
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
