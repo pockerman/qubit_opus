@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://pockerman.github.io/qubit_opus/linear-algebra/singular-value-decomposition/matrix-approximation/algorithms/numerics/2013/03/14/matrix-approximation.html</loc>
-<lastmod>2013-03-14T00:00:00-05:00</lastmod>
-</url>
-<url>
 <loc>https://pockerman.github.io/qubit_opus/markdown/2020/01/14/test-markdown-post.html</loc>
 <lastmod>2020-01-14T00:00:00-06:00</lastmod>
+</url>
+<url>
+<loc>https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html</loc>
+<lastmod>2020-05-22T00:00:00-05:00</lastmod>
+</url>
+<url>
+<loc>https://pockerman.github.io/qubit_opus/gradient-descent/unconstrained-optimization/machine-learning/algorithms/numerics/2020/06/22/gradient-descent.html</loc>
+<lastmod>2020-06-22T00:00:00-05:00</lastmod>
 </url>
 <url>
 <loc>https://pockerman.github.io/qubit_opus/linear-algebra/singular-value-decomposition/algorithms/numerics/2021/03/13/singular-value-decomposition.html</loc>
