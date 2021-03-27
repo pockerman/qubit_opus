@@ -6,8 +6,8 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: qubit-opus
-description: Computing for humanity.
+title: qubit-opus | Alexandros Giavaras
+description: Computing is fun (most of the times).
 github_username: pockerman
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "qubit_opus"
