@@ -16,6 +16,9 @@ permalink: /books/
 ## Mathematics
 
 - Kevin P. Murphy ```Machine Learning. A Probabilistic Perspective```
+- Thomas Witelski and Mark Bowen ```Methods of Mathematical Modelling. Continuous Systems and Differential Equations```
+- Steven L. Brunton, J. Nathan Kutz ```Data-Driven Science and Engineering Machine Learning, Dynamical Systems and Control```
+- Richard S. Sutton and Andrew G. Barto, ```Reinforcement Learning: An Introduction```
 
 ## Physics
 
