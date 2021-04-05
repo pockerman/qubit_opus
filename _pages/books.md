@@ -4,15 +4,6 @@ title: Books
 permalink: /books/
 ---
 
-
-## Computing
-
-- Len Bass, Paul Clements, Rick Kazman ```Software Architecture In Practice```
-
-## History
-
-- Herodotus ```The Histories```
-
 ## Mathematics
 
 - Kevin P. Murphy ```Machine Learning. A Probabilistic Perspective```
@@ -23,6 +14,21 @@ permalink: /books/
 ## Physics
 
 - Leonard Susskind and Art Friedman, ```Quantum Mechanics. The Theoretical Minimum```
+
+## Computing
+
+- Len Bass, Paul Clements, Rick Kazman ```Software Architecture In Practice```
+- David Mermin ```Quantum Computer Science. An Introduction```
+
+## History
+
+- Herodotus ```The Histories```
+- Max Hastings ```Catastrophe```
+
+
+## Philosophy
+- Sun Tzu ```The Art Of War```
+- Nicolo Machiavelli ```The Prince```
 
 ## Literature
 
