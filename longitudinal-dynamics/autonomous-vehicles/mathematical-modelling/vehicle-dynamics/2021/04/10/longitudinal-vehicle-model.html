@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Longitudinal Car Model | qubit-opus Alexandros Giavaras</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Longitudinal Car Model" />
+<meta name="author" content="Alexandros Giavaras" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview of longitudinal vehicle dynamics" />
+<meta property="og:description" content="Overview of longitudinal vehicle dynamics" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/longitudinal-dynamics/autonomous-vehicles/mathematical-modelling/vehicle-dynamics/2021/04/10/longitudinal-vehicle-model.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/longitudinal-dynamics/autonomous-vehicles/mathematical-modelling/vehicle-dynamics/2021/04/10/longitudinal-vehicle-model.html" />
+<meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://pockerman.github.io/qubit_opus/longitudinal-dynamics/autonomous-vehicles/mathematical-modelling/vehicle-dynamics/2021/04/10/longitudinal-vehicle-model.html","@type":"BlogPosting","headline":"Longitudinal Car Model","dateModified":"2021-04-10T00:00:00-05:00","datePublished":"2021-04-10T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/longitudinal-dynamics/autonomous-vehicles/mathematical-modelling/vehicle-dynamics/2021/04/10/longitudinal-vehicle-model.html"},"description":"Overview of longitudinal vehicle dynamics","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/qubit_opus/">qubit-opus | Alexandros Giavaras</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/qubit_opus/about/">About Me</a><a class="page-link" href="/qubit_opus/books/">Books</a><a class="page-link" href="/qubit_opus/search/">Search</a><a class="page-link" href="/qubit_opus/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Longitudinal Car Model</h1><p class="page-description">Overview of longitudinal vehicle dynamics</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-10T00:00:00-05:00" itemprop="datePublished">
+        Apr 10, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#longitudinal-dynamics">longitudinal-dynamics</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#autonomous-vehicles">autonomous-vehicles</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#mathematical-modelling">mathematical-modelling</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#vehicle-dynamics">vehicle-dynamics</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Longitudinal-car-model">Longitudinal car model </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Gravitational-froce">Gravitational froce </a></li>
+<li class="toc-entry toc-h3"><a href="#Aerodynamic-drag">Aerodynamic drag </a></li>
+<li class="toc-entry toc-h3"><a href="#Rolling-resistance">Rolling resistance </a></li>
+<li class="toc-entry toc-h3"><a href="#Tire-forces">Tire forces </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Slip-ratio">Slip ratio </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Powertrain-forces">Powertrain forces </a></li>
+<li class="toc-entry toc-h3"><a href="#Torque-converter">Torque converter </a></li>
+<li class="toc-entry toc-h3"><a href="#Transmission-dynamics">Transmission dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Engine-dynamics">Engine dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Wheel-dynamics">Wheel dynamics </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Refernces">Refernces </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-04-10-longitudinal-vehicle-model.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Longitudinal-car-model">
+<a class="anchor" href="#Longitudinal-car-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Longitudinal car model<a class="anchor-link" href="#Longitudinal-car-model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this section, we will go over the concept of the <a href="https://www.sciencedirect.com/topics/engineering/longitudinal-dynamic">vehicle longitudinal dynamics</a>. The two major elements of the longitudinal vehicle model discussed in this section  are</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Vehicle dynamics</li>
+<li>Powertrain dynamics</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The vehicle dynamics are influenced by longitudinal tire forces, aerodynamic drag forces, rolling
+resistance forces and gravitational forces. The longitudinal powertrain system of the vehicle
+consists of the internal combustion engine, the torque converter, the
+transmission and the wheels. This <a href="https://www.coursera.org/lecture/intro-self-driving-cars/lesson-4-longitudinal-vehicle-modeling-V8htX"> video</a> explains nicely the concepts.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The longitudinal vehicle dynamic model is simply based on the dynamics of
+the vehicle that generate forward motion. The following figure shows a typical vehicle
+longitudinal motion force diagram on an inclined road.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/qubit_opus/images/copied_from_nb/my_icons/longitudinal_model_1.jpeg" alt="">
+<em>Figure 1. Schematics of vehicle logitudinal model on an inclined road. Image from [1].</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have the followig forces acting on the vehicle</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>The front tire forces $F_{xf}$</li>
+<li>The rear tire forces $F_{xr}$</li>
+<li>The <a href="https://www.sciencelearn.org.nz/resources/1346-causes-of-aerodynamic-drag">aerodynamic  drag force</a> $F_{aero}$</li>
+<li>The rolling resistance forces $R_{xf}$ and $R_{xr}$</li>
+<li>The force due to gravity $F_g$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>According to <a href="https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion">Newton’s laws of motion</a>, and in particular the second law, the longitudinal tire forces of the front and
+rear tyres, $F_{xf}$ and $F_{xr}$, should balance the resistance forces $F_{aero}$, the gravitational
+force $F_g$ , and the rolling resistance of the front and rear tires, $R_{xf}$ and $R_{xr}$.
+Any imbalance between these forces creates an acceleration of the vehicle in
+the longitudinal direction denoted by $\ddot{x}$. Thus, the basic logintudinal motion model is given by</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$m\ddot{x} = F_{xf} + F_{xr} - F_{aero} - F_g - R_{xf} - R_{xr}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>where $m$ is the mass of the vehicle. The forces $F_{xf}$ and $F_{xr}$ come from the vehicle power train. We can express them collectively as $F_x$. Furthermore, we group together the rolling resistance forces under the symbol $R_x$. Thus, the reduced model is</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$m\ddot{x} = F_x  - F_{aero} - F_g - R_x $$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will need a way to express the involved quantities in order to be able to solve for $\ddot{x}$. Let's start with the gravitational force $F_g$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gravitational-froce">
+<a class="anchor" href="#Gravitational-froce" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gravitational froce<a class="anchor-link" href="#Gravitational-froce"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can express $F_g$ as [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$F_g = mg sin (\alpha)$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>where $\alpha$ is the local road slope. For small slope angles, we can write</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$sin (\alpha) \approx \alpha$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Aerodynamic-drag">
+<a class="anchor" href="#Aerodynamic-drag" aria-hidden="true"><span class="octicon octicon-link"></span></a>Aerodynamic drag<a class="anchor-link" href="#Aerodynamic-drag"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A vehicles longitudinal motion is resisted by aerodynamic drag rolling resistance
+and the force due to gravity.  The aerodynamic drag force $F_{aero}$ is typically
+modeled as dependent on air density $\rho$, frontal area of the vehicle $A$, the vehicles
+coefficient of friction $C_D$, and the current speed of the vehicle. The functional relationship of all these quantities is given in the equation beow</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$F_{aero} = \frac{1}{2}C_D\rho A v^2$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Rolling-resistance">
+<a class="anchor" href="#Rolling-resistance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rolling resistance<a class="anchor-link" href="#Rolling-resistance"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For rolling resistance, we have a similar model which can depend on the normal
+force, tire pressure and characteristics, and vehicle speed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$R_x = N(c_{r, 0} + c_{r,1}|\dot{x}| + c_{r,2}|\dot{x}|^2 \approx c_{r,1}|\dot{x}|$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we again assume nominal operating conditions and drop the second-order
+terms for simplicity, we can arrive at a linear rolling resistance model, where
+$c_{r,1}$ is the linear rolling resistance coefficient. In both cases, these are basic
+approximate models that are a good starting point for controller design. In
+practice, the fidelity of the model used depends on the accuracy required of the
+controller or the simulation environment.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tire-forces">
+<a class="anchor" href="#Tire-forces" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tire forces<a class="anchor-link" href="#Tire-forces"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now discuss the longitudinal tire forces expressed under the term $F_x$. Longitudinal tire forces depend on the following factors [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Slip ratio</li>
+<li>Normal load on the tires</li>
+<li>Friction coefficient on the tire road interface </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see these components</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Slip-ratio">
+<a class="anchor" href="#Slip-ratio" aria-hidden="true"><span class="octicon octicon-link"></span></a>Slip ratio<a class="anchor-link" href="#Slip-ratio"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For an effective wheel radius $R_{effective}$ and a wheel velocity $\omega_w$ the velocity is described by</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$V = R_{effective}\omega_w$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, the actual longitudinal velocity at the axle of the wheel, $V_x$ may be different than that. This is called longitudinal slip [2]. In other words, the longitudinal slip is defined as [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$\sigma = V - V_x$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can further distinguish between slip ratios during braking and acceleration according to [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An explanation of why longitudinal tire force depends on the slip ratio is
+provided in section 4.1.3. A more complete understanding of the influence of
+all three variables – slip ratio, normal force and tire-road friction coefficient
+– on tire force can be obtained by reading Chapter 13 of this book.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Powertrain-forces">
+<a class="anchor" href="#Powertrain-forces" aria-hidden="true"><span class="octicon octicon-link"></span></a>Powertrain forces<a class="anchor-link" href="#Powertrain-forces"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The longitudinal tire forces acting on the driving wheels are the main forces that drive the vehicle forward [2]. These forces depend on the difference between the rotational wheel velocity $R_{effective}\omega_{w}$ and the vehicle longitudinal velocity $\dot{x}$. In particular, we saw that we can model the longitudinal tire forces as</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$F_{xf} = C_{\sigma f}\sigma_{xf}, ~~ F_{xr} = C_{\sigma r}\sigma_{xr}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>where $C_{\sigma f}$ and $C_{\sigma r}$ are called the longitudinal tire stiffness parameters of the front and rear tires respectively [2]. We saw then that these coefficients can be written as [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$\sigma_{xf} = \begin{cases} \frac{R_{effecive}\omega_{wf} - \dot{x}}{\dot{x}}, ~~\text{during breaking} \\  \frac{R_{effecive}\omega_{wf} - \dot{x}}{R_{effecive}\omega_{wf}}, ~~\text{during acceleration} \end{cases}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and a similar expression for $\sigma_{rf}$. However, $\omega_w$ is highly influence by the powertrain dynamics of the vehicle. The powertrain has the following major components [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Engine</li>
+<li>Transmission or gearbox</li>
+<li>Torque converter or clutch</li>
+<li>Differential</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/qubit_opus/images/copied_from_nb/my_icons/longitudinal_model_2.jpeg" alt="">
+<em>Figure 2. Powertrain schematics. Image from [1].</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see each of the components separately</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Torque-converter">
+<a class="anchor" href="#Torque-converter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Torque converter<a class="anchor-link" href="#Torque-converter"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The torque converter is a type of fluid coupling that connects the engine to
+the transmission. If the engine is turning slowly, such as when the car is
+idling at a stoplight, the amount of torque passed through the torque
+converter is very small, so keeping the car still requires only a light pressure
+on the brake pedal.
+In addition to allowing the car come to a complete stop without stalling
+the engine, the torque converter gives the car more torque when it
+accelerates out of a stop. Modern torque converters can multiply the torque
+of the engine by two to three times. This effect only happens when the
+engine is turning much faster than the transmission. At higher speeds, the
+transmission catches up to the engine, eventually moving at almost the same
+speed. Ideally, though, the transmission should move at exactly the same
+speed as the engine, because the difference in speed wastes power. To
+counter this effect, many cars have a torque converter with a lockup clutch.
+When the two halves of the torque converter get up to speed, this clutch
+locks them together, eliminating the slippage and improving efficiency.
+The torque converter is typically unlocked as soon as the driver removes
+his/her foot from the accelerator pedal and steps on the brakes. This allows
+the engine to keep running even if the driver brakes to slow the wheels
+down.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Transmission-dynamics">
+<a class="anchor" href="#Transmission-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transmission dynamics<a class="anchor-link" href="#Transmission-dynamics"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's denote with $GR$ the gear ratio of the transmission. In general, $GR &lt; 1$ and increases as the gear shifts upwards. The input to the transmission module is the torbine torque $T_{turbine}$ [2]. The torque transmitted to the wheels is $T_{wheels}$. Then, at steady state, this torque is given by</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$ T_{wheels} = \frac{1}{GR} T_{turbine}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Furthermore, we have the following relaton between the transmission and the wheel speed [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$ \omega_{transmission} = \frac{1}{GR} \omega_{wheels}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that these equations cannot be used during gear change. See [2 page 105] for a model based on first order equations.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Engine-dynamics">
+<a class="anchor" href="#Engine-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Engine dynamics<a class="anchor-link" href="#Engine-dynamics"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A simplified engine dynamic model is</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$J_w \dot{\omega}_e = T_{engine} - T_{pump}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In general, the engine torque $T_{engine}$ depends on the dynamics in the intake and
+exhaust manifold of the engine and on the accelerator input from the driver [2]. $T_{pump}$ is the torque from the pump is the load of the engine from the torque converter [2].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Wheel-dynamics">
+<a class="anchor" href="#Wheel-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Wheel dynamics<a class="anchor-link" href="#Wheel-dynamics"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Refernces">
+<a class="anchor" href="#Refernces" aria-hidden="true"><span class="octicon octicon-link"></span></a>Refernces<a class="anchor-link" href="#Refernces"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><a href="https://www.coursera.org/lecture/intro-self-driving-cars/lesson-4-longitudinal-vehicle-modeling-V8htX">Lesson 4: Longitudinal Vehicle Modeling</a></li>
+<li>Rajamani R. <code>Longitudinal Vehicle Dynamics. In: Vehicle Dynamics and Control.</code>, Mechanical Engineering Series. Springer 2012.</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/qubit_opus/longitudinal-dynamics/autonomous-vehicles/mathematical-modelling/vehicle-dynamics/2021/04/10/longitudinal-vehicle-model.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/qubit_opus/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/qubit_opus/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/qubit_opus/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Computing is fun (most of the times).</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/qubit_opus/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/qubit_opus/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
