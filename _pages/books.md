@@ -20,10 +20,18 @@ permalink: /books/
 - Len Bass, Paul Clements, Rick Kazman ```Software Architecture In Practice```
 - David Mermin ```Quantum Computer Science. An Introduction```
 
+## Programming
+
+- Scott Meyers ```Effective C++: 50 Specific Ways To Improve Your Programs And Design```
+- Scott Meyers ```Effective STL: 50 Specific Ways To Improve Your Use Of The STL```
+- Scott Meyers ```Effective C++: 55 Specific Ways To Improve Your Programs And Design```
+- Scott Meyers ```Effective Modern C++```
+
 ## History
 
 - Herodotus ```The Histories```
 - Max Hastings ```Catastrophe```
+- Thucydides ```The Histroy Of The Peloponnesian War```
 
 
 ## Philosophy
