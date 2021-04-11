@@ -134,8 +134,11 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#Powertrain-forces">Powertrain forces </a></li>
-<li class="toc-entry toc-h3"><a href="#Torque-converter">Torque converter </a></li>
-<li class="toc-entry toc-h3"><a href="#Transmission-dynamics">Transmission dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Torque-converter">Torque converter </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Transmission-dynamics">Transmission dynamics </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h3"><a href="#Engine-dynamics">Engine dynamics </a></li>
 <li class="toc-entry toc-h3"><a href="#Wheel-dynamics">Wheel dynamics </a></li>
 </ul>
@@ -365,8 +368,17 @@ $$F_{aero} = \frac{1}{2}C_D\rho A v^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For rolling resistance, we have a similar model which can depend on the normal
-force, tire pressure and characteristics, and vehicle speed.</p>
+<p>Tires are elastic materials that are subject to deformation in the patch which is in contact with the road surface. Let's neglect the the deformation of the road.
+The tire is subject to a normal load. Due to this load, the tire material will be deflected normally at the contact patch and then regaining its shape whilst leaving the patch neighborhood.  However, internal damping of the material does not allow the energy lost during deforming the tire to be completely recovered when the material
+returns to its original shape [1]. It appears therefore, that some  loss of energy occurs. This loss is represented by a force on the tires called the rolling resistance that acts in the opposite direction of the motion of the vehicle.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hence, the rolling resistance depends on the normal tire load, tire pressure and vehicle speed. A model is given below [1],</p>
 
 </div>
 </div>
@@ -375,7 +387,7 @@ force, tire pressure and characteristics, and vehicle speed.</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$R_x = N(c_{r, 0} + c_{r,1}|\dot{x}| + c_{r,2}|\dot{x}|^2 \approx c_{r,1}|\dot{x}|$$
+$$R_x = N(c_{r, 0} + c_{r,1}|\dot{x}| + c_{r,2}|\dot{x}|^2)$$
 </p>
 
 </div>
@@ -384,12 +396,17 @@ $$R_x = N(c_{r, 0} + c_{r,1}|\dot{x}| + c_{r,2}|\dot{x}|^2 \approx c_{r,1}|\dot{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If we again assume nominal operating conditions and drop the second-order
-terms for simplicity, we can arrive at a linear rolling resistance model, where
-$c_{r,1}$ is the linear rolling resistance coefficient. In both cases, these are basic
-approximate models that are a good starting point for controller design. In
-practice, the fidelity of the model used depends on the accuracy required of the
-controller or the simulation environment.</p>
+<p>see also [2] for further modelling. If we assume nominal operating conditions and drop the second-order terms for simplicity, we can arrive at a linear rolling resistance model, where $c_{r,1}$ is the linear rolling resistance coefficient.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$R_x  \approx c_{r,1}|\dot{x}|$$
+</p>
 
 </div>
 </div>
@@ -452,7 +469,7 @@ controller or the simulation environment.</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$V = R_{effective}\omega_w$$
+$$V_{wheel} = R_{effective}\omega_{wheel}$$
 </p>
 
 </div>
@@ -470,7 +487,7 @@ $$V = R_{effective}\omega_w$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\sigma = V - V_x$$
+$$\sigma = V_{wheel} - V_x$$
 </p>
 
 </div>
@@ -479,7 +496,7 @@ $$\sigma = V - V_x$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can further distinguish between slip ratios during braking and acceleration according to [2]</p>
+<p>Moreover, we define the longitudinal slip ratio during braking and acceleration as [2]</p>
 
 </div>
 </div>
@@ -487,10 +504,9 @@ $$\sigma = V - V_x$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>An explanation of why longitudinal tire force depends on the slip ratio is
-provided in section 4.1.3. A more complete understanding of the influence of
-all three variables – slip ratio, normal force and tire-road friction coefficient
-– on tire force can be obtained by reading Chapter 13 of this book.</p>
+<p>
+$$\sigma_{xf} = \begin{cases} \frac{R_{effecive}\omega_{wf} - V_x}{V_{x}}, ~~\text{during breaking} \\  \frac{R_{effecive}\omega_{wf} - V_x}{R_{effecive}\omega_{wf}}, ~~\text{during acceleration} \end{cases}$$
+</p>
 
 </div>
 </div>
@@ -498,16 +514,7 @@ all three variables – slip ratio, normal force and tire-road friction coeffici
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Powertrain-forces">
-<a class="anchor" href="#Powertrain-forces" aria-hidden="true"><span class="octicon octicon-link"></span></a>Powertrain forces<a class="anchor-link" href="#Powertrain-forces"> </a>
-</h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The longitudinal tire forces acting on the driving wheels are the main forces that drive the vehicle forward [2]. These forces depend on the difference between the rotational wheel velocity $R_{effective}\omega_{w}$ and the vehicle longitudinal velocity $\dot{x}$. In particular, we saw that we can model the longitudinal tire forces as</p>
+<p>We have a similar expression for the rear wheels. Given the slip coefficients, we can express the longitudinal tire forces as</p>
 
 </div>
 </div>
@@ -525,7 +532,24 @@ $$F_{xf} = C_{\sigma f}\sigma_{xf}, ~~ F_{xr} = C_{\sigma r}\sigma_{xr}$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>where $C_{\sigma f}$ and $C_{\sigma r}$ are called the longitudinal tire stiffness parameters of the front and rear tires respectively [2]. We saw then that these coefficients can be written as [2]</p>
+<p>where $C_{\sigma f}$ and $C_{\sigma r}$ are called the longitudinal tire stiffness parameters of the front and rear tires respectively [2].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Powertrain-forces">
+<a class="anchor" href="#Powertrain-forces" aria-hidden="true"><span class="octicon octicon-link"></span></a>Powertrain forces<a class="anchor-link" href="#Powertrain-forces"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The longitudinal tire forces, denoted collectivelly above with $F_x$, acting on the driving wheels are the main forces that drive the vehicle forward [2]. These forces depend on the difference between the rotational wheel velocity $R_{effective}\omega_{w}$ and the vehicle longitudinal velocity $\dot{x}$. In particular, we saw that we can model the longitudinal tire forces as</p>
 
 </div>
 </div>
@@ -534,7 +558,7 @@ $$F_{xf} = C_{\sigma f}\sigma_{xf}, ~~ F_{xr} = C_{\sigma r}\sigma_{xr}$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\sigma_{xf} = \begin{cases} \frac{R_{effecive}\omega_{wf} - \dot{x}}{\dot{x}}, ~~\text{during breaking} \\  \frac{R_{effecive}\omega_{wf} - \dot{x}}{R_{effecive}\omega_{wf}}, ~~\text{during acceleration} \end{cases}$$
+$$F_{xf} = C_{\sigma f}\sigma_{xf}, ~~ F_{xr} = C_{\sigma r}\sigma_{xr}$$
 </p>
 
 </div>
@@ -543,7 +567,7 @@ $$\sigma_{xf} = \begin{cases} \frac{R_{effecive}\omega_{wf} - \dot{x}}{\dot{x}},
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>and a similar expression for $\sigma_{rf}$. However, $\omega_w$ is highly influence by the powertrain dynamics of the vehicle. The powertrain has the following major components [2]</p>
+<p>where $C_{\sigma f}$ and $C_{\sigma r}$ are called the longitudinal tire stiffness parameters of the front and rear tires respectively [2]. However, $\omega_w$ is highly influence by the powertrain dynamics of the vehicle. The powertrain has the following major components [2]</p>
 
 </div>
 </div>
@@ -556,6 +580,7 @@ $$\sigma_{xf} = \begin{cases} \frac{R_{effecive}\omega_{wf} - \dot{x}}{\dot{x}},
 <li>Transmission or gearbox</li>
 <li>Torque converter or clutch</li>
 <li>Differential</li>
+<li>Wheels</li>
 </ul>
 
 </div>
@@ -590,26 +615,7 @@ $$\sigma_{xf} = \begin{cases} \frac{R_{effecive}\omega_{wf} - \dot{x}}{\dot{x}},
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The torque converter is a type of fluid coupling that connects the engine to
-the transmission. If the engine is turning slowly, such as when the car is
-idling at a stoplight, the amount of torque passed through the torque
-converter is very small, so keeping the car still requires only a light pressure
-on the brake pedal.
-In addition to allowing the car come to a complete stop without stalling
-the engine, the torque converter gives the car more torque when it
-accelerates out of a stop. Modern torque converters can multiply the torque
-of the engine by two to three times. This effect only happens when the
-engine is turning much faster than the transmission. At higher speeds, the
-transmission catches up to the engine, eventually moving at almost the same
-speed. Ideally, though, the transmission should move at exactly the same
-speed as the engine, because the difference in speed wastes power. To
-counter this effect, many cars have a torque converter with a lockup clutch.
-When the two halves of the torque converter get up to speed, this clutch
-locks them together, eliminating the slippage and improving efficiency.
-The torque converter is typically unlocked as soon as the driver removes
-his/her foot from the accelerator pedal and steps on the brakes. This allows
-the engine to keep running even if the driver brakes to slow the wheels
-down.</p>
+<p>The torque cnverter connects the engine to the transmission. When the engine is turning slowly, e.g. when the car waits at a stoplight, the amount of torque passed through the torque converter is very small. Thus,  maintaining the the car stopped  requires only a light pressure on the brake pedal. Hence, we don't have to stall the engine in order to maintain the vehicle stopped. In contrast, when the vehicle accelerates the torque converter gives the car more torque [2].</p>
 
 </div>
 </div>
@@ -617,9 +623,48 @@ down.</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Transmission-dynamics">
+<p>The torque converter has the following major components [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>pump</li>
+<li>turbine</li>
+<li>transmission fluid</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The pump turns at the same speed as the engine whilst the turbine is connected to the
+transmission and causes the transmission to spin at the same speed as the
+turbine [2] This is what  basically moves the vehicle. The coupling between the turbine and the pump is through the transmission fluid. Torque is transmitted from the
+pump to the turbine of the torque converter [2].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Various models have been introduced to model the pump torque $T_{pump}$ and the turbine  torque $T_{turbine}$ see [2 page 103].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Transmission-dynamics">
 <a class="anchor" href="#Transmission-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transmission dynamics<a class="anchor-link" href="#Transmission-dynamics"> </a>
-</h3>
+</h4>
 </div>
 </div>
 </div>
@@ -688,7 +733,7 @@ $$ \omega_{transmission} = \frac{1}{GR} \omega_{wheels}$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$J_w \dot{\omega}_e = T_{engine} - T_{pump}$$
+$$J_{engine} \dot{\omega}_e = T_{engine} - T_{pump}$$
 </p>
 
 </div>
@@ -709,6 +754,32 @@ exhaust manifold of the engine and on the accelerator input from the driver [2].
 <h3 id="Wheel-dynamics">
 <a class="anchor" href="#Wheel-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Wheel dynamics<a class="anchor-link" href="#Wheel-dynamics"> </a>
 </h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The driving wheels rotational dynamics, e.g. for the rear wheels in a rear wheel driven vehicle, are dictated by [2]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$J_{wheel} \dot{\omega}_{wheel, r} = T_{wheel} - R_{effective}F_{xr}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For the non-driven wheels the torque term is zero.</p>
+
 </div>
 </div>
 </div>
