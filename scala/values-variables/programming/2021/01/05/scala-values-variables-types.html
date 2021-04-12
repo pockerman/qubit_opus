@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Values, Variables &amp; Types | qubit-opus Alexandros Giavaras</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Values, Variables &amp; Types" />
+<meta name="author" content="Alexandros Giavaras" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview of Scala’s values &amp; variables" />
+<meta property="og:description" content="Overview of Scala’s values &amp; variables" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html" />
+<meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-05T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html","@type":"BlogPosting","headline":"Values, Variables &amp; Types","dateModified":"2021-01-05T00:00:00-06:00","datePublished":"2021-01-05T00:00:00-06:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html"},"description":"Overview of Scala’s values &amp; variables","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/qubit_opus/">qubit-opus | Alexandros Giavaras</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/qubit_opus/about/">About Me</a><a class="page-link" href="/qubit_opus/books/">Books</a><a class="page-link" href="/qubit_opus/search/">Search</a><a class="page-link" href="/qubit_opus/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Values, Variables &amp; Types</h1><p class="page-description">Overview of Scala's values & variables</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-05T00:00:00-06:00" itemprop="datePublished">
+        Jan 5, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#scala">scala</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#values-variables">values-variables</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#programming">programming</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#-Values-&-variables"> Values &amp; variables </a></li>
+<li class="toc-entry toc-h2"><a href="#-Lazy-values"> Lazy values </a></li>
+<li class="toc-entry toc-h2"><a href="#-Types"> Types </a></li>
+<li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-01-05-scala-values-variables-types.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Values-&amp;-variables">
+<a class="anchor" href="#-Values-&amp;-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sec1"></a> Values &amp; variables<a class="anchor-link" href="#-Values-&amp;-variables"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <code>val</code> variable denotes a variable with a constant value; we cannot change its contents [2]. In this sense calling it a variable may not be that correct. Obviously, a  <code>val</code> must be initialized at the point of declaration.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">v1</span> <span class="o">=</span> <span class="mf">0.5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">v1</span>: <span class="ansi-green-fg">Double</span> = <span class="ansi-green-fg">0.5</span></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>cmd1.sc:1: reassignment to val
+val res1 = v1 = 1.0
+              ^Compilation Failed</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Compilation Failed</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">v2</span><span class="o">;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>(console):1: '=' expected but ';' found.
+val v2;
+      ^</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+(console):1: '=' expected but ';' found.
+val v2;
+      ^</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In contrast, a <code>var</code> variable means that it can have its contents changed [2].</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">var</span> <span class="n">one</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div class="jp-RenderedText">
+<pre><code><span style="color: rgb(0, 187, 187)"><span class="ansi-cyan-fg">one</span></span>: <span style="color: rgb(0, 187, 0)"><span class="ansi-green-fg">Double</span></span> = <style>@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }</style>
+<span style="animation: fadein 2s;"><span style="color: rgb(0, 187, 0)"><span class="ansi-green-fg">2.0</span></span></span></code></pre>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="c1">// if we want we can say that one equals 2</span>
+<span class="n">one</span> <span class="o">=</span> <span class="mf">2.0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In Scala we don't need to specify te type of a value or a variable. This is inferred from the type of the expression that is used to initialize it. However, here is how we can specify the type if needed</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">hello</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"Hello"</span>
+<span class="k">val</span> <span class="n">weight</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">14.5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">hello</span>: <span class="ansi-green-fg">String</span> = <span class="ansi-green-fg">"Hello"</span>
+<span class="ansi-cyan-fg">weight</span>: <span class="ansi-green-fg">Double</span> = <span class="ansi-green-fg">14.5</span></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Lazy-values">
+<a class="anchor" href="#-Lazy-values" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sub_sec_1"></a> Lazy values<a class="anchor-link" href="#-Lazy-values"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lazy evaluation is a programming technique where the evaluation of an expression is done when it is needed for the first time and not before. Lazy evaluation is useful when we want to delay costly initialization statements. Moreover,  lazy evaluation can 
+deal with circular dependencies and for developing lazy data structures.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Scala allows to use the keyword <code>lazy</code> when  declaring <code>val</code> values. In this case the value initialization is deferred until it is accessed for the first time.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">v1</span> <span class="o">=</span> <span class="mf">3.5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">v1</span>: <span class="ansi-green-fg">Double</span> = <span class="ansi-green-fg">3.5</span></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">lazy</span> <span class="k">val</span> <span class="n">v2</span> <span class="o">=</span> <span class="mf">3.6</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div class="jp-RenderedText">
+<pre><code><span style="color: rgb(0, 187, 187)"><span class="ansi-cyan-fg">v2</span></span>: <span style="color: rgb(0, 187, 0)"><span class="ansi-green-fg">Double</span></span> = <style>@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }</style>
+<span style="animation: fadein 2s;"><span style="color: rgb(0, 187, 0)"><span class="ansi-green-fg">3.6</span></span></span></code></pre>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="n">println</span><span class="o">(</span><span class="s">"What is the value of v2?"</span> <span class="o">+</span> <span class="n">v2</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>What is the value of v2?3.6
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>Remark</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lazy evaluation  is not cost-free. In fact, every time a lazy value is accessed, a
+method is called that checks, in a threadsafe manner, whether the value has
+already been initialized [2].</p>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Types">
+<a class="anchor" href="#-Types" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sec2"></a> Types<a class="anchor-link" href="#-Types"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In Scala there is no distinction between primitives and class types [2]; all types in Scala are classes. This means we can do things likes calling methods on numbers</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="mf">1.</span><span class="n">toString</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">res7</span>: <span class="ansi-green-fg">String</span> = <span class="ansi-green-fg">"1"</span></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>or things like</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="mf">1.</span><span class="n">to</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">res8</span>: <span class="ansi-green-fg">Range</span>.<span class="ansi-green-fg">Inclusive</span> = <span class="ansi-yellow-fg">Range</span>(<span class="ansi-green-fg">1</span>, <span class="ansi-green-fg">2</span>, <span class="ansi-green-fg">3</span>, <span class="ansi-green-fg">4</span>, <span class="ansi-green-fg">5</span>)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In Scala, we  do not need wrapper types [2]. The Scala compiler does the conversion for us between primitive types and wrappers. For example, if you make an array
+of <code>Int</code> , you get an <code>int[]</code> array in the virtual machine [2].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The compiler also checks that we do not combine expressions of different type. For example:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="mi">1</span> <span class="n">to</span> <span class="mf">4.0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>cmd9.sc:1: type mismatch;
+ found   : Double(4.0)
+ required: Int
+val res9 = 1 to 4.0
+                ^Compilation Failed</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Compilation Failed</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-References">
+<a class="anchor" href="#-References" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="refs"></a> References<a class="anchor-link" href="#-References"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Martin Odersky, Lex Spoon, Bill Venners, <code>Programming in Scala, 3rd Edition</code>, artima. </li>
+<li>Cay Horstmann, <code>Scala for the Impatient 1st Edition</code>, </li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/qubit_opus/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/qubit_opus/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/qubit_opus/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Computing is fun (most of the times).</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pockerman" title="pockerman"><svg class="svg-icon grey"><use xlink:href="/qubit_opus/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
