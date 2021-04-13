@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Stochastic Gradient Descent | qubit-opus Alexandros Giavaras</title>
+<title>Linear Methods | qubit-opus Alexandros Giavaras</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Stochastic Gradient Descent" />
+<meta property="og:title" content="Linear Methods" />
 <meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Introduction to SGD for reinforcement learning" />
-<meta property="og:description" content="Introduction to SGD for reinforcement learning" />
-<link rel="canonical" href="https://pockerman.github.io/qubit_opus/stochastic-gradient-descent/gradient-descent/reinforcement-learning/algorithms/2021/04/12/stochastic-gradient-descent.html" />
-<meta property="og:url" content="https://pockerman.github.io/qubit_opus/stochastic-gradient-descent/gradient-descent/reinforcement-learning/algorithms/2021/04/12/stochastic-gradient-descent.html" />
+<meta name="description" content="Linear models for reinforcement learning" />
+<meta property="og:description" content="Linear models for reinforcement learning" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/linear-model/reinforcement-learning/2021/04/16/rl-linear-methods.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/linear-model/reinforcement-learning/2021/04/16/rl-linear-methods.html" />
 <meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-04-12T00:00:00-05:00" />
+<meta property="article:published_time" content="2021-04-16T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/stochastic-gradient-descent/gradient-descent/reinforcement-learning/algorithms/2021/04/12/stochastic-gradient-descent.html","@type":"BlogPosting","headline":"Stochastic Gradient Descent","dateModified":"2021-04-12T00:00:00-05:00","datePublished":"2021-04-12T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/stochastic-gradient-descent/gradient-descent/reinforcement-learning/algorithms/2021/04/12/stochastic-gradient-descent.html"},"description":"Introduction to SGD for reinforcement learning","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/linear-model/reinforcement-learning/2021/04/16/rl-linear-methods.html","@type":"BlogPosting","headline":"Linear Methods","dateModified":"2021-04-16T00:00:00-05:00","datePublished":"2021-04-16T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/linear-model/reinforcement-learning/2021/04/16/rl-linear-methods.html"},"description":"Linear models for reinforcement learning","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -88,31 +88,25 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Stochastic Gradient Descent</h1><p class="page-description">Introduction to SGD for reinforcement learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-12T00:00:00-05:00" itemprop="datePublished">
-        Apr 12, 2021
+    <h1 class="post-title p-name" itemprop="name headline">Linear Methods</h1><p class="page-description">Linear models for reinforcement learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-16T00:00:00-05:00" itemprop="datePublished">
+        Apr 16, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      2 min read
     
 </span></p>
 
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
       
-        <a class="category-tags-link" href="/qubit_opus/categories/#stochastic-gradient-descent">stochastic-gradient-descent</a>
-        &nbsp;
-      
-        <a class="category-tags-link" href="/qubit_opus/categories/#gradient-descent">gradient-descent</a>
+        <a class="category-tags-link" href="/qubit_opus/categories/#linear-model">linear-model</a>
         &nbsp;
       
         <a class="category-tags-link" href="/qubit_opus/categories/#reinforcement-learning">reinforcement-learning</a>
-        &nbsp;
-      
-        <a class="category-tags-link" href="/qubit_opus/categories/#algorithms">algorithms</a>
         
       
       </p>
@@ -123,12 +117,13 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#-Linear-methods"> Linear methods </a></li>
 <li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
 </ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2021-04-12-stochastic-gradient-descent.ipynb
+# file to edit: _notebooks/2021-04-16-rl-linear-methods.ipynb
 -->
 
 <div class="container" id="notebook-container">
@@ -136,43 +131,16 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent">Stochastic gradient descent</a> (SGD) methods are among the most widely used of
-all function approximation methods. Moreover, they are particularly well suited to online reinforcement learning.
-The article <a href="https://ruder.io/optimizing-gradient-descent/index.html">An overview of gradient descent optimization algorithms</a> gives a nice review of gradient descent methods.</p>
-
+<h2 id="-Linear-methods">
+<a class="anchor" href="#-Linear-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ekf"></a> Linear methods<a class="anchor-link" href="#-Linear-methods"> </a>
+</h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Gradient descent methods assume that the function approximation ( in our case this is the approximate value function $\hat{V}(s, \mathbf{w})$) is a differentiable function of $\mathbf{w}$. Furthermore, we assume that this is true for $s \in \mathbb{S}$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Gradient-descent methods are iterative algorithms. Thus, we denote with $\mathbf{w}_t$ the weight vector at the $t-th$ iteration. Furtheremore, at each iteration, we observe $S_t \rightarrow V_{\pi}(S_t)$ i.e. the example consists of a state $S_t$ and its true value under the policy. Note that we can choose the state randomly. These states might be successive states from an interaction with the environment [1].</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Hence, we have in hand $S_t$ and the corresponding state value i.e. $V_{\pi} (S_t)$.
-However, the problem we now face is that the number of weights is far less than the number of states i.e. our function approximator has a rather limited resolution. In particular, there is generally no $\mathbf{w}$ that gets all the states, or even all the examples, exactly correct. A second problem is that the function approximator must generalize to all the other states that have not appeared yet [1].</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We assume that states appear in examples with the same distribution, $\mu$, over which we are trying
-to minimize the $MSVE$  given by:</p>
+<p>In this article, we will continue our function approximation journey by introducing linear models for representing the state value function $V_{\pi}(S_t)$. Recall that in the case of large state spaces it is advantageous to use some sort of parametic funtion approximation rather than a tabular representation of the state value function. Furthermore, we need a model in order to to perform, for examle, the SGD update step given below</p>
 
 </div>
 </div>
@@ -181,7 +149,7 @@ to minimize the $MSVE$  given by:</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$MSVE(\mathbf{w}) = \sum_{s \in S} \mu(s)\left[V_{\pi}(s) - \hat{V}_{\pi}(s, \mathbf{w})\right]^2$$
+$$\mathbf{w}_{t+1}  = \mathbf{w}_t + \eta \left[V_{\pi}(S_t)-\hat{V}_{\pi}(S_t,\mathbf{w}_t) \right ] \nabla \hat{V}(S_t, \mathbf{w}_t)$$
 </p>
 
 </div>
@@ -190,8 +158,7 @@ $$MSVE(\mathbf{w}) = \sum_{s \in S} \mu(s)\left[V_{\pi}(s) - \hat{V}_{\pi}(s, \m
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Stochastic gradient-descent (SGD) methods do this by adjusting the weight
-vector after each example is visited by a small amount in the direction that would most reduce the error on that example. Namely</p>
+<p>One of the simplest representations we can have, and the one we take in this post,  is a linear model with resepct to the weights $\mathbf{w}$. In this case, $\hat{V}(s, \mathbf{w})$ becomes</p>
 
 </div>
 </div>
@@ -200,7 +167,7 @@ vector after each example is visited by a small amount in the direction that wou
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\mathbf{w}_{t+1} = \mathbf{w}_t - \frac{1}{2}\eta \nabla \left[V_{\pi}(S_t)-\hat{V}_{\pi}(S_t,\mathbf{w}_t) \right ]^2 = \mathbf{w}_t + \eta \left[V_{\pi}(S_t)-\hat{V}_{\pi}(S_t,\mathbf{w}_t) \right ] \nabla \hat{V}(S_t, \mathbf{w}_t)$$
+$$\hat{V}(s, \mathbf{w}) = \sum_{i=1}^{d} w_i x_i(s) = \mathbf{w}^T \mathbf{x}(s)$$
 </p>
 
 </div>
@@ -209,7 +176,17 @@ $$\mathbf{w}_{t+1} = \mathbf{w}_t - \frac{1}{2}\eta \nabla \left[V_{\pi}(S_t)-\h
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>where $\eta$ is a positive step-size parameter also known as learning rate and</p>
+<p>The expression above implies that there is a vector $\mathbf{x}(s)$ for every state having the same number of components as the weights vector. The vector $\mathbf{x}(s)$ represents the features of the state $s$. For example for an autonomous vehicle, $\mathbf{x}(s)$ may correspond to the vector with components such as vehicle velocity, vehicle acceleration, vehicle position, vehicle orientatio, gas level e.t.c. Technically, each component $x_i$ represents a function such that $x_i: \mathbb{S}\rightarrow \mathbb{R}$ [1]. 
+For linear methods, features are basis functions because they form a linear basis for the set of approximate
+functions [1].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Linear models have a straightforward gradient calculation. Indeed in this case</p>
 
 </div>
 </div>
@@ -218,7 +195,7 @@ $$\mathbf{w}_{t+1} = \mathbf{w}_t - \frac{1}{2}\eta \nabla \left[V_{\pi}(S_t)-\h
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\nabla \hat{V}(S_t, \mathbf{w}) = \left(\frac{\partial \hat{V}(S, \mathbf{w})}{\partial w_1}, ..., \frac{\partial \hat{V}(S, \mathbf{w})}{\partial w_m}\right)$$
+$$\nabla \hat{V}(S_t, \mathbf{w}_t) = \mathbf{x}(s)$$
 </p>
 
 </div>
@@ -227,8 +204,7 @@ $$\nabla \hat{V}(S_t, \mathbf{w}) = \left(\frac{\partial \hat{V}(S, \mathbf{w})}
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>SGD methods are gradient descent methods because. The latter methods update $\mathbf{w}_t$ by a small amount towards the direction that most reduces the error.
-The error metric, $MSVE$, that we use here, uses as an error indicator the following quantity</p>
+<p>Therefore, the SGD update step becomes</p>
 
 </div>
 </div>
@@ -237,7 +213,7 @@ The error metric, $MSVE$, that we use here, uses as an error indicator the follo
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$e^2 = \left[V_{\pi}(s) - \hat{V}_{\pi}(s, \mathbf{w})\right]^2$$
+$$\mathbf{w}_{t+1}= \mathbf{w}_t + \eta \left[V_{\pi}(S_t)-\hat{V}_{\pi}(S_t,\mathbf{w}_t) \right ] \mathbf{x}(S_t)$$
 </p>
 
 </div>
@@ -246,68 +222,8 @@ $$e^2 = \left[V_{\pi}(s) - \hat{V}_{\pi}(s, \mathbf{w})\right]^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is reduced most rapidly in the direction of $-\nabla \hat{V}(S_t, \mathbf{w})$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There are various gradient descent methods, see for example [2]. Gradient descent methods are called stochastic when the update is done on only a single example, which might have been selected stochastically. Over many examples, making small steps, the overall effect is to minimize an average performance measure such as the MSVE. [1]</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>SGD performs frequent updates with a high variance that cause the objective function to fluctuate heavily. This is shown in the image below.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="/qubit_opus/images/copied_from_nb/my_icons/sgd_fluctuation.png" alt="">
-<em>Figure 1. SGD fluctuation. Image from [2].</em></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This overshooting behavior, in general, complicates convergence to the exact minimum. However,  by slowly decreasing the learning rate $\eta$ it has been shown that SGD shows the same convergence behaviour as batch gradient descent and almost certainly converges to a local or the global minimum both for <a href="https://en.wikipedia.org/wiki/Convex_optimization">convex</a> and non-convex optimization problems. One other problem one may face with the SGD algorithm is that some bias may be introduced as the algorithm updates the weights on a per weights basis. This can be mitigated by suffling the data after each iteration.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Given that SGD does frequent updates that may exhibit high variance why don't we move in the minimizing direction in one step and therefore completely eliminate the error on the visited example? Altghough many times this can be done, it may not be the right thing to do so. The reason why this is the case, is that the weights are far less than the states. Hence, we should not seek to find a value function that has zero error for all states. Instead, the  approximation should balance the errors in the different states [1]. If we
-completely corrected each example in one step, then we would not find such a balance [1].
-Note also that the convergence results for SGD methods assume that the learning rate, $\eta$, decreases over time. Moreover, if it  decreases in such a way as to satisfy the following stochastic approximation conditions</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\sum_{n = 1}^{\infty} \eta_n(\alpha) = \infty ~~ \text{and} ~~ \sum_{n = 1}^{\infty} \eta_{n}^2(\alpha) &lt; \infty $$
-</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>then the SGD method is guaranteed to converge to a local optimum [1].</p>
+<p>Linear models are, in general, very well understood throughout science. For our case, when using a linear model case there is only one optimum. Therefore, any method that is guaranteed to converge to or near a local optimum is automatically guaranteed to converge to or near the global
+optimum [1].</p>
 
 </div>
 </div>
@@ -334,7 +250,6 @@ $$\sum_{n = 1}^{\infty} \eta_n(\alpha) = \infty ~~ \text{and} ~~ \sum_{n = 1}^{\
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li>Richard S. Sutton and Andrew G. Barto, <code>Reinforcement Learning: An Introduction</code>. </li>
-<li><a href="https://ruder.io/optimizing-gradient-descent/">An overview of gradient descent optimization algorithms</a></li>
 </ol>
 
 </div>
@@ -344,7 +259,7 @@ $$\sum_{n = 1}^{\infty} \eta_n(\alpha) = \infty ~~ \text{and} ~~ \sum_{n = 1}^{\
 
 
 
-  </div><a class="u-url" href="/qubit_opus/stochastic-gradient-descent/gradient-descent/reinforcement-learning/algorithms/2021/04/12/stochastic-gradient-descent.html" hidden></a>
+  </div><a class="u-url" href="/qubit_opus/linear-model/reinforcement-learning/2021/04/16/rl-linear-methods.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
