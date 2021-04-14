@@ -123,6 +123,7 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Stochastic-Gradient-Descent">Stochastic Gradient Descent </a></li>
 <li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
 </ul><!--
 #################################################
@@ -133,6 +134,15 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Stochastic-Gradient-Descent">
+<a class="anchor" href="#Stochastic-Gradient-Descent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stochastic Gradient Descent<a class="anchor-link" href="#Stochastic-Gradient-Descent"> </a>
+</h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -315,7 +325,7 @@ $$\sum_{n = 1}^{\infty} \eta_n(\alpha) = \infty ~~ \text{and} ~~ \sum_{n = 1}^{\
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As a final note, observe that we need $V_{\pi}(S_t)$ in order to perform SGD weights update. This many not always be available. We may, however, have in hand an approximation of it, let's calle it $U_t$ i.e. $V_{\pi}(S_t) \approx U_t$. In this scenario, we are forced to use the latter. However, if $U_t$ is an unbiasd estimate, then $\mathbf{w}_t$ is guaranteed to converge to a local optimum under the conditions specified above for decreasing $\eta$.</p>
+<p>As a final note, observe that we need $V_{\pi}(S_t)$ in order to perform SGD weights update. This many not always be available. We may, however, have in hand an approximation of it, let's calle it $U_t$ i.e. $V_{\pi}(S_t) \approx U_t$. In this scenario, we are forced to use the latter. However, if $U_t$ is an unbiasd estimate, then $\mathbf{w}_t$ is guaranteed to converge to a local optimum under the conditions specified above for decreasing $\eta$ [1].</p>
 
 </div>
 </div>
