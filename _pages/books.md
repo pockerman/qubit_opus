@@ -13,6 +13,7 @@ permalink: /books/
 
 ## Physics
 
+- Leonard Susskind and Art George Hrabovsky, ```Classical Mechanics. The Theoretical Minimum```
 - Leonard Susskind and Art Friedman, ```Quantum Mechanics. The Theoretical Minimum```
 
 ## Computing
@@ -26,6 +27,7 @@ permalink: /books/
 - Scott Meyers ```Effective STL: 50 Specific Ways To Improve Your Use Of The STL```
 - Scott Meyers ```Effective C++: 55 Specific Ways To Improve Your Programs And Design```
 - Scott Meyers ```Effective Modern C++```
+- Bjorn Andrist and Viktor Sehr ```C++ High Performance```
 
 ## History
 
