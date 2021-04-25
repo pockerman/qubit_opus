@@ -11,13 +11,13 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Overview of controllability for linear dynamic systems" />
 <meta property="og:description" content="Overview of controllability for linear dynamic systems" />
-<link rel="canonical" href="https://pockerman.github.io/qubit_opus/control/controllability/linear-dynamical-systems/2021/04/11/controllability.html" />
-<meta property="og:url" content="https://pockerman.github.io/qubit_opus/control/controllability/linear-dynamical-systems/2021/04/11/controllability.html" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/dynamical-systems/linear-systems/control/controllability/2021/04/11/controllability.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/dynamical-systems/linear-systems/control/controllability/2021/04/11/controllability.html" />
 <meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-04-11T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/control/controllability/linear-dynamical-systems/2021/04/11/controllability.html","@type":"BlogPosting","headline":"Controllability","dateModified":"2021-04-11T00:00:00-05:00","datePublished":"2021-04-11T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/control/controllability/linear-dynamical-systems/2021/04/11/controllability.html"},"description":"Overview of controllability for linear dynamic systems","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/dynamical-systems/linear-systems/control/controllability/2021/04/11/controllability.html","@type":"BlogPosting","headline":"Controllability","dateModified":"2021-04-11T00:00:00-05:00","datePublished":"2021-04-11T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/dynamical-systems/linear-systems/control/controllability/2021/04/11/controllability.html"},"description":"Overview of controllability for linear dynamic systems","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -103,13 +103,16 @@ window.onload = wrap_img;
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
       
+        <a class="category-tags-link" href="/qubit_opus/categories/#dynamical-systems">dynamical-systems</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#linear-systems">linear-systems</a>
+        &nbsp;
+      
         <a class="category-tags-link" href="/qubit_opus/categories/#control">control</a>
         &nbsp;
       
         <a class="category-tags-link" href="/qubit_opus/categories/#controllability">controllability</a>
-        &nbsp;
-      
-        <a class="category-tags-link" href="/qubit_opus/categories/#linear-dynamical-systems">linear-dynamical-systems</a>
         
       
       </p>
@@ -120,9 +123,14 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#-Overview"> Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#-Controllability"> Controllability </a>
+<ul>
 <li class="toc-entry toc-h3"><a href="#-Example-1"> Example 1 </a></li>
 <li class="toc-entry toc-h3"><a href="#-Example-2"> Example 2 </a></li>
 <li class="toc-entry toc-h3"><a href="#-Three-equivalent-conditions"> Three equivalent conditions </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
 </ul><!--
 #################################################
@@ -136,7 +144,33 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When we want to control a dynamical system, the natural question that arises is to what extent can we achive this? The term controllability is used to describe whether a system is controllable altogether.  We will see that whether a system is controllable or not is determined completely by the <a href="https://en.wikipedia.org/wiki/Controllability">controllability matrix</a> [1]. Let's consider the following linear system</p>
+<h2 id="-Overview">
+<a class="anchor" href="#-Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="overview"></a> Overview<a class="anchor-link" href="#-Overview"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When we want to control a dynamical system, the natural question that arises is to what extent can we achive this? The term controllability is used to describe whether a systme is controllable altogether.  We will see that whether a system is controllable or not is determined completely by the <a href="https://en.wikipedia.org/wiki/Controllability">controllability matrix</a> [1]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Controllability">
+<a class="anchor" href="#-Controllability" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ekf"></a> Controllability<a class="anchor-link" href="#-Controllability"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Recall that we deal with linear systems of the form</p>
 
 </div>
 </div>
@@ -154,7 +188,7 @@ $$\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}, ~~ \math
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can understand whether the system above is controllable or not by examing the controllability matrix $\mathcal{\mathbf{C}}$. In particular, the column space of that matrix. This matrix is defined as follows [1]</p>
+<p>We can understand whether the linear system above is controllable or not by examing the controllability matrix $\mathbf{\cal{C}}$. In particular, the column space of that matrix. This matrix is defined as follows</p>
 
 </div>
 </div>
@@ -163,7 +197,7 @@ $$\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}, ~~ \math
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\mathcal{\mathbf{C}} = \begin{bmatrix}\mathbf{B} &amp;&amp; \mathbf{AB} &amp;&amp; \mathbf{A}^2\mathbf{B} &amp;&amp; \dots &amp;&amp; \mathbf{A}^{n-1}\mathbf{B} \end{bmatrix}$$
+$$\mathbf{\cal{C}} = \begin{bmatrix}\mathbf{B} &amp;&amp; \mathbf{AB} &amp;&amp; \mathbf{A}^2\mathbf{B} &amp;&amp; \dots &amp;&amp; \mathbf{A}^{n-1}\mathbf{B} \end{bmatrix}$$
 </p>
 
 </div>
@@ -172,7 +206,7 @@ $$\mathcal{\mathbf{C}} = \begin{bmatrix}\mathbf{B} &amp;&amp; \mathbf{AB} &amp;&
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Where $n$ is the number of state variables. If the controllability matrix has $n$ linearly independent columns, then the system under consideration is controllable [1]. Note that this does not mean that the columns of $\mathcal{\mathbf{C}}$ should be linearly independent. All that we require, is that we can find $n$ linearly independent columns (see example 2 below).  Let's see two examples taken from [1].</p>
+<p>Where $n$ is the number of state variables. If the controllability matrix has $n$ linearly independent columns, then the system under consideration is controllable [1]. Note that this does not mean that the columns of $\mathbf{\cal{C}}$ should be linearly independent. All that we require, is that we can find $n$ linearly independent columns (see example 2 below).  Let's see two examples taken from [1].</p>
 
 </div>
 </div>
@@ -216,7 +250,7 @@ $$\frac{d}{dt}\begin{bmatrix}x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix}1 &amp;&a
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\mathcal{\mathbf{C}} = \begin{bmatrix}0 &amp;&amp; 0 \\ 1 &amp;&amp; 2 \end{bmatrix} $$
+$$\mathbf{\cal{C}} = \begin{bmatrix}0 &amp;&amp; 0 \\ 1 &amp;&amp; 2 \end{bmatrix} $$
 </p>
 
 </div>
@@ -269,7 +303,7 @@ $$\frac{d}{dt}\begin{bmatrix}x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix}1 &amp;&a
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\mathcal{\mathbf{C}} = \begin{bmatrix}1 &amp;&amp; 0 &amp;&amp; 1 &amp;&amp; 0 \\ 0 &amp;&amp; 1 &amp;&amp; 0 &amp;&amp; 2 \end{bmatrix} $$
+$$\mathbf{\cal{C}} = \begin{bmatrix}1 &amp;&amp; 0 &amp;&amp; 1 &amp;&amp; 0 \\ 0 &amp;&amp; 1 &amp;&amp; 0 &amp;&amp; 2 \end{bmatrix} $$
 </p>
 
 </div>
@@ -295,7 +329,7 @@ $$\mathcal{\mathbf{C}} = \begin{bmatrix}1 &amp;&amp; 0 &amp;&amp; 1 &amp;&amp; 0
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The span of the columns of matrix $\mathcal{\mathbf{C}}$ forms a <a href="https://en.wikipedia.org/wiki/Krylov_subspace">Krylov subspace</a> [1]. The space determines which state vectors can be controlled. Hence, controllability implies two things [1]</p>
+<p>The span of the columns of matrix $\mathbf{\cal{C}}$ form a <a href="https://en.wikipedia.org/wiki/Krylov_subspace">Krylov subspace</a> [1]. The space determines which state vectors can be controlled. Hence, controllability implies two things [1]</p>
 
 </div>
 </div>
@@ -380,7 +414,7 @@ $$\frac{d\mathbf{x}}{dt} = (\mathbf{A} - \mathbf{B}\mathbf{K})\mathbf{x}$$
 
 
 
-  </div><a class="u-url" href="/qubit_opus/control/controllability/linear-dynamical-systems/2021/04/11/controllability.html" hidden></a>
+  </div><a class="u-url" href="/qubit_opus/dynamical-systems/linear-systems/control/controllability/2021/04/11/controllability.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
