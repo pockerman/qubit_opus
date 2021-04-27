@@ -13,19 +13,20 @@ permalink: /books/
 
 ## Physics
 
-- Leonard Susskind and Art George Hrabovsky, ```Classical Mechanics. The Theoretical Minimum```
+- Leonard Susskind and George Hrabovsky, ```Classical Mechanics. The Theoretical Minimum```
 - Leonard Susskind and Art Friedman, ```Quantum Mechanics. The Theoretical Minimum```
 
 ## Computing
 
-- Len Bass, Paul Clements, Rick Kazman ```Software Architecture In Practice```
+- Len Bass, Paul Clements, Rick Kazman ```Software Architecture in Practice```
+- Robert C. Martin ```Clean Architecture. A Craftsman's Guide to Software Architecture and Design```
 - David Mermin ```Quantum Computer Science. An Introduction```
 
 ## Programming
 
-- Scott Meyers ```Effective C++: 50 Specific Ways To Improve Your Programs And Design```
-- Scott Meyers ```Effective STL: 50 Specific Ways To Improve Your Use Of The STL```
-- Scott Meyers ```Effective C++: 55 Specific Ways To Improve Your Programs And Design```
+- Scott Meyers ```Effective C++: 50 Specific Ways to Improve Your Programs And Design```
+- Scott Meyers ```Effective STL: 50 Specific Ways to Improve Your Use Of The STL```
+- Scott Meyers ```Effective C++: 55 Specific Ways to Improve Your Programs And Design```
 - Scott Meyers ```Effective Modern C++```
 - Bjorn Andrist and Viktor Sehr ```C++ High Performance```
 
@@ -33,11 +34,11 @@ permalink: /books/
 
 - Herodotus ```The Histories```
 - Max Hastings ```Catastrophe```
-- Thucydides ```The Histroy Of The Peloponnesian War```
+- Thucydides ```The Histroy of the Peloponnesian War```
 
 
 ## Philosophy
-- Sun Tzu ```The Art Of War```
+- Sun Tzu ```The Art of War```
 - Nicolo Machiavelli ```The Prince```
 
 ## Literature
@@ -47,9 +48,9 @@ permalink: /books/
 - Albert Camus ```The Outsider```
 - George Orwell ```1984```
 - Douglas R. Hostadter ```Godel, Escher, Bach: An Enternal Golden Braid```
-- Fyodor Dostoyevsky ```Crime And Punishment```
+- Fyodor Dostoyevsky ```Crime and Punishment```
 - Fyodor Dostoyevsky ```The Idiot```
-- Ernest Hemingway ```For Whom The Bell Tolls```
-- Ernest Hemingway ```The Old Man And The Sea```
+- Ernest Hemingway ```For Whom the Bell Tolls```
+- Ernest Hemingway ```The Old Man and the Sea```
 
 
