@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      3 min read
     
 </span></p>
 
@@ -127,6 +127,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#-Inheritance-1"> Inheritance 1 </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#-Overriding-methods"> Overriding methods </a></li>
+<li class="toc-entry toc-h3"><a href="#-isInstanceOf"> isInstanceOf </a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
@@ -403,7 +404,7 @@ Compilation Failed</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre><span class="ansi-cyan-fg">tri</span>: <span class="ansi-green-fg">Triangle</span> = ammonite.$sess.cmd3$Helper$Triangle@267e5be</pre>
+<pre><span class="ansi-cyan-fg">tri</span>: <span class="ansi-green-fg">Triangle</span> = ammonite.$sess.cmd3$Helper$Triangle@1266c3c3</pre>
 </div>
 
 </div>
@@ -530,7 +531,7 @@ Compilation Failed</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre><span class="ansi-cyan-fg">quad</span>: <span class="ansi-green-fg">TriQuad</span> = ammonite.$sess.cmd7$Helper$TriQuad@6ddc5fa0</pre>
+<pre><span class="ansi-cyan-fg">quad</span>: <span class="ansi-green-fg">TriQuad</span> = ammonite.$sess.cmd6$Helper$TriQuad@69fd55e1</pre>
 </div>
 
 </div>
@@ -571,6 +572,401 @@ Compilation Failed</pre>
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="-isInstanceOf">
+<a class="anchor" href="#-isInstanceOf" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sub_sec_2"></a> isInstanceOf<a class="anchor-link" href="#-isInstanceOf"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Frequently, we want to know is an object is an instance of a class. To do so we can use the <code>isInstanceOf</code> method [1]</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">q1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TriQuad</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">q1</span>: <span class="ansi-green-fg">TriQuad</span> = ammonite.$sess.cmd6$Helper$TriQuad@31d67ba6</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">if</span><span class="o">(</span><span class="n">q1</span><span class="o">.</span><span class="n">isInstanceOf</span><span class="o">[</span><span class="kt">TriQuad</span><span class="o">])</span> <span class="n">println</span><span class="o">(</span><span class="s">"This is TRI_QUAD"</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This is TRI_QUAD
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>q1.isInstanceOf[TriQuad]</code> will succeed if <code>q1</code> refers to an object of class <code>TriQuad</code>. Since <code>TriQuad</code> is a subclass of <code>Element</code> the following also succeeds</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">if</span><span class="o">(</span><span class="n">q1</span><span class="o">.</span><span class="n">isInstanceOf</span><span class="o">[</span><span class="kt">Element</span><span class="o">])</span> <span class="n">println</span><span class="o">(</span><span class="s">"This is TRI_QUAD"</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This is TRI_QUAD
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>inst.isInstanceOf[Type]</code> returns false if <code>inst</code> is <code>null</code>:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">q2</span> <span class="o">=</span> <span class="kc">null</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">q2</span>: <span class="ansi-green-fg">Null</span> = <span class="ansi-green-fg">null</span></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">if</span><span class="o">(</span><span class="n">q2</span><span class="o">.</span><span class="n">isInstanceOf</span><span class="o">[</span><span class="kt">Element</span><span class="o">])</span> <span class="n">println</span><span class="o">(</span><span class="s">"This is TRI_QUAD"</span><span class="o">)</span> <span class="k">else</span> <span class="n">println</span><span class="o">(</span><span class="s">"Object is null"</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Object is null
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can further use the <code>asInstanceOf</code> to convert a reference to a subclass reference:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">asInstanceOf</span><span class="o">[</span><span class="kt">Element</span><span class="o">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">q2</span>: <span class="ansi-green-fg">Element</span> = ammonite.$sess.cmd6$Helper$TriQuad@31d67ba6</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="n">print</span><span class="o">(</span><span class="n">q2</span><span class="o">.</span><span class="n">elementType</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>TRI_QUAD</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If <code>q2</code> is not an <code>Element</code> , then  we get  an exception</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">class</span> <span class="nc">SomeClass</span><span class="o">{}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>defined <span class="ansi-green-fg">class</span> <span class="ansi-cyan-fg">SomeClass</span></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">q2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SomeClass</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre><span class="ansi-cyan-fg">q2</span>: <span class="ansi-green-fg">SomeClass</span> = ammonite.$sess.cmd16$Helper$SomeClass@3f85fd8</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">val</span> <span class="n">q3</span> <span class="o">=</span> <span class="n">q2</span><span class="o">.</span><span class="n">asInstanceOf</span><span class="o">[</span><span class="kt">Element</span><span class="o">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">java.lang.ClassCastException: class ammonite.$sess.cmd16$Helper$SomeClass cannot be cast to class ammonite.$sess.cmd2$Helper$Element (ammonite.$sess.cmd16$Helper$SomeClass and ammonite.$sess.cmd2$Helper$Element are in unnamed module of loader ammonite.runtime.SpecialClassLoader @7bd4937b)</span>
+  ammonite.$sess.cmd18$Helper.&lt;init&gt;(<span class="ansi-green-fg">cmd18.sc</span>:<span class="ansi-green-fg">1</span>)
+  ammonite.$sess.cmd18$.&lt;clinit&gt;(<span class="ansi-green-fg">cmd18.sc</span>:<span class="ansi-green-fg">7</span>)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we want to test whether an instance refers to a specific class, but not a subclass, we can use <code>classOf</code> [1]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>if (p.getClass == classOf[Element])</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>classOf</code> method is defined in the <code>scala.Predef</code> object that is always imported.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
