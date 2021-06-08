@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      4 min read
     
 </span></p>
 
@@ -123,6 +123,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#-Overview"> Overview </a></li>
 <li class="toc-entry toc-h2"><a href="#-Scala-Classes-1"> Scala Classes 1 </a></li>
 <li class="toc-entry toc-h2"><a href="#private[this]">private[this] </a></li>
+<li class="toc-entry toc-h2"><a href="#-Summary"> Summary </a></li>
 <li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
 </ul><!--
 #################################################
@@ -145,7 +146,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The next stop in the Scala journey is classes. Classes are the cornerstone of object oriented programming.  In the simplest form, a Scala looks similar to classes in Java and C++.</p>
+<p>The next stop in the Scala journey is classes. Classes are the cornerstone of object oriented programming.  In the simplest form, a Scala class looks similar to classes in Java and C++.</p>
 
 </div>
 </div>
@@ -162,26 +163,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Some points regarding Scala classes are</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>A Scala source file can contain multiple classes</li>
-<li>A Scala class is not declared public</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's start with defining a simple class</p>
+<p>In the simplest case, a class will model an entity of the modeled domain. It will expose an API that application code can use. Private fields correspond to the state of the object modelled after a class. The following snippet shows how to create a class that has a private field named value, a getter function and a modifier function.</p>
 
 </div>
 </div>
@@ -229,7 +211,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can use the class as follows</p>
+<p>Specific instances can be used by using the <code>new</code> operator. For example, the following creates an instance of <code>MyClass</code>.</p>
 
 </div>
 </div>
@@ -349,7 +331,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Getters and setters are frequently used to change properties of a class. Alghtough, such methods allow for every client of the class to modify the state of the class, they  are the preferred way of doing so. This is because they allow us to control how the change of the class state is done. Scala can generate getters and setters for us for every private field of our class</p>
+<p>Getters and setters are frequently used to change properties of a class. Alghtough, such methods allow for every client of the class to modify the state of the class, they  are the preferred way of doing so. This is because they allow us to control how the change of the class state is done. Scala can generate getters and setters for us for every private field of our class [1].</p>
 
 </div>
 </div>
@@ -502,7 +484,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In Scala, the getters and setters are not named <code>getXxx</code> and <code>setXxx</code>, but, as you can see above, they are names after the name of the private variable, in our case is <code>value</code>.</p>
+<hr>
+<p><strong>Remark</strong></p>
 
 </div>
 </div>
@@ -510,7 +493,16 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>However, we can redefine the getter and setter methods generated for us as shown below</p>
+<p>In Scala, the getters and setters are not named as <code>getXxx</code> and <code>setXxx</code>. Instead, they take the name of the private variable [1]. Note also that if we don't want the getters and setters to be generated then we should declare this field with <code>private[this]</code>.</p>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Although Scala defines getters and setters for us,  we can redefine the getter and setter methods generated for us [1]. This is shown below</p>
 
 </div>
 </div>
@@ -529,7 +521,9 @@ window.onload = wrap_img;
     <span class="k">def</span> <span class="n">value_=</span><span class="o">(</span><span class="n">newValue</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
         <span class="c1">// we can control how the state is</span>
         <span class="c1">// changed here</span>
-        <span class="n">myValue</span> <span class="o">=</span> <span class="n">newValue</span>
+    
+        <span class="k">if</span><span class="o">(</span><span class="n">newValue</span> <span class="o">&gt;</span> <span class="mf">10.0</span><span class="o">)</span> <span class="n">myValue</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="k">else</span> <span class="n">myValue</span> <span class="o">=</span> <span class="n">newValue</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -579,7 +573,7 @@ window.onload = wrap_img;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre><span class="ansi-cyan-fg">inst3</span>: <span class="ansi-green-fg">MyClass3</span> = ammonite.$sess.cmd27$Helper$MyClass3@51b4dc09</pre>
+<pre><span class="ansi-cyan-fg">inst3</span>: <span class="ansi-green-fg">MyClass3</span> = ammonite.$sess.cmd0$Helper$MyClass3@1384d29d</pre>
 </div>
 
 </div>
@@ -669,10 +663,42 @@ window.onload = wrap_img;
 </div>
     
 
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="n">inst3</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">println</span><span class="o">(</span><span class="n">inst3</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>5.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Regarding setters and getters a few points to remember follow [1]</p>
+<p>Here are a few points regarding setters and getters to remember [1]</p>
 
 </div>
 </div>
@@ -687,6 +713,14 @@ window.onload = wrap_img;
 </li>
 <li>We cannot have a write-only field i.e a field with a setter and no getter</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally note that, in contrast to Java, a class source file in Scala can contain multiple classes. Moreover, we do not need to declare a Scala class as public [1].</p>
 
 </div>
 </div>
@@ -855,7 +889,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Scala allows an even more severe access restriction, with the <code>private[this]</code> qualifier [1]:</p>
+<p>Thus, <code>msg1</code> has access to the field of <code>msg2</code>. This means that if the field is of <code>var</code> type <code>mgs1</code> could potentially change it. Certainly, this is not a desired scenario most of the times. We can prevent this sort of situation by using the <code>private[this]</code> qualifier.  This allows an even more severe access restriction [1]. This is shown below.</p>
 
 </div>
 </div>
@@ -910,6 +944,31 @@ Compilation Failed</pre>
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Summary">
+<a class="anchor" href="#-Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sec3"></a> Summary<a class="anchor-link" href="#-Summary"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This was a brief introduction to Scala classes. To a large extent classes in Scala are similar to classes in Java or C++.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Specifically, we touched on how to create simple classes in Scala, getters and setters and the <code>private[this]</code> qualifier. The getters and setters will be private if the field they correspond to is declared as such. The <code>private[this]</code> qualifier is even more restricitve; not even instances of the same class can access the field.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
