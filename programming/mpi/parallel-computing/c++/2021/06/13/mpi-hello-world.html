@@ -165,7 +165,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>MPI is by now a well-established standard that includes:</p>
+<p>MPI is by now a well-established standard that includes [1]:</p>
 
 </div>
 </div>
@@ -190,6 +190,14 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Language bindings exist for C and Fortran. Newer MPI standards are trying to better support the scalability in future extreme-scale computing systems, because currently, the only feasible option for increasingthe computing power is to increase the number of cooperating processors [1].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following code snippet is the <code>Hello World</code> equivalent for MPI. It demonstrates basic usage of the standard.</p>
 
 </div>
 </div>
@@ -286,6 +294,61 @@ int main(int argc, char** argv){
 Hello from process 1 of 4
 Hello from process 3 of 4
 Hello from process 2 of 4</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A few things to notice are:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>In order to access any MPI  related functionality we need to inlude the header file ```mpi.h````</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>MPI related functions start with the prefix <code>MPI_</code>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>As commented in the code, all MPI related calls should occur within <code>MPI_Init/MPI_Finalize</code>. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the code above, wevery process executes the same instructions. We can use <code>if/else</code> statements to differentiate what each process will execute. The variable <code>MPI_COMM_WORLD</code> represents the default  communication group in the statndard. It involves all the processes running the current calculation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The code above also calculates the rank of the calling process via <code>MPI_Comm_rank</code>, and the total number of processes in the comunicator <code>MPI_Comm_size</code>.</p>
 
 </div>
 </div>
