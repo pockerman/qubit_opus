@@ -375,6 +375,42 @@ class LinearRegression{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>object LinearRegressionExe_1 {
+
+  def main(args: Array[String]):Unit={
+
+    // data set
+    val x = LineDataSetLoader.lineSplit(0.0, 10.0, 100)
+
+    System.out.println("Number of training examples: " + x.size)
+
+    val coeffs = Array[Double](1.0, 2.0)
+    val poly = new Polynomial(coeffs)
+    val y = poly.values(x)
+
+
+
+    // the feature matrix
+    val featureMatrix = DenseMatrix.horzcat(DenseMatrix.ones[Double](x.size, 1), x.toDenseMatrix.t)
+
+    // model
+    val model = new LinearRegression(numFeatures = 1, useIntercept = true)
+
+    model.train(x=featureMatrix,y=y)
+
+    println(s"Polynomial coeffs ${poly.getCoeffsAsDenseVector}")
+    println(s"Linear regressor coeffs ${model.getParameters}")
+  }
+
+}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Summary">
 <a class="anchor" href="#Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary<a class="anchor-link" href="#Summary"> </a>
 </h2>
