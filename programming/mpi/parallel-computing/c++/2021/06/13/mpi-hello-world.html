@@ -358,7 +358,7 @@ Hello from process 2 of 4</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the code above, wevery process executes the same instructions. We can use <code>if/else</code> statements to differentiate what each process will execute. The variable <code>MPI_COMM_WORLD</code> represents the default  communication group in the statndard. It involves all the processes running the current calculation.</p>
+<p>In the code above, every process executes the same instructions. We can use <code>if/else</code> statements to differentiate what each process will execute. The variable <code>MPI_COMM_WORLD</code> is a predefined intra-communicator, i.e., it serves communications taking place between processes belonging to its own group of processes [1].</p>
 
 </div>
 </div>
