@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>MPI Hello World | qubit-opus Alexandros Giavaras</title>
+<title>MPI Basic Point-to-Point Communication | qubit-opus Alexandros Giavaras</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="MPI Hello World" />
+<meta property="og:title" content="MPI Basic Point-to-Point Communication" />
 <meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Hello World with MPI" />
-<meta property="og:description" content="Hello World with MPI" />
-<link rel="canonical" href="https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/06/13/mpi-hello-world.html" />
-<meta property="og:url" content="https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/06/13/mpi-hello-world.html" />
+<meta name="description" content="Basic point-to-point communication with MPI" />
+<meta property="og:description" content="Basic point-to-point communication with MPI" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/07/07/mpi-basic-point-to-point-communication.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/07/07/mpi-basic-point-to-point-communication.html" />
 <meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-06-13T00:00:00-05:00" />
+<meta property="article:published_time" content="2021-07-07T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/06/13/mpi-hello-world.html","@type":"BlogPosting","headline":"MPI Hello World","dateModified":"2021-06-13T00:00:00-05:00","datePublished":"2021-06-13T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/06/13/mpi-hello-world.html"},"description":"Hello World with MPI","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/07/07/mpi-basic-point-to-point-communication.html","@type":"BlogPosting","headline":"MPI Basic Point-to-Point Communication","dateModified":"2021-07-07T00:00:00-05:00","datePublished":"2021-07-07T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/programming/mpi/parallel-computing/c++/2021/07/07/mpi-basic-point-to-point-communication.html"},"description":"Basic point-to-point communication with MPI","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -88,15 +88,15 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">MPI Hello World</h1><p class="page-description">Hello World with MPI</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-06-13T00:00:00-05:00" itemprop="datePublished">
-        Jun 13, 2021
+    <h1 class="post-title p-name" itemprop="name headline">MPI Basic Point-to-Point Communication</h1><p class="page-description">Basic point-to-point communication with MPI</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-07-07T00:00:00-05:00" itemprop="datePublished">
+        Jul 7, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      4 min read
     
 </span></p>
 
@@ -123,15 +123,16 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#--Overview">  Overview </a></li>
-<li class="toc-entry toc-h2"><a href="#--MPI-Hello-World">  MPI Hello World </a></li>
-<li class="toc-entry toc-h2"><a href="#Code">Code </a></li>
+<li class="toc-entry toc-h2"><a href="#-Overview"> Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#-Basic-point-to-point-Communication"> Basic point-to-point Communication </a></li>
+<li class="toc-entry toc-h2"><a href="#-Simple-example"> Simple example </a></li>
+<li class="toc-entry toc-h2"><a href="#-Summary"> Summary </a></li>
 <li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
 </ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2021-06-13-mpi-hello-world.ipynb
+# file to edit: _notebooks/2021-07-07-mpi-basic-point-to-point-communication.ipynb
 -->
 
 <div class="container" id="notebook-container">
@@ -139,8 +140,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="--Overview">
-<a class="anchor" href="#--Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="overview"></a>  Overview<a class="anchor-link" href="#--Overview"> </a>
+<h2 id="-Overview">
+<a class="anchor" href="#-Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="overview"></a> Overview<a class="anchor-link" href="#-Overview"> </a>
 </h2>
 </div>
 </div>
@@ -148,7 +149,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">Message Passage Interface</a>, or MPI for short, is perhaps the defacto standard used in nowadays scientific distributed computing. It provides interfaces for both point-to-point and collective communication. In this series, we will go over basic and intermediate usage of the MPI standard.</p>
+<p>When two processes communicate with each other, we call this communication pattern as point-to-point communication [3]. MPI allows for easy information exchange between processes or nodes although the resulting interfaces may be quite overwhelming. In this notebook, we introduce the two most basic point-to-point communication functions in MPI namely <code>MPI_Send</code> (<a href="https://www.mpich.org/static/docs/latest/www3/MPI_Send.html">doc</a>) and <code>MPI_Recv</code> (<a href="https://www.mpich.org/static/docs/latest/www3/MPI_Recv.html">doc</a>).</p>
 
 </div>
 </div>
@@ -156,8 +157,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="--MPI-Hello-World">
-<a class="anchor" href="#--MPI-Hello-World" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ekf"></a>  MPI Hello World<a class="anchor-link" href="#--MPI-Hello-World"> </a>
+<h2 id="-Basic-point-to-point-Communication">
+<a class="anchor" href="#-Basic-point-to-point-Communication" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ekf"></a> Basic point-to-point Communication<a class="anchor-link" href="#-Basic-point-to-point-Communication"> </a>
 </h2>
 </div>
 </div>
@@ -165,135 +166,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>MPI is a well-established standard that includes [1]:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Process creation </li>
-<li>Process management</li>
-<li>Point-to-point communication</li>
-<li>Collective communication</li>
-<li>One-sided communication</li>
-<li>External interfaces</li>
-<li>Topologies</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Language bindings exist for C and Fortran. Newer MPI standards are trying to better support the scalability in future extreme-scale computing systems, because currently, the only feasible option for increasingthe computing power is to increase the number of cooperating processors [1].</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The following code snippet is the <code>Hello World</code> equivalent for MPI. It demonstrates basic usage of the standard.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code">
-<a class="anchor" href="#Code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code<a class="anchor-link" href="#Code"> </a>
-</h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>// example_1.cpp
-
-#include &lt;mpi.h&gt;
-#include &lt;iostream&gt;
-
-int main(int argc, char** argv){
-
-    int rank;
-    int n_procs;
-
-    // initialize MPI. No MPI calls
-    // prior to this point should be made
-    MPI_Init(&amp;argc, &amp;argv);
-
-    // what's my rank
-    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);
-
-    // how may procs
-    MPI_Comm_size(MPI_COMM_WORLD, &amp;n_procs);
-
-    std::cout&lt;&lt;"Hello from process "&lt;&lt;rank&lt;&lt;" of "&lt;&lt;n_procs&lt;&lt;std::endl;
-
-    MPI_Finalize();
-    // No MPI calls beyond this point
-}</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can compile the code by using the following</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>mpicxx example_1.cpp -o example_1</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Executing using four processes</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>mpirun -np 4 example_1</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>produces</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>Hello from process 0 of 4
-Hello from process 1 of 4
-Hello from process 3 of 4
-Hello from process 2 of 4</code></pre>
+<p><code>MPI_Send</code> performs a blocking send; that is the function call may block until the message is received by the destination process [1]. An <code>MPI_Send</code> must be matched with a receive operation. <code>MPI_Recv</code> (<a href="https://www.mpich.org/static/docs/latest/www3/MPI_Recv.html">doc</a>) performs a blocking receive [2].</p>
 
 </div>
 </div>
@@ -310,7 +183,9 @@ Hello from process 2 of 4</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>mpirun</code> command is also known as <code>mpiexec</code> on some implementations.  It makesl  that copies of the executable can be run on every machine.</p>
+<p>Note that <code>MPI_Send</code>  may return before the message is delivered. <code>MPI_Send</code> uses the so called <strong>standard communication mode</strong> [3]. Behind the scenes, MPI decides whether to block or not based on the size of the message. The blocking lasts until the the destination process collects the message. Thus, if the message is small <code>MPI_Send</code> returns as soon as the message is copied to a local MPI buffer [3]. This copy is needed in order to release the buffer used by
+the source process for subsequent operations, because with this form of send, there
+is no way for the sender process to know when the message has been delivered [3].</p>
 <hr>
 
 </div>
@@ -319,7 +194,7 @@ Hello from process 2 of 4</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A few things to notice are:</p>
+<p><code>MPI_Send</code>  sends a buffer of data of a certain type to another process. It requires the following arguments.</p>
 
 </div>
 </div>
@@ -328,8 +203,157 @@ Hello from process 2 of 4</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>In order to access any MPI  related functionality we need to inlude the header file ```mpi.h````</li>
+<li>A pointer to a data buffer</li>
+<li>The datatype contained in the specified data buffer</li>
+<li>How many elements are contained in the buffer </li>
+<li>A message tag (sort of the id of the message) which should be a non-negative integer</li>
+<li>The receiving process id wihin the communicator</li>
+<li>The communicator used</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The datatype must correspond precisely to the data stored in the buffer. For this, MPI has predefined types that can be used. MPI has most of the usual C types. Furthermore, the standard has made provisions for creating and communicating user defined types as well.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note also that <code>MPI_Send</code> returns an error value code. If this value is 0 (or the symbolic constant <code>MPI_SUCCESS</code> ), no error has occurred [3].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>Remark</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The default behaviour when a fatal error occurs in any of the participating processes is to abort the whole execution. In a sense, the default MPI behaviour when an error occurs is not fault tolerant.</p>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>MPI_Recv</code> has a very similar signature with <code>MPI_Send</code>. The exception is that there is no destination id parameter but the id of the process from the process receives. Note also that the buffer set aside must be at least as large as the number or elements expected to be received.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Specification of the sent/received datatype is required so that machines wiht different <a href="https://en.wikipedia.org/wiki/Endianness#:~:text=Endianness%20is%20primarily%20expressed%20as,significant%20byte%20at%20the%20largest.&amp;text=Larger%20groups%20comprise%20two%20or,bit%20word%20contains%20four%20bytes.">endianness</a> or machines with different memory types (32-bit, 64-bit, 128-bit) to be able to communicate.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Simple-example">
+<a class="anchor" href="#-Simple-example" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="example"></a> Simple example<a class="anchor-link" href="#-Simple-example"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Below is a simple example of how to use <code>MPI_Send</code> and <code>MPI_Recv</code>. You can also find the example <a href="https://github.com/pockerman/mpi_playground/blob/master/example_2.cpp">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>#include &lt;mpi.h&gt;
+#include &lt;iostream&gt;
+int main(int argc, char** argv){
+
+    int rank;
+    int n_procs;
+
+    // initialize MPI. No MPI calls
+    // prior to this point should be made
+    MPI_Init(&amp;argc, &amp;argv);
+
+    // what's my rank
+    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);
+
+    // how may procs
+    MPI_Comm_size(MPI_COMM_WORLD, &amp;n_procs);
+
+    MPI_Status status;
+    if(rank == 0){
+
+        std::cout&lt;&lt;"Hello from process "&lt;&lt;rank&lt;&lt;" of "&lt;&lt;n_procs&lt;&lt;std::endl;
+        int num = 2;
+
+        // send a number to the worker 
+        MPI_Send(&amp;num, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
+
+        // recv the answer
+        int ans = -1;
+        MPI_Recv(&amp;ans, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, &amp;status);
+
+        if(ans == 0){
+            std::cout&lt;&lt;"Number "&lt;&lt;num&lt;&lt;" is odd"&lt;&lt;std::endl;        
+        }
+        else{
+
+            std::cout&lt;&lt;"Number "&lt;&lt;num&lt;&lt;" is even"&lt;&lt;std::endl;
+        }
+    }
+    else if(rank == 1){
+
+        // receive 
+        int data = -1;
+
+        MPI_Recv(&amp;data, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &amp;status);
+
+        if(data % 2 == 0){
+            data = 1;
+            MPI_Send(&amp;data, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);      
+        }
+        else{
+
+            data = 0;
+            MPI_Send(&amp;data, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
+        }
+    }
+
+    MPI_Finalize();
+    // No MPI calls beyond this point
+
+    return 0;
+}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note the following</p>
 
 </div>
 </div>
@@ -338,8 +362,15 @@ Hello from process 2 of 4</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>MPI related functions start with the prefix <code>MPI_</code>
-</li>
+<li>The tag can be any integer between 0-32767</li>
+<li>
+<code>MPI Recv</code> may use for the tag the wildcard <code>MPI_ANY_TAG</code>. This allows an <code>MPI_Recv</code> to receive from a send using any tag.</li>
+<li>
+<code>MPI_Send</code> cannot use the wildcard <code>MPI_ANY_TAG</code>. A speciﬁc tag must be speciﬁed.</li>
+<li>
+<code>MPI_Recv</code> may use for the source the wildcard <code>MPI_ANY_SOURCE</code>. This allows an <code>MPI_Recv</code> to receive from a send from any source.</li>
+<li>
+<code>MPI_Send</code> must specify the process rank of the destination. No wildcard exists.</li>
 </ul>
 
 </div>
@@ -348,25 +379,16 @@ Hello from process 2 of 4</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>As commented in the code, all MPI related calls should occur within <code>MPI_Init/MPI_Finalize</code>. </li>
-</ul>
-
+<h2 id="-Summary">
+<a class="anchor" href="#-Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="summary"></a> Summary<a class="anchor-link" href="#-Summary"> </a>
+</h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the code above, every process executes the same instructions. We can use <code>if/else</code> statements to differentiate what each process will execute. The variable <code>MPI_COMM_WORLD</code> is a predefined intra-communicator, i.e., it serves communications taking place between processes belonging to its own group of processes [1].</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The code above also calculates the rank of the calling process via <code>MPI_Comm_rank</code>, and the total number of processes in the comunicator <code>MPI_Comm_size</code>.</p>
+<p>In this section, we introduced the two most basic point-to-point communication functions available in MPI. Namly we saw, <code>MPI_Send</code> and <code>MPI_Recv</code>. Although these functions, and MPI in general, hide much of the boilerplate code needed so that two processes can communicate, still the resulting program is rather verbose. This is something that we would like to hide as much as possible both for application maintenance as well as for development and performance considerations.</p>
 
 </div>
 </div>
@@ -384,7 +406,9 @@ Hello from process 2 of 4</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
-<li>Roman Trobec et al., <code>Introduction to parallel computing. From algorithms to programming on state-of-the-art platforms</code>, Springer.</li>
+<li><a href="https://www.mpich.org/static/docs/latest/www3/MPI_Send.html">MPI_Send</a></li>
+<li><a href="https://www.mpich.org/static/docs/latest/www3/MPI_Recv.html">MPI_Recv</a></li>
+<li>Gerassimos Barlas, <code>Multicore and GPU Programming An Integrated Approach</code>, Morgan Kaufmann</li>
 </ol>
 
 </div>
@@ -394,7 +418,7 @@ Hello from process 2 of 4</code></pre>
 
 
 
-  </div><a class="u-url" href="/qubit_opus/programming/mpi/parallel-computing/c++/2021/06/13/mpi-hello-world.html" hidden></a>
+  </div><a class="u-url" href="/qubit_opus/programming/mpi/parallel-computing/c++/2021/07/07/mpi-basic-point-to-point-communication.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
