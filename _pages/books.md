@@ -4,53 +4,31 @@ title: Books
 permalink: /books/
 ---
 
-## Mathematics
+This is a (mixed) list of books that I think is worthwhile reading them. 
 
-- Kevin P. Murphy ```Machine Learning. A Probabilistic Perspective```
-- Thomas Witelski and Mark Bowen ```Methods of Mathematical Modelling. Continuous Systems and Differential Equations```
-- Steven L. Brunton, J. Nathan Kutz ```Data-Driven Science and Engineering Machine Learning, Dynamical Systems and Control```
-- Richard S. Sutton and Andrew G. Barto, ```Reinforcement Learning: An Introduction```
-
-## Physics
-
-- Leonard Susskind and George Hrabovsky, ```Classical Mechanics. The Theoretical Minimum```
-- Leonard Susskind and Art Friedman, ```Quantum Mechanics. The Theoretical Minimum```
-
-## Computing
-
-- Len Bass, Paul Clements, Rick Kazman ```Software Architecture in Practice```
+- Kevin P. Murphy ```Machine learning. A probabilistic perspective```
+- Richard S. Sutton and Andrew G. Barto, ```Reinforcement learning: An introduction```
+- Leonard Susskind and George Hrabovsky, ```Classical mechanics. The theoretical minimum```
+- Leonard Susskind and Art Friedman, ```Quantum mechanics. The theoretical minimum```
 - Robert C. Martin ```Clean Architecture. A Craftsman's Guide to Software Architecture and Design```
-- David Mermin ```Quantum Computer Science. An Introduction```
-
-## Programming
-
-- Scott Meyers ```Effective C++: 50 Specific Ways to Improve Your Programs And Design```
-- Scott Meyers ```Effective STL: 50 Specific Ways to Improve Your Use Of The STL```
-- Scott Meyers ```Effective C++: 55 Specific Ways to Improve Your Programs And Design```
-- Scott Meyers ```Effective Modern C++```
-- Bjorn Andrist and Viktor Sehr ```C++ High Performance```
-
-## History
-
-- Herodotus ```The Histories```
-- Max Hastings ```Catastrophe```
-- Thucydides ```The Histroy of the Peloponnesian War```
-
-
-## Philosophy
-- Sun Tzu ```The Art of War```
-- Nicolo Machiavelli ```The Prince```
-
-## Literature
-
-- Antoine De Saint-Exupery  ```Ο Μικρος Πριγγιπας```
-- Albert Camus ```The Fall```
-- Albert Camus ```The Outsider```
+- Scott Meyers ```Effective C++: 50 specific ways to improve your programs and design```
+- Scott Meyers ```Effective STL: 50 specific ways to improve your use of the STL```
+- Scott Meyers ```Effective C++: 55 specific ways to improve your programs and design```
+- Scott Meyers ```Effective modern C++```
+- Bjorn Andrist and Viktor Sehr ```C++ high performance```
+- Herodotus ```The histories```
+- Thucydides ```The histroy of the peloponnesian war```
+- Henry Morgenthau ```Ambassador Morgenthau's story```
+- Sun Tzu ```The art of war```
+- Nicolo Machiavelli ```The prince```
+- Antoine De Saint-Exupery  ```Ο Μικρός πρίγγιπας```
+- Albert Camus ```The fall```
+- Albert Camus ```The outsider```
 - George Orwell ```1984```
-- Douglas R. Hostadter ```Godel, Escher, Bach: An Enternal Golden Braid```
-- Fyodor Dostoyevsky ```Crime and Punishment```
-- Fyodor Dostoyevsky ```The Idiot```
-- Ernest Hemingway ```For Whom the Bell Tolls```
-- Ernest Hemingway ```The Old Man and the Sea```
+- Douglas R. Hostadter ```Godel, Escher, Bach: An enternal golden braid```
+- Fyodor Dostoyevsky ```Crime and punishment```
+- Fyodor Dostoyevsky ```The idiot```
+- Ernest Hemingway ```For whom the bell tolls```
+- Ernest Hemingway ```The old man and the sea```
 
 
