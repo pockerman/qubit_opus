@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Viterbi Algorithm | qubit-opus Alexandros Giavaras</title>
+<title>The Viterbi algorithm | qubit-opus Alexandros Giavaras</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Viterbi Algorithm" />
+<meta property="og:title" content="The Viterbi algorithm" />
 <meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Introduction to Viterbi algorithm" />
-<meta property="og:description" content="Introduction to Viterbi algorithm" />
+<meta name="description" content="Introduction to the Viterbi algorithm" />
+<meta property="og:description" content="Introduction to the Viterbi algorithm" />
 <link rel="canonical" href="https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20viterbi-algorithm/dynamic-programming/algorithms/numerics/2020/05/24/viterbi-algorithm.html" />
 <meta property="og:url" content="https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20viterbi-algorithm/dynamic-programming/algorithms/numerics/2020/05/24/viterbi-algorithm.html" />
 <meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-24T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20viterbi-algorithm/dynamic-programming/algorithms/numerics/2020/05/24/viterbi-algorithm.html","@type":"BlogPosting","headline":"Viterbi Algorithm","dateModified":"2020-05-24T00:00:00-05:00","datePublished":"2020-05-24T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20viterbi-algorithm/dynamic-programming/algorithms/numerics/2020/05/24/viterbi-algorithm.html"},"description":"Introduction to Viterbi algorithm","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20viterbi-algorithm/dynamic-programming/algorithms/numerics/2020/05/24/viterbi-algorithm.html","@type":"BlogPosting","headline":"The Viterbi algorithm","dateModified":"2020-05-24T00:00:00-05:00","datePublished":"2020-05-24T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20viterbi-algorithm/dynamic-programming/algorithms/numerics/2020/05/24/viterbi-algorithm.html"},"description":"Introduction to the Viterbi algorithm","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -88,7 +88,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Viterbi Algorithm</h1><p class="page-description">Introduction to Viterbi algorithm</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-24T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">The Viterbi algorithm</h1><p class="page-description">Introduction to the Viterbi algorithm</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-24T00:00:00-05:00" itemprop="datePublished">
         May 24, 2020
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -125,7 +125,10 @@ window.onload = wrap_img;
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#The-Viterbi-algorithm">The Viterbi algorithm </a></li>
+<li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
+</ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -134,21 +137,33 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Viterbi-algorithm">
+<a class="anchor" href="#The-Viterbi-algorithm" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Viterbi algorithm<a class="anchor-link" href="#The-Viterbi-algorithm"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The backward and forward algorithms can be used to compute $P(O|\lambda)$. In this notebook we are interested in computing the most likely path given a sequence $O$ and a hidden Markov model $\lambda$. The <a href="https://en.wikipedia.org/wiki/Viterbi_algorithm">Viterbi algorithm</a> gives us a way to do so. The Viterbi algorithm is a dynamic programming algorithm for finding the most likely sequence of hidden states, also called the Viterbi path, that results in a sequence of observed events, especially in the context of Markov information sources and hidden Markov models (HMM) [2]. The  algorithm uses a maximum operation instead of the sum. The operation of Viterbi's algorithm can be visualized by means of a <a href="https://en.wikipedia.org/wiki/Convolutional_code#Trellis_diagram">trellis diagram</a> [2]. It is essentially the shortest path through this trellis.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Given a state sequence $Q=q_1q_2,\cdots,q_T$ and an observation sequence $O=O_1O_2,\cdots,O_T$ we dfine the variable $\delta_t(i)$ as the probability of the highest probability path at time $t$ that accounts for the first $t$ observations and ends in $S_i$ [1]:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\delta_t(i) = max_{Q}p(q_1q_2,\cdots,q_t=S_i,O_1O_2,\cdots,O_t|\lambda)$$
@@ -157,23 +172,27 @@ $$\delta_t(i) = max_{Q}p(q_1q_2,\cdots,q_t=S_i,O_1O_2,\cdots,O_t|\lambda)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then we can recursively calculate $\delta_{t+1}(i)$ and the optimal path can be read by backtracking from $T$ , choosing the most probable at each instant. The algorithm is as follows [1]:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li><strong>Initialize</strong> </li>
+<li>
+<strong>Initialize</strong> </li>
 </ul>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\delta_1(i) = \pi_i b_i(O_1)$$
@@ -182,14 +201,16 @@ $$\delta_1(i) = \pi_i b_i(O_1)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is initialization is the same as in the forward algorithm. To retrieve the state sequence we also need to keep track of the argument which maximized for each $t$ and $j$. We therefore use the array $\psi$, and in the initialization step the first $\psi$ variable of every state will be equal to 0 because no specific argument coming from the initial probability maximized the value of the first state.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\psi_1(i) = 0$$
@@ -198,7 +219,8 @@ $$\psi_1(i) = 0$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li><strong>Recurse</strong></li>
@@ -207,7 +229,8 @@ $$\psi_1(i) = 0$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\delta_t(j) = max_{i=1}^{N}\delta_{t-1}(i)a_{ij}b_j(O_t)$$
@@ -216,7 +239,8 @@ $$\delta_t(j) = max_{i=1}^{N}\delta_{t-1}(i)a_{ij}b_j(O_t)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\psi_t(j) = argmax_{i=1}^{N}\delta_{t-1}(i)a_{ij}$$
@@ -225,7 +249,8 @@ $$\psi_t(j) = argmax_{i=1}^{N}\delta_{t-1}(i)a_{ij}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li><strong>Termination</strong></li>
@@ -234,7 +259,8 @@ $$\psi_t(j) = argmax_{i=1}^{N}\delta_{t-1}(i)a_{ij}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$p^{*} = max_i \delta_T(i)$$
@@ -243,7 +269,8 @@ $$p^{*} = max_i \delta_T(i)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$q^{*}_T = arg max_i \delta_T(i)$$
@@ -252,7 +279,8 @@ $$q^{*}_T = arg max_i \delta_T(i)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li><strong>Path backtracking</strong></li>
@@ -261,7 +289,8 @@ $$q^{*}_T = arg max_i \delta_T(i)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$q_t{*} = \psi_{t+1}(q^{*}_{t+1}), t= T-1, T-2, \cdots, 1$$
@@ -270,7 +299,8 @@ $$q_t{*} = \psi_{t+1}(q^{*}_{t+1}), t= T-1, T-2, \cdots, 1$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$\psi_t (j)$ keeps track of the state that maximizes $\delta_t(j)$ at time $t-1$, that is, the best previous state. The Viterbi algorithm has the same complexity with the forward phase, where
 instead of the sum, we take the maximum at each step [1].</p>
@@ -278,7 +308,8 @@ instead of the sum, we take the maximum at each step [1].</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's see an example applying the Viterbi algorithm. The example is taken from [2]. Some coding hints from <a href="http://www.adeveloperdiary.com/data-science/machine-learning/implement-viterbi-algorithm-in-hidden-markov-model-using-python-and-r/">Implement Viterbi Algorithm in Hidden Markov Model using Python and R</a> have also been used.</p>
 
@@ -309,10 +340,10 @@ instead of the sum, we take the maximum at each step [1].</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">obs_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;normal&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;cold&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;dizzy&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">obs_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'normal'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'cold'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'dizzy'</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
 
 <span class="c1"># state to index map</span>
-<span class="n">state_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Healthy&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Fever&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">state_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Healthy'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'Fever'</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -354,7 +385,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;cold&#39;</span><span class="p">,</span> <span class="s1">&#39;dizzy&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'normal'</span><span class="p">,</span> <span class="s1">'cold'</span><span class="p">,</span> <span class="s1">'dizzy'</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -450,9 +481,9 @@ instead of the sum, we take the maximum at each step [1].</p>
 <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Healthy&quot;</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Healthy"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Fever&quot;</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Fever"</span><span class="p">)</span>
  
 </pre></div>
 
@@ -470,7 +501,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Path is &quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Path is "</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -483,7 +514,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Path is  [&#39;Healthy&#39;, &#39;Healthy&#39;, &#39;Fever&#39;]
+<pre>Path is  ['Healthy', 'Healthy', 'Fever']
 </pre>
 </div>
 </div>
@@ -494,7 +525,8 @@ instead of the sum, we take the maximum at each step [1].</p>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Another way to compute the $\delta$ matrix is the following more Pythonic way, taken from <a href="http://www.adeveloperdiary.com/data-science/machine-learning/implement-viterbi-algorithm-in-hidden-markov-model-using-python-and-r/">Implement Viterbi Algorithm in Hidden Markov Model using Python and R</a>. Note the use of the log function.</p>
 
@@ -587,9 +619,9 @@ instead of the sum, we take the maximum at each step [1].</p>
 <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Healthy&quot;</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Healthy"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Fever&quot;</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Fever"</span><span class="p">)</span>
  
 </pre></div>
 
@@ -607,7 +639,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Path is &quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Path is "</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -620,7 +652,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Path is  [&#39;Healthy&#39;, &#39;Healthy&#39;, &#39;Fever&#39;]
+<pre>Path is  ['Healthy', 'Healthy', 'Fever']
 </pre>
 </div>
 </div>
@@ -631,7 +663,8 @@ instead of the sum, we take the maximum at each step [1].</p>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The following video provides a motivation behind the use of the Viterbi algorithm</p>
 
@@ -646,7 +679,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
-<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">&#39;MPeedE6Odj0&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">'MPeedE6Odj0'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -673,7 +706,8 @@ instead of the sum, we take the maximum at each step [1].</p>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The following video provides nice description of the Viterbi algorithm</p>
 
@@ -688,7 +722,7 @@ instead of the sum, we take the maximum at each step [1].</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
-<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">&#39;s9dU3sFeE40&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">'s9dU3sFeE40'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -715,13 +749,17 @@ instead of the sum, we take the maximum at each step [1].</p>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="-References"><a name="refs" /> References<a class="anchor-link" href="#-References"> </a></h2>
+<h2 id="-References">
+<a class="anchor" href="#-References" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="refs"></a> References<a class="anchor-link" href="#-References"> </a>
+</h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li>Ethem Alpaydin, <code>Introduction To Machine Learning, Second Edition</code>, MIT Press.</li>
