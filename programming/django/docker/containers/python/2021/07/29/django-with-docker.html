@@ -160,7 +160,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Deploying applications is never ease regardless of the provisioning one may take. Containers solve many of the problems of application deployment. In this post, I want to describe how to containerize a minimal <a href="https://www.djangoproject.com/">django</a> application with <a href="https://www.docker.com/">docker</a>. I will assume that docker is already installed on the machine. If not checkout the official <a href="https://www.docker.com/">docker</a> documentation.</p>
+<p>Deploying applications is never ease regardless of the provisioning one may take. Containers solve many of the problems of application deployment. In this post, I want to describe how to containerize a minimal <a href="https://www.djangoproject.com/">django</a> application with <a href="https://www.docker.com/">docker</a>. I will assume that docker is already installed on the machine. If not, checkout the official <a href="https://www.docker.com/">docker</a> documentation.  The code for this notebook can be found at <a href="https://github.com/pockerman/demo_django_with_docker">this repository</a>.</p>
 
 </div>
 </div>
@@ -177,7 +177,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This post is basically a mixture of these two post from <a href="https://testdriven.io/">testdriven.io</a>;  <a href="https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/">Dockerizing Django with Postgres, Gunicorn, and Nginx</a>. You should check the article out if you want more details on what is happening.</p>
+<p>This post is basically edited from the  <a href="https://testdriven.io/">testdriven.io</a>;  <a href="https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/">Dockerizing Django with Postgres, Gunicorn, and Nginx</a> post. You should check this article out if you want more details on what is happening.</p>
 
 </div>
 </div>
@@ -203,16 +203,8 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 
-<pre><code>docker --version</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>docker-compose --version</code></pre>
+<pre><code>docker --version
+docker-compose --version</code></pre>
 
 </div>
 </div>
@@ -248,7 +240,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Creating a simple Django project is fairly easy. Checkout how to do so  <a href="#">here</a>. Let's create a <code>hello-world</code> project. I will have the project files in the <code>app</code> directory. So</p>
+<p>Creating a simple Django project is fairly easy. Checkout how to do so  <a href="#">here</a>. Let's create a <code>hello_world_django</code> project. I will have the project files in the <code>app</code> directory. So</p>
 
 </div>
 </div>
@@ -360,15 +352,7 @@ COPY . .</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Finally, it updates <code>pip</code>, copies over the <code>requirements.txt</code> file, installed the dependencies, and copied over the Django project itself.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The next thing I need is a <code>docker-compose.yml</code>. I need to add this in a directory relative to <code>Dockerifle</code>.  I will add this to the root</p>
+<p>Finally, it updates <code>pip</code>, copies over the <code>requirements.txt</code> file, installed the dependencies, and copied over the Django project itself. Although we can use <code>docker build</code> to build our image, I will use <code>docker-compose</code> to do so. In the source directory, create a file called <code>docker-compose.yml</code> with the following contents</p>
 
 </div>
 </div>
@@ -377,7 +361,7 @@ COPY . .</code></pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 
-<pre><code>version: '3.7'
+<pre><code>version: '3.8'
 
 services:
   web:
@@ -396,7 +380,26 @@ services:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Update the following entries in the <code>settings.py</code> file so that I retrieve these from the environment under which the application is running.</p>
+<p>We also need one more file, namely the <code>.env.dev</code> file that contains the following</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The file should also be placed at the root directory where the <code>docker-compose.yml</code> is located. We also need to update the <code>settings.py</code> file so that we can  retrieve these from the environment under which the application is running.</p>
 
 </div>
 </div>
@@ -419,26 +422,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I need to create a <code>.env.dev</code> file in the project root to store environment variables for development:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>DEBUG=1
-SECRET_KEY=foo
-DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's now build the image and check if everything works as described above. I do so by</p>
+<p>Let's now build the image and check if everything works as described above. We can do so</p>
 
 </div>
 </div>
@@ -455,8 +439,24 @@ DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Start the container by using</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 
 <pre><code>docker-compose up -d</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can view the application at <a href="http://0.0.0.0:8000/">http://0.0.0.0:8000/</a></p>
 
 </div>
 </div>
