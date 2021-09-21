@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Machine learning notes. Hyperparameter tuning | qubit-opus Alexandros Giavaras</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Machine learning notes. Hyperparameter tuning" />
+<meta name="author" content="Alexandros Giavaras" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction on how to tune hyperparameters in machine learning models" />
+<meta property="og:description" content="Introduction on how to tune hyperparameters in machine learning models" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/machine-learning/hyperparameters/sklearn/grid-search/random-search/informed-search/2021/09/20/mln-hyperparameter-tuning.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/machine-learning/hyperparameters/sklearn/grid-search/random-search/informed-search/2021/09/20/mln-hyperparameter-tuning.html" />
+<meta property="og:site_name" content="qubit-opus Alexandros Giavaras" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://pockerman.github.io/qubit_opus/machine-learning/hyperparameters/sklearn/grid-search/random-search/informed-search/2021/09/20/mln-hyperparameter-tuning.html","@type":"BlogPosting","headline":"Machine learning notes. Hyperparameter tuning","dateModified":"2021-09-20T00:00:00-05:00","datePublished":"2021-09-20T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/machine-learning/hyperparameters/sklearn/grid-search/random-search/informed-search/2021/09/20/mln-hyperparameter-tuning.html"},"description":"Introduction on how to tune hyperparameters in machine learning models","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-opus | Alexandros Giavaras" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/qubit_opus/">qubit-opus | Alexandros Giavaras</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/qubit_opus/about/">About Me</a><a class="page-link" href="/qubit_opus/books/">Books</a><a class="page-link" href="/qubit_opus/search/">Search</a><a class="page-link" href="/qubit_opus/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Machine learning notes. Hyperparameter tuning</h1><p class="page-description">Introduction on how to tune hyperparameters in machine learning models</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-20T00:00:00-05:00" itemprop="datePublished">
+        Sep 20, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#machine-learning">machine-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#hyperparameters">hyperparameters</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#sklearn">sklearn</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#grid-search">grid-search</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#random-search">random-search</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#informed-search">informed-search</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#Hyperparameter-tuning">Hyperparameter tuning </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Setting-and-hyperparameter-values">Setting and hyperparameter values </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Learning-curves">Learning curves </a></li>
+<li class="toc-entry toc-h4"><a href="#Grid-search">Grid search </a></li>
+<li class="toc-entry toc-h4"><a href="#Random-search">Random search </a></li>
+<li class="toc-entry toc-h4"><a href="#Informed-search">Informed search </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#References">References </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-20-mln-hyperparameter-tuning.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Machine learning models typically involve a parameter set that it is learnt during the training process. However, machine learning models also contain parameters that are not learnt during training and must be specified before the training process. In this notebook, we will review some commonly used methods to establish good hyperparameters values. In particular, we will review</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Grid search</li>
+<li>Random search</li>
+<li>Informed search</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Hyperparameter-tuning">
+<a class="anchor" href="#Hyperparameter-tuning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hyperparameter tuning<a class="anchor-link" href="#Hyperparameter-tuning"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TODO: write intro</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hyperparameters are typically set before the modeling process begins. For example the number of clusters is a hyperparameter that the application needs to establish before running the algorithm. Thus, the crucial elemet that distinguishes parameters from hyperparameters is that the former are learnt by the model whilst the latter are set by the application.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the sequel, we will differentiate hyperparameters into two categories. Namely, parameters that affect the model performance and parameters that do not. an example of the latter category is the number of cpu cores that we want to use when training the model. Although, this impacts the training time, it does not impact how the model performs on unseen data or in other words the model's performance.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Setting-and-hyperparameter-values">
+<a class="anchor" href="#Setting-and-hyperparameter-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting and hyperparameter values<a class="anchor-link" href="#Setting-and-hyperparameter-values"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>now that we have the needed definitions out of the way, we turn our attention to the main topic topic of this notebook. Namely, how do we set the optimal values for the hyperparameters we need to tune. Unfortunately, there is not a clear answer to this question. Hyperparameters, are specific to each algorithm. However, there are available some general guidelines and tips that we can follow. Let's review some of the top tips.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, we need to identify which hyperparameters values are in conflict. For example, if we are using <code>sklearn</code> logistic regression model, the <code>solver</code> and <code>penalty</code> parameters have options that are in conflict; the <code>elasticnet</code> penalty is only supported by the <code>saga</code> solver.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another point to be aware of is that some hyperparameter values are simply silly. For example setting the number of clusters equal to one when performing K-means clustering or equal to the number of points in the  dataset, does not sound very meaningful. Similarly, setting the number of neighbors in a kNN algorithm equal to one is not very wise.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will review the following methods</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Learning curves (accuracy vs hyperparameter value) </li>
+<li>Grid search</li>
+<li>Random search</li>
+<li>Informed search</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Learning-curves">
+<a class="anchor" href="#Learning-curves" aria-hidden="true"><span class="octicon octicon-link"></span></a>Learning curves<a class="anchor-link" href="#Learning-curves"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TODO....Learning curves can be used when we have one hyperparameter to tune.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Grid-search">
+<a class="anchor" href="#Grid-search" aria-hidden="true"><span class="octicon octicon-link"></span></a>Grid search<a class="anchor-link" href="#Grid-search"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Grid search performs an exhaustive search over a specified parameter values for an estimator. We can visualize this as a two dimensional grid. At each point of the grid, a different combination of parameters is examined. For example, consider an artificial model with three hyperparamters $a, b$ and $c$. Each of these parameters has the following values sets; $a \in [a_1, a_2, a_3], b \in [b_1, b_2], c \in [c_1, c_2, c_3]$. Grid search performs exhaustive search by forming all the possible triplets and fitting the model using the identified values. Let's see how to perform grid search in <code>sklearn</code>. Overall the steps of using grid search in <code>sklearn</code> are as follows</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Choose the algorithm to tune the hyperparameters (<code>estimator</code>)</li>
+<li>Define which hyperparameters to tune (<code>param_grid</code>)</li>
+<li>Define the range of values for each hyperparameter </li>
+<li>Decide of the cross-validation scheme to use (<code>cv</code>)</li>
+<li>Define the score function to be used when deciding which model is the best (<code>scoring</code>)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following example, taken from <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_grid_search_digits.html#sphx-glr-auto-examples-model-selection-plot-grid-search-digits-py">here</a>, shows how to use grid search</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">digits</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
+
+<span class="c1"># To apply an classifier on this data, we need to flatten the image, to</span>
+<span class="c1"># turn the data in a (samples, feature) matrix:</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">images</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># Split the dataset in two equal parts</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'kernel'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'rbf'</span><span class="p">],</span> <span class="s1">'gamma'</span><span class="p">:</span> <span class="p">[</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">],</span>
+                     <span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]},</span>
+                    <span class="p">{</span><span class="s1">'kernel'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'linear'</span><span class="p">],</span> <span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]},]</span>
+                    
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">SVC</span><span class="p">(),</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">tuned_parameters</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">'precision_macro'</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>    
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>GridSearchCV(estimator=SVC(),
+             param_grid=[{'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001],
+                          'kernel': ['rbf']},
+                         {'C': [1, 10, 100, 1000], 'kernel': ['linear']}],
+             scoring='precision_macro')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Best parameters set found on development set:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Grid scores on development set:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+    
+<span class="n">means</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">'mean_test_score'</span><span class="p">]</span>
+<span class="n">stds</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">'std_test_score'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">stds</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s1">'params'</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">%0.3f</span><span class="s2"> (+/-</span><span class="si">%0.03f</span><span class="s2">) for </span><span class="si">%r</span><span class="s2">"</span>  <span class="o">%</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Detailed classification report:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"The model is trained on the full development set."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"The scores are computed on the full evaluation set."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Best parameters set found on development set:
+
+{'C': 10, 'gamma': 0.001, 'kernel': 'rbf'}
+
+Grid scores on development set:
+
+0.986 (+/-0.016) for {'C': 1, 'gamma': 0.001, 'kernel': 'rbf'}
+0.959 (+/-0.028) for {'C': 1, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.988 (+/-0.017) for {'C': 10, 'gamma': 0.001, 'kernel': 'rbf'}
+0.982 (+/-0.026) for {'C': 10, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.988 (+/-0.017) for {'C': 100, 'gamma': 0.001, 'kernel': 'rbf'}
+0.983 (+/-0.026) for {'C': 100, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.988 (+/-0.017) for {'C': 1000, 'gamma': 0.001, 'kernel': 'rbf'}
+0.983 (+/-0.026) for {'C': 1000, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.974 (+/-0.012) for {'C': 1, 'kernel': 'linear'}
+0.974 (+/-0.012) for {'C': 10, 'kernel': 'linear'}
+0.974 (+/-0.012) for {'C': 100, 'kernel': 'linear'}
+0.974 (+/-0.012) for {'C': 1000, 'kernel': 'linear'}
+
+Detailed classification report:
+
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        89
+           1       0.97      1.00      0.98        90
+           2       0.99      0.98      0.98        92
+           3       1.00      0.99      0.99        93
+           4       1.00      1.00      1.00        76
+           5       0.99      0.98      0.99       108
+           6       0.99      1.00      0.99        89
+           7       0.99      1.00      0.99        78
+           8       1.00      0.98      0.99        92
+           9       0.99      0.99      0.99        92
+
+    accuracy                           0.99       899
+   macro avg       0.99      0.99      0.99       899
+weighted avg       0.99      0.99      0.99       899
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The output from <code>GridSearchCV</code> can be categorized into three different groups</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Results log: <code>cv_results_</code>
+</li>
+<li>Best results: <code>best_index_</code>, <code>best_params_</code> and <code>best_score_</code>
+</li>
+<li>Other extra information such as <code>refit_time_</code>, and <code>scorer_</code>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Random-search">
+<a class="anchor" href="#Random-search" aria-hidden="true"><span class="octicon octicon-link"></span></a>Random search<a class="anchor-link" href="#Random-search"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TODO</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Informed-search">
+<a class="anchor" href="#Informed-search" aria-hidden="true"><span class="octicon octicon-link"></span></a>Informed search<a class="anchor-link" href="#Informed-search"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TODO</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">
+<a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<code>Hyperparameter tuning in Python</code> course from <a href="https://www.datacamp.com/">Datacamp</a> </li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/qubit_opus/machine-learning/hyperparameters/sklearn/grid-search/random-search/informed-search/2021/09/20/mln-hyperparameter-tuning.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/qubit_opus/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/qubit_opus/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/qubit_opus/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Computing is fun (most of the times).</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pockerman" title="pockerman"><svg class="svg-icon grey"><use xlink:href="/qubit_opus/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
