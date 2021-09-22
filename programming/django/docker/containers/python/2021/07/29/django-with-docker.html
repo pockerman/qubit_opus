@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -136,7 +136,11 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#Django-project">Django project </a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h2"><a href="#Configure-MySQL">Configure MySQL </a></li>
+<li class="toc-entry toc-h2"><a href="#Configure-MySQL">Configure MySQL </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Migrations">Migrations </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#Summary">Summary </a></li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
@@ -391,7 +395,7 @@ services:
 
 <pre><code>DEBUG=1
 SECRET_KEY=foo
-DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]</code></pre>
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 0.0.0.0 [::1]</code></pre>
 
 </div>
 </div>
@@ -456,7 +460,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can view the application at <a href="http://0.0.0.0:8000/">http://0.0.0.0:8000/</a></p>
+<p>We can view the application at <a href="http://0.0.0.0:8000/">http://0.0.0.0:8000/</a>. This should display django's default landing page. So far so good. Let's now try to integrate MySQL into the mix.</p>
 
 </div>
 </div>
@@ -473,7 +477,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In order to add MySQL into the mix, I need to add a new service into <code>docker-compose.yml</code>. This is shown below</p>
+<p>Adding MySQL into the mix, we just need to add a new service into <code>docker-compose.yml</code>. This is shown below</p>
 
 </div>
 </div>
@@ -522,7 +526,76 @@ services:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We now have two containers. We can spin them up in the same way</p>
+<p>Note that since the default database in django is <code>sqlite3</code>, we need to update the <code>DATABASES</code> entry in the <code>settings.py</code> file according to</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"), #'django.db.backends.mysql',
+        'NAME': os.environ.get("SQL_DATABASE", BASE_DIR / "db.sqlite3"), #'django_app_demo',
+        'USER': os.environ.get("SQL_USER", "user"), #'root',
+        'PASSWORD': os.environ.get("SQL_PASSWORD", "password"), #'password',
+        'HOST': os.environ.get("SQL_HOST", "localhost"), #'db',
+        'PORT': os.environ.get("SQL_PORT", "3306"), #3306,
+    }
+}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similarly, we update the <code>.env.dev</code> file now looking like</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 0.0.0.0 [::1]
+SQL_ENGINE=django.db.backends.mysql
+SQL_DATABASE=django_app_demo
+SQL_USER=root
+SQL_PASSWORD=password
+SQL_HOST=db
+SQL_PORT=3306</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We also need to to install <code>mysqlclient</code> otherwise we get a django exception <code>django.core.exceptions.ImproperlyConfigured: Error loading MySQLdb module.</code> We add this in the requirements file. So the <code>requirements.txt</code> is now as follows</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>Django==3.0.7
+mysqlclient==2.0.3</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now have two containers. Let's build the new image and spin the two containers</p>
 
 </div>
 </div>
@@ -539,7 +612,24 @@ services:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's instruct Django to run any migrations. Typically, we don't want to do that every time we fire up the container, so I just use a manual approach</p>
+<p>Once again we can access the application at <a href="http://0.0.0.0:8000/">http://0.0.0.0:8000/</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Migrations">
+<a class="anchor" href="#Migrations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Migrations<a class="anchor-link" href="#Migrations"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to be able to persist data, we need to create the database tables. Django uses the notion of migrations in order to build and monitor the database tables. Let's instruct Django to run any migrations. Typically, we don't want to do that every time we fire up the container, so I just use a manual approach</p>
 
 </div>
 </div>
