@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      13 min read
     
 </span></p>
 
@@ -134,10 +134,13 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h3"><a href="#Setting-and-hyperparameter-values">Setting and hyperparameter values </a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#Learning-curves">Learning curves </a></li>
 <li class="toc-entry toc-h4"><a href="#Grid-search">Grid search </a></li>
 <li class="toc-entry toc-h4"><a href="#Random-search">Random search </a></li>
-<li class="toc-entry toc-h4"><a href="#Informed-search">Informed search </a></li>
+<li class="toc-entry toc-h4"><a href="#Informed-search">Informed search </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#Coarse-to-fine-tuning">Coarse to fine tuning </a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -164,7 +167,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Machine learning models typically involve a parameter set that it is learnt during the training process. However, machine learning models also contain parameters that are not learnt during training and must be specified before the training process. In this notebook, we will review some commonly used methods to establish good hyperparameters values. In particular, we will review</p>
+<p>Machine learning models typically involve a parameter set that it is learnt during the training process. However, machine learning models also contain parameters that are not learnable and must be specified before the training process begins. In this notebook, we will review some commonly used methods to establish good hyperparameters values. In particular, we will review the following approaches</p>
 
 </div>
 </div>
@@ -193,7 +196,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO: write intro</p>
+<p>Machine learning models typically consist of a set of parameters that define their learnability. It is these parameters that somehow we try to estimate during training. However, most machine learning models also contain parameters that we  need to establish before training begins. These parameters affect the learning process but they are not learnable themselves. We call these parameters as hyperparameters.</p>
 
 </div>
 </div>
@@ -226,7 +229,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>now that we have the needed definitions out of the way, we turn our attention to the main topic topic of this notebook. Namely, how do we set the optimal values for the hyperparameters we need to tune. Unfortunately, there is not a clear answer to this question. Hyperparameters, are specific to each algorithm. However, there are available some general guidelines and tips that we can follow. Let's review some of the top tips.</p>
+<p>Now that we have the needed definitions out of the way, we turn our attention to the main topic of this notebook. Namely, how do we set the optimal values for the model hyperparameters. Unfortunately, there is not a clear answer to this question. Hyperparameters are specific to each algorithm. However, there are available some general guidelines and tips that we can follow. Let's review some of the top tips.</p>
 
 </div>
 </div>
@@ -234,7 +237,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First, we need to identify which hyperparameters values are in conflict. For example, if we are using <code>sklearn</code> logistic regression model, the <code>solver</code> and <code>penalty</code> parameters have options that are in conflict; the <code>elasticnet</code> penalty is only supported by the <code>saga</code> solver.</p>
+<p>First, we need to identify which hyperparameters values are in conflict. For example, if we are using <code>sklearn</code>'s logistic regression model, the <code>solver</code> and <code>penalty</code> parameters have options that may be in conflict; the <code>elasticnet</code> penalty is only supported by the <code>saga</code> solver.</p>
 
 </div>
 </div>
@@ -242,7 +245,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Another point to be aware of is that some hyperparameter values are simply silly. For example setting the number of clusters equal to one when performing K-means clustering or equal to the number of points in the  dataset, does not sound very meaningful. Similarly, setting the number of neighbors in a kNN algorithm equal to one is not very wise.</p>
+<p>Another point to be aware of is that some hyperparameter values are simply silly. For example, setting the number of clusters equal to one when performing K-means clustering or equal to the number of points in the  dataset, does not sound very meaningful. Similarly, setting the number of neighbors in a kNN algorithm equal to one is not very wise.</p>
 
 </div>
 </div>
@@ -250,7 +253,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We will review the following methods</p>
+<p>Below, we will review the following methods for hyperparamter tuning</p>
 
 </div>
 </div>
@@ -259,7 +262,6 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Learning curves (accuracy vs hyperparameter value) </li>
 <li>Grid search</li>
 <li>Random search</li>
 <li>Informed search</li>
@@ -271,16 +273,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Learning-curves">
-<a class="anchor" href="#Learning-curves" aria-hidden="true"><span class="octicon octicon-link"></span></a>Learning curves<a class="anchor-link" href="#Learning-curves"> </a>
-</h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO....Learning curves can be used when we have one hyperparameter to tune.</p>
+<p>Let's start with grid search.</p>
 
 </div>
 </div>
@@ -558,7 +551,235 @@ weighted avg       0.99      0.99      0.99       899
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO</p>
+<p>The next method we will review is <a href="https://en.wikipedia.org/wiki/Random_search">random search</a>. According to wikipedia, <em>random search (RS) is a family of numerical optimization methods that do not require the gradient of the problem to be optimized, and RS can hence be used on functions that are not continuous or differentiable. Such optimization methods are also known as direct-search, derivative-free, or black-box methods.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In general, random search is similar to the grid search approach we reviewed above. In particular,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>We have to define an estimator</li>
+<li>The parameters to be tuned and their range of values</li>
+<li>Establish a cross-validation scheme</li>
+<li>Establish a scoring functon</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We won't go into the details of why random search works. Instead let's see how to perform random search with <code>scikit-learn</code>. The following example, is a copy verbatim from <code>scikit-learn</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">uniform</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+
+<span class="n">logistic</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">'saga'</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">penalty</span><span class="o">=</span><span class="p">[</span><span class="s1">'l2'</span><span class="p">,</span> <span class="s1">'l1'</span><span class="p">])</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">logistic</span><span class="p">,</span> <span class="n">distributions</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">search</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  warnings.warn("The max_iter was reached which means "
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">search</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'C': 2.195254015709299, 'penalty': 'l1'}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Grid search performs exhaustive search by trying out all possible combinations. On the other hand, random search selects a subset of combinations. Given this, it requires that we establish a sampling methodology. Grid search is more computationally expensive than random search. However, it is guaranteed to find the best score in the sample space. Random search is not guaranteed to find the best score, but it is likely to find a good one faster than grid search.</p>
 
 </div>
 </div>
@@ -575,7 +796,45 @@ weighted avg       0.99      0.99      0.99       899
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO</p>
+<p>Both grid and random search algorithms are uninformed search algorithms. What this means is that algorithms do not use any form of information in order to improve the searching. In this section, we will review some informed search algorithms</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Coarse-to-fine-tuning">
+<a class="anchor" href="#Coarse-to-fine-tuning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coarse to fine tuning<a class="anchor-link" href="#Coarse-to-fine-tuning"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this approach, we start with a rough estimate and iteratively we refine our search.This approach utilizes both grid and random search. Here are the general steps we can follow towards this direction.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Start with random search</li>
+<li>Find the areas in the sampling space that look promising</li>
+<li>Do a grid search in these smaller areas</li>
+<li>Continue until a good or optimal score is achieved</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Other approaches to informed search include Bayesian statistics and genetic algorithms. However, we won't go into these directions as they can easily form the subject of whole books on their own. You can check the article <a href="https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f">A Conceptual Explanation of Bayesian Hyperparameter Optimization for Machine Learning</a> to get a conceptual view about the subject.</p>
 
 </div>
 </div>
@@ -595,6 +854,8 @@ weighted avg       0.99      0.99      0.99       899
 <ol>
 <li>
 <code>Hyperparameter tuning in Python</code> course from <a href="https://www.datacamp.com/">Datacamp</a> </li>
+<li><a href="https://en.wikipedia.org/wiki/Hyperparameter_optimization">Hyperparameter optimization</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Random_search">Random search</a></li>
 </ol>
 
 </div>
