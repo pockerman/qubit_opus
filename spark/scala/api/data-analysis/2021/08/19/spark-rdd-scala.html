@@ -147,7 +147,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this post I want to review how to create Spark RDDs within a Scala applications. There are various methods to do so. The following example is taken for <a href="https://sparkbyexamples.com/apache-spark-rdd/how-to-create-an-rdd-using-parallelize/">Spark by {Examples}</a></p>
+<p>In this post I want to review how to create Spark RDDs within a Scala applications. There are various methods to do so. The following example is taken for <a href="https://sparkbyexamples.com/apache-spark-rdd/how-to-create-an-rdd-using-parallelize/">Spark by {Examples}</a>.</p>
 
 </div>
 </div>
@@ -164,7 +164,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A Resilient Distributed Datasets or RDD for short,  is the  fundamental data structure of Spark. An RDD is an immutable collection of objects that can be distributed across a cluster of computers. An RDD collection is divided into a number of partitions so that each node on a Spark cluster  can independently perform computations.</p>
+<p>A Resilient Distributed Datasets, or RDD for short,  is the  fundamental data structure of Spark. An RDD is an immutable collection of objects that can be distributed across a cluster of computers. An RDD collection is divided into a number of partitions so that each node on a Spark cluster  can independently perform computations. Note that modern Spark applications will most likely be using <code>DataFrame</code> and <code>DataSet</code> objects which are data structures on top of RDD. This means that RDDs are rather low level and if possible we should avoid it.</p>
 
 </div>
 </div>
@@ -172,7 +172,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are two main methods available in Spark to create an RDD:</p>
+<p>Anyway, there are two main methods available in Spark to create an RDD:</p>
 
 </div>
 </div>
@@ -256,7 +256,7 @@ Action: First element: 1</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note the the output may be different as it depends on which thread access the standard first.</p>
+<p>Note the the output may be different as it depends on which thread is accessing  the standard output first.</p>
 
 </div>
 </div>
@@ -331,6 +331,14 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
                       .map( arrString =&gt; {Try(Array(arrString(0).toDouble, arrString(1).toDouble,                                                                   arrString(2).toDouble))})
                       .map(_ match {case Success(res) =&gt; res
                                          case Failure(res) =&gt; Array(-100, -100, -100)})</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can use a schema in order to let Spark know the type of the data but this requires that we use a <code>DataFrame</code> instead and not an RDD.</p>
 
 </div>
 </div>
