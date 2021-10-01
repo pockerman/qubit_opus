@@ -346,6 +346,27 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Note also that Spark divides by default data into two partitions and distributes them across a cluster. The number of partitions can be specified while creating an RDD as shown below.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>// Should be some file on your system
+val csvFile = "/home/alex/qi3/learn_scala/scripts/spark/data/train.csv" 
+
+// use four partitions for the data
+val csvRDD = sc.textFile(csvFile, 4)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">
 <a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
 </h2>
