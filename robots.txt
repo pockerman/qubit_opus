@@ -1,1 +1,1 @@
-Sitemap: https://pockerman.github.io/qubit_opus/sitemap.xml
+Sitemap: https://pockerman.github.io/qubit_computing/sitemap.xml

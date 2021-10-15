@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Linear Time-Invariant Systems | qubit-computing</title>
+<title>RDD operations with Scala | qubit-computing</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Linear Time-Invariant Systems" />
+<meta property="og:title" content="RDD operations with Scala" />
 <meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Brief introduction to linear time-invariant systems" />
-<meta property="og:description" content="Brief introduction to linear time-invariant systems" />
-<link rel="canonical" href="https://pockerman.github.io/qubit_computing/dynamical-systems/linear-systems/ode/time-invariant/2021/04/10/linear-time-invariant-systems.html" />
-<meta property="og:url" content="https://pockerman.github.io/qubit_computing/dynamical-systems/linear-systems/ode/time-invariant/2021/04/10/linear-time-invariant-systems.html" />
+<meta name="description" content="Basic operations of Spark RDD with Scala" />
+<meta property="og:description" content="Basic operations of Spark RDD with Scala" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_computing/spark/scala/api/data-analysis/big-data/2021/10/01/rdd-ops-scala.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_computing/spark/scala/api/data-analysis/big-data/2021/10/01/rdd-ops-scala.html" />
 <meta property="og:site_name" content="qubit-computing" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-04-10T00:00:00-05:00" />
+<meta property="article:published_time" content="2021-10-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_computing/dynamical-systems/linear-systems/ode/time-invariant/2021/04/10/linear-time-invariant-systems.html","@type":"BlogPosting","headline":"Linear Time-Invariant Systems","dateModified":"2021-04-10T00:00:00-05:00","datePublished":"2021-04-10T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_computing/dynamical-systems/linear-systems/ode/time-invariant/2021/04/10/linear-time-invariant-systems.html"},"description":"Brief introduction to linear time-invariant systems","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_computing/spark/scala/api/data-analysis/big-data/2021/10/01/rdd-ops-scala.html","@type":"BlogPosting","headline":"RDD operations with Scala","dateModified":"2021-10-01T00:00:00-05:00","datePublished":"2021-10-01T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_computing/spark/scala/api/data-analysis/big-data/2021/10/01/rdd-ops-scala.html"},"description":"Basic operations of Spark RDD with Scala","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_computing/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_computing/feed.xml" title="qubit-computing" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_computing/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -88,8 +88,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Linear Time-Invariant Systems</h1><p class="page-description">Brief introduction to linear time-invariant systems</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-10T00:00:00-05:00" itemprop="datePublished">
-        Apr 10, 2021
+    <h1 class="post-title p-name" itemprop="name headline">RDD operations with Scala</h1><p class="page-description">Basic operations of Spark RDD with Scala</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-01T00:00:00-05:00" itemprop="datePublished">
+        Oct 1, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
@@ -103,16 +103,19 @@ window.onload = wrap_img;
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
       
-        <a class="category-tags-link" href="/qubit_computing/categories/#dynamical-systems">dynamical-systems</a>
+        <a class="category-tags-link" href="/qubit_computing/categories/#Spark">Spark</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/qubit_computing/categories/#linear-systems">linear-systems</a>
+        <a class="category-tags-link" href="/qubit_computing/categories/#Scala">Scala</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/qubit_computing/categories/#ode">ode</a>
+        <a class="category-tags-link" href="/qubit_computing/categories/#API">API</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/qubit_computing/categories/#time-invariant">time-invariant</a>
+        <a class="category-tags-link" href="/qubit_computing/categories/#data-analysis">data-analysis</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_computing/categories/#big-data">big-data</a>
         
       
       </p>
@@ -123,18 +126,23 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#-Linear-time-invariant-systems"> Linear time-invariant systems </a>
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#-Unforced-dynamics"> Unforced dynamics </a></li>
-<li class="toc-entry toc-h3"><a href="#-Forced-dynamics"> Forced dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Acknowledgements">Acknowledgements </a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
+<li class="toc-entry toc-h2"><a href="#RDD-operations-with-Scala">RDD operations with Scala </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Transformations">Transformations </a></li>
+<li class="toc-entry toc-h3"><a href="#Actions">Actions </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2021-04-10-linear-time-invariant-systems.ipynb
+# file to edit: _notebooks/2021-10-01-rdd-ops-scala.ipynb
 -->
 
 <div class="container" id="notebook-container">
@@ -142,8 +150,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="-Linear-time-invariant-systems">
-<a class="anchor" href="#-Linear-time-invariant-systems" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ekf"></a> Linear time-invariant systems<a class="anchor-link" href="#-Linear-time-invariant-systems"> </a>
+<h2 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
 </h2>
 </div>
 </div>
@@ -151,7 +159,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Linear systems form a cornerstone of mathematical modelling of dynamical systems. Indeed a system or some aspects of it can be modelled using a linear model. Furthermore, non-linear systems can be linearized around a certain mode of operation. In this section, we give a brief overview of linear time-invariant systems. The major advantage of linear systems is that in terms of analysis a far simpler. Moreover, understanding the dynamics and thus stability of the system is easier.</p>
+<p>TODO</p>
 
 </div>
 </div>
@@ -159,70 +167,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's consider the following system</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\frac{d \mathbf{x}}{dt} = \mathbf{f}(\mathbf{x}, \mathbf{u}), ~~ \mathbf{y} = \mathbf{g}(\mathbf{x}, \mathbf{u})$$
-</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>As before, $\mathbf{x}$ represents the state of the modelled system whilst  $\mathbf{u}$ represents some control input to the system. Note that the right-hand side terms do not depend explicitly on the time variable $t$.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If $\mathbf{f}$ or $\mathbf{g}$ or both are non-linear, then the system is non-linear. In this case, we can linearize the system i.e. its dynamics, using a Taylor series expansion near a fixed point $(\bar{\mathbf{x}}, \bar{\mathbf{u}})$. Recall that at a fixed point is  a point where</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\mathbf{f}(\bar{\mathbf{x}}, \bar{\mathbf{u}}) = \mathbf{0}$$
-</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The linear, or linearized, dynamics can be written in the following matrix form (assuming no errors)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}, ~~ \mathbf{y} = \mathbf{C}\mathbf{x} + \mathbf{D}\mathbf{u}$$
-</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="-Unforced-dynamics">
-<a class="anchor" href="#-Unforced-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sub_sec_1"></a> Unforced dynamics<a class="anchor-link" href="#-Unforced-dynamics"> </a>
+<h3 id="Acknowledgements">
+<a class="anchor" href="#Acknowledgements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgements<a class="anchor-link" href="#Acknowledgements"> </a>
 </h3>
 </div>
 </div>
@@ -230,7 +176,7 @@ $$\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}, ~~ \math
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When $\mathbf{u} = \mathbf{0}$ and when there are no measurement errors i.e. $\mathbf{y} = \mathbf{x}$. The system reduces to</p>
+<p>The content of this notebooks is to a large extent edited from [1].</p>
 
 </div>
 </div>
@@ -238,35 +184,16 @@ $$\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}, ~~ \math
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x}$$
-</p>
-
+<h2 id="RDD-operations-with-Scala">
+<a class="anchor" href="#RDD-operations-with-Scala" aria-hidden="true"><span class="octicon octicon-link"></span></a>RDD operations with Scala<a class="anchor-link" href="#RDD-operations-with-Scala"> </a>
+</h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The solution to this ODE is [1]</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\mathbf{x}(t) = e^{\mathbf{A}t}\mathbf{x}(0)$$
-</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Thus $\mathbf{x}(t)$ depends or is determined entirely by the matrix $\mathbf{A}$. The stability of the unforced system therefore, can be understood via the eigenvalues and eigenvectors of  $\mathbf{A}$. In particular we have the following cases</p>
+<p>A Spark RDD provides two types of operations</p>
 
 </div>
 </div>
@@ -275,8 +202,8 @@ $$\mathbf{x}(t) = e^{\mathbf{A}t}\mathbf{x}(0)$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>All the eigenvalues $\lambda$ satisfy $Re(\lambda) &lt; 0$. Then the system is stable and all solutions decay to $\mathbf{u} = \mathbf{0}$ as $t \rightarrow \infty$</li>
-<li>There exists at least one eigenvalue $\lambda$ with $Re(\lambda) &gt; 0$ then the system is unsatble and will diverge from the fixed point along the corresponding unstable eigenvector direction.</li>
+<li>Transformations</li>
+<li>Actions</li>
 </ul>
 
 </div>
@@ -285,8 +212,8 @@ $$\mathbf{x}(t) = e^{\mathbf{A}t}\mathbf{x}(0)$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="-Forced-dynamics">
-<a class="anchor" href="#-Forced-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sub_sec_2"></a> Forced dynamics<a class="anchor-link" href="#-Forced-dynamics"> </a>
+<h3 id="Transformations">
+<a class="anchor" href="#Transformations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transformations<a class="anchor-link" href="#Transformations"> </a>
 </h3>
 </div>
 </div>
@@ -294,7 +221,8 @@ $$\mathbf{x}(t) = e^{\mathbf{A}t}\mathbf{x}(0)$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's assume that $\mathbf{u} \neq \mathbf{0}$ and that $\mathbf{x}(0) = \mathbf{0}$. In this case the solution up to time $t$ is given by [1]</p>
+<p>A transformation operation creates a new RDD from an existing RDD. Moreover, we can apply a chain of
+transformations once the data is loaded into memory. Below are some examples of transformations we can apply on an RDD.</p>
 
 </div>
 </div>
@@ -302,9 +230,26 @@ $$\mathbf{x}(t) = e^{\mathbf{A}t}\mathbf{x}(0)$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\mathbf{x}(t) = \int_{0}^t e^{\mathbf{A}(t - \tau)} \mathbf{B}\mathbf{u}(\tau)d \tau $$
-</p>
+<ul>
+<li>
+<code>map(function)</code>: It returns a new data set by operating on each element of the source RDD.</li>
+<li>
+<code>flatMap(function)</code>: Similar to map, but each item can be mapped to zero, one, or more items.</li>
+<li>
+<code>mapPartitions(function)</code>: Similar to map, but works on the partition level.</li>
+<li>
+<p><code>mapPartitionsWithIndex(function)</code>: Similar to <code>mapPartitions</code>, but provides a function with an Int value to indicate the index position of the partition.</p>
+</li>
+<li>
+<p><code>filter(function)</code>: It returns a new RDD that contains only elements that satisfy the predicate.</p>
+</li>
+<li>
+<p><code>union(otherDataset)</code>: It returns a new data set that contains the elements of the source RDD and the <code>otherDataset</code>  RDD. Note that the participating RDDs should be of the same data type.</p>
+</li>
+<li>
+<p><code>intersection(otherDataset)</code>: It returns a new data set that contains the intersection of elements from the source RDD and the argument RDD.</p>
+</li>
+</ul>
 
 </div>
 </div>
@@ -312,7 +257,7 @@ $$\mathbf{x}(t) = \int_{0}^t e^{\mathbf{A}(t - \tau)} \mathbf{B}\mathbf{u}(\tau)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This integral is nothing more than a <a href="https://en.wikipedia.org/wiki/Convolution">convolution</a>. Thus, we can write</p>
+<p>Spark transformations are lazy evaluated. What this means that a transformation is applied only when an action is called. Examples of actions are <code>collect</code> and <code>count</code></p>
 
 </div>
 </div>
@@ -320,9 +265,16 @@ $$\mathbf{x}(t) = \int_{0}^t e^{\mathbf{A}(t - \tau)} \mathbf{B}\mathbf{u}(\tau)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>
-$$\mathbf{x}(t) =  e^{\mathbf{A}t} \mathbf{B} * \mathbf{u}(t)$$
-</p>
+<h3 id="Actions">
+<a class="anchor" href="#Actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Actions<a class="anchor-link" href="#Actions"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Transformations in Spark are lazy evaluated. What this means that a transformation is applied only when an action is called. Let's see some examples of actions.</p>
 
 </div>
 </div>
@@ -330,8 +282,37 @@ $$\mathbf{x}(t) =  e^{\mathbf{A}t} \mathbf{B} * \mathbf{u}(t)$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="-References">
-<a class="anchor" href="#-References" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="refs"></a> References<a class="anchor-link" href="#-References"> </a>
+<ul>
+<li>
+<code>collect()</code>: Returns all the elements of the data set are returned as an array to the driver program.</li>
+<li>
+<code>count()</code>:  Returns the number of elements in the data set.</li>
+<li>
+<p><code>reduce(function)</code>: It returns a data set by aggregating the elements of the RDD it is applied on. The aggregation is done by using  the user provided <code>function</code> argument. The <code>function</code> should take two arguments and returns a single argument. Moreover it should be commutative and associative so that it can be operated in parallel.</p>
+</li>
+<li>
+<p><code>first()</code>: Returns the first element in the data set.</p>
+</li>
+<li>
+<code>take(n)</code>: Returns the first <code>n</code> elements in the data set as an array.</li>
+<li>
+<code>takeOrdered(n, [ordering])</code>: Return the first <code>n</code>  elements of the RDD using either their natural order or a custom comparator.</li>
+<li>
+<code>takeSample(withReplacement, num, [seed])</code>: Returns an array with a random sample of num elements of the dataset, with or without replacement, optionally pre-specifying a random number generator seed.</li>
+<li>
+<code>saveAsTextFile(path)</code>: Write the elements of the RDD as a text file in the local file system, HDFS, or any another supported storage system.</li>
+<li>
+<code>foreach(function)</code>: Applies the <code>function</code> argument on each element in the RDD.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">
+<a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
 </h2>
 </div>
 </div>
@@ -340,7 +321,7 @@ $$\mathbf{x}(t) =  e^{\mathbf{A}t} \mathbf{B} * \mathbf{u}(t)$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
-<li>Steven L. Brunton, J. Nathan Kutz, <code>Data-Driven Science and Engineering. Machine Learning, Dynamical System and Control</code>, Cambridge University Press.</li>
+<li>Subhashini Chellappan, Dharanitharan Ganesan, <code>Practical Apache Spark. Using the Scala API</code>, Apress</li>
 </ol>
 
 </div>
@@ -350,7 +331,7 @@ $$\mathbf{x}(t) =  e^{\mathbf{A}t} \mathbf{B} * \mathbf{u}(t)$$
 
 
 
-  </div><a class="u-url" href="/qubit_computing/dynamical-systems/linear-systems/ode/time-invariant/2021/04/10/linear-time-invariant-systems.html" hidden></a>
+  </div><a class="u-url" href="/qubit_computing/spark/scala/api/data-analysis/big-data/2021/10/01/rdd-ops-scala.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
