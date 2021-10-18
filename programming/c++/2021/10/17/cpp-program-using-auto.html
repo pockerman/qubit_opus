@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -118,7 +118,13 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
-<li class="toc-entry toc-h2"><a href="#Using-the-auto-keyword">Using the auto keyword </a></li>
+<li class="toc-entry toc-h2"><a href="#Using-the-auto-keyword">Using the auto keyword </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Automatic-type-deduction">Automatic type deduction </a></li>
+<li class="toc-entry toc-h3"><a href="#const-reference">const reference </a></li>
+<li class="toc-entry toc-h3"><a href="#Forwarding-reference">Forwarding reference </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -189,6 +195,15 @@ of the keyword [1]:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Automatic-type-deduction">
+<a class="anchor" href="#Automatic-type-deduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Automatic type deduction<a class="anchor-link" href="#Automatic-type-deduction"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The first thing to note about <code>auto</code> is that it ise used for automatic type deduction. This means that we can write code like the following:</p>
 
 </div>
@@ -212,8 +227,7 @@ auto x = 5;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Thus, using <code>auto</code> may help us to write cleaner and less cluttered code. This is emphasized in particular when we consider function signatures. Compare the
-code snippet below (example taken from [1]):</p>
+<p>Thus, using <code>auto</code> may help us to write cleaner and less cluttered code. This is emphasized particularly when we consider function signatures. Compare the code snippet below (example taken from [1]):</p>
 
 </div>
 </div>
@@ -261,7 +275,7 @@ auto&amp; ref_value(){...}
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The latter API is cleaner and simpler.The type returned is deduced by the compiler for us.</p>
+<p>The latter API is obviously cleaner and simpler.The type returned is deduced by the compiler for us.</p>
 
 </div>
 </div>
@@ -302,6 +316,77 @@ auto x;
 <p>This is reasonable as the compiler uses the right hand side value to deduce the type and hence the memory size it has to allocate. If there isn't a value there is nothing
 to deduce from. Thus, uninitialized variables are not allowed when using <code>auto</code> and the good news are that the compilers let us know the exact line number in our code that this
 occurs.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="const-reference">
+<a class="anchor" href="#const-reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>const reference<a class="anchor-link" href="#const-reference"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>const auto&amp;</code> has the ability to bind to anything [1]. The original object cannot be mutated via such a reference. Note that if the <code>const</code> reference is bound to a temporary object, the lifetime of the temporary will be extended to the lifetime of the reference [1].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Although we may be using <code>auto&amp;</code> , it is possible that we end up with a <code>const</code> reference.  For example</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>auto foo = Foo{};
+auto&amp; cref = cref_value();</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We should however strive to be more explicit and for such cases simply use <code>const auto&amp;</code> and use <code>auto&amp;</code> to only denote mutable references [1].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Forwarding-reference">
+<a class="anchor" href="#Forwarding-reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Forwarding reference<a class="anchor-link" href="#Forwarding-reference"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similar to <code>auto&amp;</code>, <code>auto&amp;&amp;</code>  can bind to anything. <code>auto&amp;&amp;</code> is called a forwardin or universal reference [1]. Similar to <code>const auto&amp;</code>, <code>auto&amp;&amp;</code> extends the lifetime of a temporary. However, in contrast to <code>const auto&amp;</code>, <code>auto&amp;&amp;</code> allows us to mutate the objects it references including the temporaries.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>Remark</strong></p>
+<p>Note that <code>auto&amp;&amp;</code> and <code>T&amp;&amp;</code> are interpreted as forwarding references only when used in a function template where <code>T</code> is a template parameter of that function. However, using <code>&amp;&amp;</code> with an explicit type e.g. <code>std::vector&lt;double&gt;&amp;&amp;</code> denotes an rvalue reference and does not have the properties of a forwarding reference [1].</p>
+<hr>
 
 </div>
 </div>
