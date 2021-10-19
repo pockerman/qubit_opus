@@ -700,25 +700,17 @@
   
 
   
+      ,"page4": {
+          "title": "Programming",
+          "content": "",
+          "url": "https://pockerman.github.io/qubit_opus/programming/",
+          "relUrl": "/programming/",
+          "date": ""
+      }
+      
   
 
   
-
-  
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
-
-  
-
   
 
   
@@ -727,7 +719,26 @@
   
 
   
-      ,"page15": {
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+      ,"page16": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://pockerman.github.io/qubit_opus/robots.txt",
