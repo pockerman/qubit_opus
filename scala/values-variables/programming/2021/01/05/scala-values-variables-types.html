@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Scala Values, Variables &amp; Types | qubit-computing</title>
+<title>Scala Programming. Values, variables &amp; types | qubit-computing</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Scala Values, Variables &amp; Types" />
+<meta property="og:title" content="Scala Programming. Values, variables &amp; types" />
 <meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Overview of Scala’s values &amp; variables" />
-<meta property="og:description" content="Overview of Scala’s values &amp; variables" />
+<meta name="description" content="Overview of Scala’s values, variables and types" />
+<meta property="og:description" content="Overview of Scala’s values, variables and types" />
 <link rel="canonical" href="https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html" />
 <meta property="og:url" content="https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html" />
 <meta property="og:site_name" content="qubit-computing" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-01-05T00:00:00-06:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html","@type":"BlogPosting","headline":"Scala Values, Variables &amp; Types","dateModified":"2021-01-05T00:00:00-06:00","datePublished":"2021-01-05T00:00:00-06:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html"},"description":"Overview of Scala’s values &amp; variables","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html","@type":"BlogPosting","headline":"Scala Programming. Values, variables &amp; types","dateModified":"2021-01-05T00:00:00-06:00","datePublished":"2021-01-05T00:00:00-06:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/scala/values-variables/programming/2021/01/05/scala-values-variables-types.html"},"description":"Overview of Scala’s values, variables and types","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-computing" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -88,7 +88,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Scala Values, Variables &amp; Types</h1><p class="page-description">Overview of Scala's values & variables</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-05T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Scala Programming. Values, variables &amp; types</h1><p class="page-description">Overview of Scala's values, variables and types</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-05T00:00:00-06:00" itemprop="datePublished">
         Jan 5, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -120,6 +120,7 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
 <li class="toc-entry toc-h2"><a href="#-Values-&-variables"> Values &amp; variables </a></li>
 <li class="toc-entry toc-h2"><a href="#-Lazy-values"> Lazy values </a></li>
 <li class="toc-entry toc-h2"><a href="#-Types"> Types </a></li>
@@ -136,6 +137,23 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this post, we will briefly discuss values, variables and types in Scala.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="-Values-&amp;-variables">
 <a class="anchor" href="#-Values-&amp;-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="sec1"></a> Values &amp; variables<a class="anchor-link" href="#-Values-&amp;-variables"> </a>
 </h2>
@@ -145,7 +163,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A <code>val</code> variable denotes a variable with a constant value; we cannot change its contents [2]. In this sense calling it a variable may not be that correct. Obviously, a  <code>val</code> must be initialized at the point of declaration.</p>
+<p>A value indicated by the keyword <code>val</code> denotes an identifier that has a constant value; we cannot change its contents [2]. Obviously, a  <code>val</code> must be initialized at the point of declaration.</p>
 
 </div>
 </div>
@@ -268,7 +286,7 @@ val v2;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In contrast, a <code>var</code> variable means that it can have its contents changed [2].</p>
+<p>In contrast, a variable, indicated with the keyword <code>var</code>, means that it can have its contents changed [2].</p>
 
 </div>
 </div>
@@ -329,7 +347,7 @@ val v2;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In Scala we don't need to specify te type of a value or a variable. This is inferred from the type of the expression that is used to initialize it. However, here is how we can specify the type if needed</p>
+<p>In Scala we don't need to specify the type of either a <code>val</code> or <code>var</code>. This is inferred from the type of the expression that is used to initialize it. However, here is how we can specify the type if needed</p>
 
 </div>
 </div>
