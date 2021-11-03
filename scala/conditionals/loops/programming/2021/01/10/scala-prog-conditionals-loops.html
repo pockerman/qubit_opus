@@ -123,7 +123,11 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#For-loops">For loops </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -143,6 +147,109 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="For-loops">
+<a class="anchor" href="#For-loops" aria-hidden="true"><span class="octicon octicon-link"></span></a>For loops<a class="anchor-link" href="#For-loops"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>a <code>to</code> b:  iteration range is $[a,b]$ </li>
+<li>a <code>until</code> b: iteration range is $[a, b-1]$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is shown below.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">for</span><span class="o">(</span> <span class="n">i</span> <span class="o">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">5</span><span class="o">){</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0
+1
+2
+3
+4
+5
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-scala"><pre><span></span><span class="k">for</span><span class="o">(</span> <span class="n">i</span> <span class="o">&lt;-</span> <span class="mi">0</span> <span class="n">until</span> <span class="mi">5</span><span class="o">){</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0
+1
+2
+3
+4
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
