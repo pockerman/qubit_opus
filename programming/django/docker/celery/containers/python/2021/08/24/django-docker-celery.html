@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Django with Docker and Celery | qubit-computing</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Django with Docker and Celery" />
+<meta name="author" content="Alexandros Giavaras" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to containerize a Django application with Docker and Celery" />
+<meta property="og:description" content="How to containerize a Django application with Docker and Celery" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/programming/django/docker/celery/containers/python/2021/08/24/django-docker-celery.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/programming/django/docker/celery/containers/python/2021/08/24/django-docker-celery.html" />
+<meta property="og:site_name" content="qubit-computing" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-24T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://pockerman.github.io/qubit_opus/programming/django/docker/celery/containers/python/2021/08/24/django-docker-celery.html","@type":"BlogPosting","headline":"Django with Docker and Celery","dateModified":"2021-08-24T00:00:00-05:00","datePublished":"2021-08-24T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/programming/django/docker/celery/containers/python/2021/08/24/django-docker-celery.html"},"description":"How to containerize a Django application with Docker and Celery","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-computing" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/qubit_opus/">qubit-computing</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/qubit_opus/about/">About Me</a><a class="page-link" href="/qubit_opus/books/">Books</a><a class="page-link" href="/qubit_opus/programming/">Programming</a><a class="page-link" href="/qubit_opus/search/">Search</a><a class="page-link" href="/qubit_opus/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Django with Docker and Celery</h1><p class="page-description">How to containerize a  Django application with Docker and Celery</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-08-24T00:00:00-05:00" itemprop="datePublished">
+        Aug 24, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#programming">programming</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#django">django</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#docker">docker</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#celery">celery</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#containers">containers</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#python">python</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#Acknowledgements">Acknowledgements </a></li>
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#Django-with-Docker-and-Celery">Django with Docker and Celery </a></li>
+<li class="toc-entry toc-h2"><a href="#References">References </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-08-24-django-docker-celery.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Acknowledgements">
+<a class="anchor" href="#Acknowledgements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgements<a class="anchor-link" href="#Acknowledgements"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This post is basically a mixture of these two post from <a href="https://testdriven.io/">testdriven.io</a>;  <a href="https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/">Dockerizing Django with Postgres, Gunicorn, and Nginx</a> and <a href="https://testdriven.io/blog/django-celery-periodic-tasks/">Handling Periodic Tasks in Django with Celery and Docker</a>. You should check them out if you want more details on what is happening.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In a <a href="#">previous post</a> we saw how to use docker to containerize a small Django application. In this post we will add Celery into the mix.
+The code files for this post can be found at <a href="https://github.com/pockerman/demo_django_docker_celery">demo_django_docker_celery </a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Django-with-Docker-and-Celery">
+<a class="anchor" href="#Django-with-Docker-and-Celery" aria-hidden="true"><span class="octicon octicon-link"></span></a>Django with Docker and Celery<a class="anchor-link" href="#Django-with-Docker-and-Celery"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order  to improve user experience, long-running processes should be run outside the normal HTTP request/response flow in a background process.
+Thus, the goal of this post is to develop a Django application that works in conjunction with Celery to handle long-running processes outside the normal request/response cycle.
+In particular, we will develop an application with the following cycle:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>The user starts a new task via a POST request to the server</li>
+<li>The server creates a new a task that is added to the queue and returns the tak's id back to the client.</li>
+<li>The client continues to poll the server to check the status of the task while the task itself is running in the background.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get started, let's check the <code>docker/docker-compose</code> versions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>docker --version
+docker-compose --version</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>On my machine, these two return with the following information</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>Docker version 20.10.10, build b485636
+docker-compose version 1.25.0, build unknown</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will extend the Django project from the <a href="#">previous post</a> by adding a new application called <code>my_app</code>. The <code>app</code> directory structure now looks like the following</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>app/
+    Dockerfile
+    hello_world_django
+    manage.py
+    my_app
+    requirements.txt
+    templates</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That is we added two new directories <code>my_app</code> and <code>templates</code>. Furthermore, we need to update the <code>requirements.txt</code> file to</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>Django==3.0.7
+mysqlclient==2.0.3
+redis==3.5.3
+celery==4.4.7
+amqp==2.6.1</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The next changes concern <code>docker-compose.yml</code> file in order to account for the new containers. This is shown below</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>version: '3.3'
+
+services:
+  web:
+    build: ./app
+    container_name: my_django_app_django_container
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    container_name: my_django_app_mysql_container
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DB: 'django_app_demo'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'   
+  celery:
+    container_name: my_django_app_celery_container
+    build: ./app
+    command: celery worker --app=hello_world_django --loglevel=info
+    volumes:
+      - ./app/:/usr/src/app/
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - web
+      - redis
+  redis:
+    image: redis:6-alpine
+    container_name: my_django_app_redis_container</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we need to update the <code>.env.dev</code> file</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=127.0.0.1 0.0.0.0 localhost [::1]
+SQL_ENGINE=django.db.backends.mysql
+SQL_DATABASE=django_app_demo
+SQL_USER=root
+SQL_PASSWORD=password
+SQL_HOST=db
+SQL_PORT=3306
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_BACKEND_URL=redis://redis:6379/0</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that the <code>SQL_HOST</code> has the name of the MySQL service. Also we need to postfix with <code>_URL</code> the variables related to Celery. We can now build and run the containers</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>docker-compose up --build</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, the above will fail as we haven't created yet the database. To do so we can log on the MySQL container using</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>sudo docker exec -it my_django_app_mysql_container /bin/bash</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>whilst in the container, issue</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>mysql -u root -p</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to access the MySQL server running on the container and create the data base <code>django_app_demo</code> and grant access to the user <code>root</code>. Once this is done, we need to run the Django migrations. In order to do so, log on the web application container</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>docker exec -it my_django_app_django_container /bin/bash</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are now ready to go. Navigate at  <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a> to view the application. Launch a task and poll the application for the result. A container's logs can be viewed with</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>docker my_django_app_django_container logs</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">
+<a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><a href="https://semaphoreci.com/community/tutorials/dockerizing-a-python-django-web-application">Dockerizing a Python Django Web Application</a></li>
+<li><a href="https://realpython.com/django-development-with-docker-compose-and-machine/">Django Development with Docker Compose and Machine</a></li>
+<li><a href="https://nickjanetakis.com/blog/dockerize-a-flask-celery-and-redis-application-with-docker-compose">Dockerize a Flask, Celery, and Redis Application with Docker Compose</a></li>
+<li><a href="https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/">Dockerizing Django with Postgres, Gunicorn, and Nginx</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/qubit_opus/programming/django/docker/celery/containers/python/2021/08/24/django-docker-celery.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/qubit_opus/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/qubit_opus/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/qubit_opus/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Computing is fun (most of the times).</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pockerman" title="pockerman"><svg class="svg-icon grey"><use xlink:href="/qubit_opus/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
