@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Forward Algorithm | qubit-computing</title>
+<title>Machine Learning Notes. Forward algorithm | qubit-computing</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Forward Algorithm" />
+<meta property="og:title" content="Machine Learning Notes. Forward algorithm" />
 <meta name="author" content="Alexandros Giavaras" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Brief introduction to forward algorithm" />
-<meta property="og:description" content="Brief introduction to forward algorithm" />
+<meta name="description" content="Introduction to forward algorithm" />
+<meta property="og:description" content="Introduction to forward algorithm" />
 <link rel="canonical" href="https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html" />
 <meta property="og:url" content="https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html" />
 <meta property="og:site_name" content="qubit-computing" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-05-22T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html","@type":"BlogPosting","headline":"Forward Algorithm","dateModified":"2020-05-22T00:00:00-05:00","datePublished":"2020-05-22T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html"},"description":"Brief introduction to forward algorithm","@context":"https://schema.org"}</script>
+{"url":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html","@type":"BlogPosting","headline":"Machine Learning Notes. Forward algorithm","dateModified":"2020-05-22T00:00:00-05:00","datePublished":"2020-05-22T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/hidden-markov-model/machine-learning%20forward-algorithm/dynamic-programming/algorithms/numerics/2020/05/22/forward-algorithm.html"},"description":"Introduction to forward algorithm","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-computing" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -88,7 +88,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Forward Algorithm</h1><p class="page-description">Brief introduction to forward algorithm</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-22T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Machine Learning Notes. Forward algorithm</h1><p class="page-description"> Introduction to forward algorithm</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-22T00:00:00-05:00" itemprop="datePublished">
         May 22, 2020
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      6 min read
     
 </span></p>
 
@@ -125,7 +125,15 @@ window.onload = wrap_img;
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#Forward-algorithm">Forward algorithm </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#-Log-probabilities"> Log probabilities </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
+</ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -134,14 +142,42 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this post, we will go over the forward algorithm. This is a dynamic programming base algorithm that will allow as to calculate the probability  $P(O| \lambda)$, where $\lambda$ represents a hidden Markov model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Forward-algorithm">
+<a class="anchor" href="#Forward-algorithm" aria-hidden="true"><span class="octicon octicon-link"></span></a>Forward algorithm<a class="anchor-link" href="#Forward-algorithm"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Given a <a href="https://en.wikipedia.org/wiki/Hidden_Markov_model">hidden Markov model</a> $\lambda$, meaning</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>A set of $N$ states $\mathbb{S}=\{S_1, \dots S_N\}$</li>
@@ -154,21 +190,24 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>we want to be able to compute the marginal probability $P(O| \lambda)$. This is the so called evaluation problem [1]; given the observation sequence $O$ calculate the probability that the sequence can occur under $\lambda$</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In theory, this can be calculated by using</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$P(O|\lambda) = \sum_{Q}P(O, Q|\lambda)$$
@@ -177,14 +216,16 @@ $$P(O|\lambda) = \sum_{Q}P(O, Q|\lambda)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>where</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$P(O, Q|\lambda) = P(q_1)\Pi_{t=2}^{T}P(q_t|q_{t-1})\Pi_{t=1}^{T}P(O_t|q_{t})$$
@@ -193,21 +234,24 @@ $$P(O, Q|\lambda) = P(q_1)\Pi_{t=2}^{T}P(q_t|q_{t-1})\Pi_{t=1}^{T}P(O_t|q_{t})$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Despite this, you should note that there are $N^T$ possible $Q$s assuming that all probabilities are nonzero [1]. Thus, the marginalization step above is  rather, or can be, computationally expensive. We need another way to calculate $P(O|\lambda)$.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In order to compute the probability $P(O|\lambda)$ we need to know the joint probability $P(O, Q|\lambda)$. The forward algorithm allows us to compute the latter without using marginalization. It does so by using recursion. We will divide the observation sequence into two parts; the first  part will be $[1,t]$, the second is $[t+1, T]$ [1].  We further define the forward variable $\alpha_t(i)$. This will denote the probability of observing the partial sequence  $\{O_1,\cdots,O_t\}$ unitl time $t$ and being in $S_i$ at time $t$ given $\lambda$:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\alpha_t(i) = P(O_1,\cdots,O_t, q_t = S_i | \lambda)$$
@@ -216,23 +260,27 @@ $$\alpha_t(i) = P(O_1,\cdots,O_t, q_t = S_i | \lambda)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This can be calculated recursively:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li><strong>Initialize</strong> </li>
+<li>
+<strong>Initialize</strong> </li>
 </ul>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\alpha_t(i) = \pi_ib_i(O_1)$$
@@ -241,7 +289,8 @@ $$\alpha_t(i) = \pi_ib_i(O_1)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li><strong>Recurse</strong></li>
@@ -250,7 +299,8 @@ $$\alpha_t(i) = \pi_ib_i(O_1)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\alpha_{t+1}(j) = P(O_1,\cdots,O_{t+1}, q_{t+1} = S_j | \lambda)$$
@@ -259,14 +309,16 @@ $$\alpha_{t+1}(j) = P(O_1,\cdots,O_{t+1}, q_{t+1} = S_j | \lambda)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>which can be written as</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\alpha_{t+1}(j) = [\sum_{i}^{N}\alpha_t(i)a_{i,j}]b_j(O_{t+1})$$
@@ -275,21 +327,24 @@ $$\alpha_{t+1}(j) = [\sum_{i}^{N}\alpha_t(i)a_{i,j}]b_j(O_{t+1})$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now $\alpha_t(i)$ explains the first $t$ observations and ends in state $S_i$. We multiply with the transition probability $a_{ij}$ in order to move to state $S_j$. since the are $N$ possible previous states we have to sum over all of them. Finally, we weight the result with $b_j(O_{t+1})$ which is the probability of observing $O_{t+1}$ at state $S_j$ at time $t+1$.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Once we know the forward variables, it is easy  to calculate $P(O|\lambda)$:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$P(O|\lambda) = \sum_{i}^{N}\alpha_{T}(i)$$
@@ -298,21 +353,24 @@ $$P(O|\lambda) = \sum_{i}^{N}\alpha_{T}(i)$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$\alpha_{T}(i)$ is the probability of generating the full observation sequence and ending up in state $S_i$. We need to sum up over all the possible final states. The $\alpha_{t}(i)$ can be represented as a matrix of size $T \times N$. Where $T$ is the size of the observation sequence and $N$ the number of states. Let's see an example.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's see a simple example. Assume a system with three states $S=\{S_1, S_2, S_3 \}$. Futher, assume that the observation sequence consists of elements from the following set $V=\{a, b,c\}$. Also let's assume the following HMM:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\boldsymbol{\pi}=\begin{bmatrix}0.7 &amp; 0.15 &amp; 0.15 \end{bmatrix}$$
@@ -321,7 +379,8 @@ $$\boldsymbol{\pi}=\begin{bmatrix}0.7 &amp; 0.15 &amp; 0.15 \end{bmatrix}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\mathbf{A}=\begin{bmatrix}0.5 &amp; 0.25 &amp; 0.25 \\ 0.1 &amp; 0.8 &amp; 0.1\\ 0.3 &amp; 0.15 &amp; 0.6\end{bmatrix}$$
@@ -330,7 +389,8 @@ $$\mathbf{A}=\begin{bmatrix}0.5 &amp; 0.25 &amp; 0.25 \\ 0.1 &amp; 0.8 &amp; 0.1
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\mathbf{B}=\begin{bmatrix} 0.16 &amp; 0.26 &amp; 0.58 \\ 0.25 &amp; 0.28 &amp; 0.47\\ 0.2 &amp; 0.1 &amp; 0.7\end{bmatrix}$$
@@ -339,14 +399,16 @@ $$\mathbf{B}=\begin{bmatrix} 0.16 &amp; 0.26 &amp; 0.58 \\ 0.25 &amp; 0.28 &amp;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We want to calculate the probability $P(O|\lambda)$ where $O=\{a, b, a, c, b, a\}$. We will use the forward algorithm for this. We will first do the computation using pencil and paper and then write a small Python script for us. We create the matrix $\alpha$:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$ \alpha =\begin{bmatrix}0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0\end{bmatrix}$$
@@ -355,14 +417,16 @@ $$ \alpha =\begin{bmatrix}0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &a
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The first step is the initialization of the matrix. We take the first observation in the sequence $O$ which <code>'a'</code>. This has to be mapped to an index. Assume that we have available such a mapping:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\{a:0, b:1, c:2 \}$$
@@ -371,14 +435,16 @@ $$\{a:0, b:1, c:2 \}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Further assume that we use zero-based counting. We have</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$\alpha_{0,0} = \pi_0\mathbf{B}_{0, 0} = 0.7  0.16 = 0.112$$
@@ -393,14 +459,16 @@ $$\alpha_{0,2} = \pi_2\mathbf{B}_{2, 0} = 0.15  0.2 = 0.03$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>we now proceed to the calculation of the probabilities of the next symbols. The symbol <code>'b'</code>, which is the next symbol in $O$ has index <code>1</code>. Its  probabilities are</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$ \alpha_{1,0} = \mathbf{B}_{0,1}(\alpha_{0,0}\mathbf{A}_{0,0} + \alpha_{0,1}\mathbf{A}_{1,0} + \alpha_{0,2}\mathbf{A}_{2,0}) $$
@@ -409,14 +477,16 @@ $$ \alpha_{1,0} = \mathbf{B}_{0,1}(\alpha_{0,0}\mathbf{A}_{0,0} + \alpha_{0,1}\m
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Similarly for $\alpha_{1,1}$ and $\alpha_{1,2}$</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$ \alpha_{1,1} = \mathbf{B}_{1,1}(\alpha_{0,0}\mathbf{A}_{0,1} + \alpha_{0,1}\mathbf{A}_{1,1} + \alpha_{0,2}\mathbf{A}_{2,1}) $$
@@ -425,7 +495,8 @@ $$ \alpha_{1,1} = \mathbf{B}_{1,1}(\alpha_{0,0}\mathbf{A}_{0,1} + \alpha_{0,1}\m
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$ \alpha_{1,2} = \mathbf{B}_{2,1}(\alpha_{0,0}\mathbf{A}_{0,2} + \alpha_{0,1}\mathbf{A}_{1,2} + \alpha_{0,2}\mathbf{A}_{2,2}) $$
@@ -434,14 +505,16 @@ $$ \alpha_{1,2} = \mathbf{B}_{2,1}(\alpha_{0,0}\mathbf{A}_{0,2} + \alpha_{0,1}\m
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>After filling the matrix $\alpha$ we can calculate the probability $P(O| \lambda)$, This is given by the following sum:</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
@@ -450,7 +523,8 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Below is a simple Python script that performs these tedious calculations for us.</p>
 
@@ -481,10 +555,10 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">obs_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">obs_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
 
 <span class="c1"># state to index map</span>
-<span class="n">state_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;S1&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;S3&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">state_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'S1'</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'S2'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'S3'</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -528,7 +602,7 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -582,7 +656,7 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial probabilities&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Initial probabilities"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -632,7 +706,7 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
         <span class="n">a</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">*=</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">obs_to_idx</span><span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span>
         
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;alpha matrix: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"alpha matrix: "</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -674,7 +748,7 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
     <span class="n">prob</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Probability for sequence </span><span class="si">{0}</span><span class="s2"> is </span><span class="si">{1}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prob</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Probability for sequence </span><span class="si">{0}</span><span class="s2"> is </span><span class="si">{1}</span><span class="s2"> "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prob</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -687,7 +761,7 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Probability for sequence [&#39;a&#39;, &#39;b&#39;, &#39;a&#39;, &#39;c&#39;, &#39;b&#39;, &#39;a&#39;] is 8.465202543750001e-05 
+<pre>Probability for sequence ['a', 'b', 'a', 'c', 'b', 'a'] is 8.465202543750001e-05 
 </pre>
 </div>
 </div>
@@ -698,20 +772,25 @@ $$P(O| \lambda) = \alpha_{5,0} + \alpha_{5,1} + \alpha_{5,2}$$
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="-Log-probabilities"><a name="test_case_4_2" /> Log probabilities<a class="anchor-link" href="#-Log-probabilities"> </a></h3>
+<h3 id="-Log-probabilities">
+<a class="anchor" href="#-Log-probabilities" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="test_case_4_2"></a> Log probabilities<a class="anchor-link" href="#-Log-probabilities"> </a>
+</h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The forward variable, as well as the backward variable used in the <a href="https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm">backward algorithm</a> are calculated as products of probabilities. When we have long sequences this may result in underflow [1]. In order to avoid this, we normalize $\alpha_t(i)$ by multiplying it with</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$c_t = \frac{1}{\sum_{j}\alpha_t(j)}$$
@@ -720,14 +799,16 @@ $$c_t = \frac{1}{\sum_{j}\alpha_t(j)}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>After this normalization, $P(O| \lambda)$ is given by</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
 $$P(O| \lambda) = \frac{1}{\Pi_t c_t}$$
@@ -736,21 +817,24 @@ $$P(O| \lambda) = \frac{1}{\Pi_t c_t}$$
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>or</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$$logP(O| \lambda) = - \sum_t log c_t$$</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The motivation behind the forward algorithm is nicely presented in the following video</p>
 
@@ -765,7 +849,7 @@ $$P(O| \lambda) = \frac{1}{\Pi_t c_t}$$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
-<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">&#39;EbxLWGw2zJ4&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">'EbxLWGw2zJ4'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -792,7 +876,8 @@ $$P(O| \lambda) = \frac{1}{\Pi_t c_t}$$
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The following video nicely explains both the forward and backward algorithms.</p>
 
@@ -807,7 +892,7 @@ $$P(O| \lambda) = \frac{1}{\Pi_t c_t}$$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
-<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">&#39;gYma8Gw38Os&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">'gYma8Gw38Os'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -834,17 +919,22 @@ $$P(O| \lambda) = \frac{1}{\Pi_t c_t}$$
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="-References"><a name="refs" /> References<a class="anchor-link" href="#-References"> </a></h2>
+<h2 id="-References">
+<a class="anchor" href="#-References" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="refs"></a> References<a class="anchor-link" href="#-References"> </a>
+</h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li>Ethem Alpaydin, <code>Introduction To Machine Learning, Second Edition</code>, MIT Press.</li>
-<li><a href="https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm">Forward–backward algorithm</a>.</li>
+<li>
+<a href="https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm">Forward–backward algorithm</a>.</li>
 <li>Lawrence R. Rabiner, <code>A Tutorial on Hidden Markov Models and Selected Applications in Speech Recognition</code>.</li>
 </ol>
 
