@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
@@ -128,6 +128,7 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#-Overview"> Overview </a></li>
 <li class="toc-entry toc-h2"><a href="#Create-Spark-RDD-with-Scala">Create Spark RDD with Scala </a></li>
+<li class="toc-entry toc-h2"><a href="#Other-methods">Other methods </a></li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -150,7 +151,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this post I want to review how to create Spark RDDs within a Scala applications. There are various methods to do so. The following example is taken for <a href="https://sparkbyexamples.com/apache-spark-rdd/how-to-create-an-rdd-using-parallelize/">Spark by {Examples}</a>.</p>
+<p>In this post we will see how to create a Spark RDD within a Scala application.  Although, modern applications most likely will be using the <code>DataFrame</code> and/or <code>DataSet</code> APIs, still the RDD data structure is what lies underneath the latter two and therefore always useful to know. As we will see, there are various methods to create an RDD in Spark. The following example is taken for <a href="https://sparkbyexamples.com/apache-spark-rdd/how-to-create-an-rdd-using-parallelize/">Spark by {Examples}</a>.</p>
 
 </div>
 </div>
@@ -167,7 +168,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A Resilient Distributed Datasets, or RDD for short,  is the  fundamental data structure of Spark. An RDD is an immutable collection of objects that can be distributed across a cluster of computers. An RDD collection is divided into a number of partitions so that each node on a Spark cluster  can independently perform computations. Note that modern Spark applications will most likely be using <code>DataFrame</code> and <code>DataSet</code> objects which are data structures on top of RDD. This means that RDDs are rather low level and if possible we should avoid it.</p>
+<p>A Resilient Distributed Datasets, or RDD for short,  is the  fundamental data structure of Spark and underlies both the <code>DataFrame</code> and <code>DataSet</code> data structures. An RDD is an immutable collection of objects that can be distributed across a cluster of computers. An RDD collection is divided into a number of partitions so that each node on a Spark cluster  can independently perform computations. .</p>
 
 </div>
 </div>
@@ -175,7 +176,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Anyway, there are two main methods available in Spark to create an RDD:</p>
+<p>There are two main methods available in Spark to create an RDD:</p>
 
 </div>
 </div>
@@ -259,7 +260,19 @@ Action: First element: 1</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note the the output may be different as it depends on which thread is accessing  the standard output first.</p>
+<p>Note the the output may be different as it depends on which thread is accessing  the standard output first.
+Note that the application above has to create a <code>SparkContext</code> first before we are able to create an RDD.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>Remark</strong></p>
+<p>Creating a <code>SparkContext</code> is not necessary when we use the Scala Spark shell as one such object is already created for us.</p>
+<hr>
 
 </div>
 </div>
@@ -303,7 +316,7 @@ object CreateRDDFile {
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Upon executing this code, I get</p>
+<p>Upon executing this code, we get</p>
 
 </div>
 </div>
@@ -321,7 +334,7 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>However, I am interested in converting the contents of the file into floating point numbers so that I can feed them to a machine learning algorithm. I can do this as follows.  I can use the <code>map()</code> function to convert the <code>RDD[String]</code> into an <code>RDD[Array[Double]]</code></p>
+<p>However, we are interested in converting the contents of the file into floating point numbers so that we can feed them to a machine learning algorithm. We can do this as follows.  we can use the <code>map()</code> function to convert the <code>RDD[String]</code> into an <code>RDD[Array[Double]]</code></p>
 
 </div>
 </div>
@@ -341,7 +354,7 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can use a schema in order to let Spark know the type of the data but this requires that we use a <code>DataFrame</code> instead and not an RDD.</p>
+<p>We can also use a schema in order to let Spark know the type of the data but this requires that we use a <code>DataFrame</code> instead and not an RDD.</p>
 
 </div>
 </div>
@@ -370,9 +383,49 @@ val csvRDD = sc.textFile(csvFile, 4)</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Other-methods">
+<a class="anchor" href="#Other-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other methods<a class="anchor-link" href="#Other-methods"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As an aside, we can create an RDD by using the following also:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>JDBC</li>
+<li>Cassandra</li>
+<li>HBase</li>
+<li>Elasticsearch</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">
 <a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
 </h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></li>
+</ol>
+
 </div>
 </div>
 </div>
