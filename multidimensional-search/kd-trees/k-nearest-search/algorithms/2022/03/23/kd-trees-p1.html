@@ -124,7 +124,7 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
-<li class="toc-entry toc-h2"><a href="#K-d-trees-and-k-nearest-search">K-d trees and k-nearest search </a>
+<li class="toc-entry toc-h2"><a href="#K-d-trees-Part-1">K-d trees Part 1 </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#K-d-trees-details">K-d trees details </a>
 <ul>
@@ -164,8 +164,17 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="K-d-trees-and-k-nearest-search">
-<a class="anchor" href="#K-d-trees-and-k-nearest-search" aria-hidden="true"><span class="octicon octicon-link"></span></a>K-d trees and k-nearest search<a class="anchor-link" href="#K-d-trees-and-k-nearest-search"> </a>
+<p>In this post, we won't implement a k-d tree. We rather keep things simple and just illustrate the concept. 
+A C++ implementation can be found <a herf="https://github.com/pockerman/cubeai/blob/master/include/cubeai/data_structs/kd_tree.h">here</a>. Furthermore, a discussion of this implementation can be found in <a href="#">K-d trees  Part 2</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="K-d-trees-Part-1">
+<a class="anchor" href="#K-d-trees-Part-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>K-d trees Part 1<a class="anchor-link" href="#K-d-trees-Part-1"> </a>
 </h2>
 </div>
 </div>
@@ -323,7 +332,7 @@ in order to avoid a brute-force search over the entire data set $D$. This would 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>However, $k-$nearest search is a bit involved so we won't discuss it in this post.</p>
+<p>However, $k-$nearest search is a bit involved so we won't discuss it in this post. You can however look it up in [3].</p>
 
 </div>
 </div>
