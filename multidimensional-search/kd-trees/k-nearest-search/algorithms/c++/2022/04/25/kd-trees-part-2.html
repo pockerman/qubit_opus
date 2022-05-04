@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      5 min read
     
 </span></p>
 
@@ -128,7 +128,11 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#Note">Note </a></li>
 <li class="toc-entry toc-h2"><a href="#Overview">Overview </a></li>
-<li class="toc-entry toc-h2"><a href="#K-d-trees-part-2">K-d trees part 2 </a></li>
+<li class="toc-entry toc-h2"><a href="#K-d-trees-part-2">K-d trees part 2 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Building-the-tree">Building the tree </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -185,7 +189,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Before starting implementing a k-d tree, recall that this a binary search tree i.e. a hierarchical data structure. Specifically, a  k-d tree is a space partitioning data structure for organizing points in a k-dimensional space [1]. In a k-d tree every node in the tree represents a k-dimensional point [2]. Furthermore, we will assume that the coordinates of k-dimensional vector can be compared with each other.</p>
+<p>Before starting implementing a k-d tree let's recall that this a binary search tree i.e. a hierarchical data structure. Specifically, a  k-d tree is a space partitioning data structure for organizing points in a k-dimensional space [1]. In a k-d tree every node in the tree represents a k-dimensional point [2]. Furthermore, we will assume that the coordinates of k-dimensional vector can be compared with each other.</p>
 
 </div>
 </div>
@@ -262,7 +266,163 @@ public:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can see that the exposed API does not have a <code>remove</code> or <code>delete</code> method. Typically, a k-d tree is constructed as remains as is. Furthermore, removing a node may result in an unbalanced tree which implies that the fast look up will not hold any more.</p>
+<p>We can see that the exposed API does not have a <code>remove</code> or <code>delete</code> method. Typically, a k-d tree is constructed as remains as is. Furthermore, removing a node may result in an unbalanced tree which implies that the fast look up will not hold any more. Although it is possible  to re-balance the tree see e.g. [2], we won't pursue this path here. So let's concentrate on the rest of the methods. Perhaps the most important of which is the <code>build</code> method.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In our implementation we distinguish between similarity and comparison. A similarity metric, or policy, is used in order to decide whether two points are similar or close enough in the given metric. A comparison policy is used in order to compare coordinates of points. Thus, we use the similarity policy to search in the tree. And we use the comparison policy whenever strict comparison of point coordinates is needed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Building-the-tree">
+<a class="anchor" href="#Building-the-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the tree<a class="anchor-link" href="#Building-the-tree"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>build</code> function accepts a range of iterators pointing to the data, a similarity policy and a comparison policy. It delegates all its to the  <code>call_</code> function; a private to the outside world class that implements the nuts and bolds of building the tree. The <code>call_</code> function definition is shown below</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>template&lt;typename NodeType&gt;
+template&lt;typename Iterator, typename SimilarityPolicy, 
+         typename ComparisonPolicy&gt;
+void
+KDTree&lt;NodeType&gt;::create_(Iterator begin, Iterator end, 
+                          uint_t level, 
+                          const SimilarityPolicy&amp; sim_policy, 
+                          const ComparisonPolicy&amp; comp_policy){
+
+
+    auto n_points = std::distance(begin, end);
+
+    // nothing to do if no points
+    // are given
+    if(n_points == 0){
+        return ;
+    }
+
+    if(n_points == 1){
+
+        auto data = *begin;
+
+        // create the root
+        root_ = std::make_shared&lt;NodeType&gt;(level, data, nullptr, nullptr);
+        ++n_nodes_;
+        return;
+    }
+
+    // otherwise partition the range
+    auto [median, left, right] = detail::partiion_on_median(begin, end, level, k_, comp_policy);
+
+    // create root
+    root_ = std::make_shared&lt;NodeType&gt;(level, median, nullptr, nullptr);
+    ++n_nodes_;
+
+    // create left and right subtrees
+    auto left_tree = do_create_(left.first, left.second, level + 1, sim_policy, comp_policy);
+
+    // create left and right subtrees
+    auto right_tree = do_create_(right.first, right.second, level + 1, sim_policy, comp_policy);
+
+    root_-&gt;left = left_tree;
+    root_-&gt;right = right_tree;
+}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The implementation above is fairly straightforward. However, let's go over a few details. The <code>detail::partiion_on_median</code> accepts a range of points the current tree <code>level</code> and the <code>comp_policy</code> and returns the median point at this <code>level</code> and the data that is left and right to the calculated median.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>template&lt;typename Iterator, typename ComparisonPolicy&gt;
+std::tuple&lt;typename std::iterator_traits&lt;Iterator&gt;::value_type,
+           std::pair&lt;Iterator, Iterator&gt;,
+           std::pair&lt;Iterator, Iterator&gt;&gt;
+partiion_on_median(Iterator begin, Iterator end, 
+                   uint_t level, uint_t k, 
+                   const ComparisonPolicy&amp; comp_policy){
+
+    ...
+
+    // the median index
+    auto median_idx = n_points % 2 == 0 ? (n_points + 1) / 2 : n_points / 2;
+
+    // how to compare the data at the given
+    // level. We use the level % k operation to decide
+    // which coordinate to use
+    auto compare = [&amp;](const value_type&amp; v1, const value_type&amp; v2){
+        auto idx = level % k;
+        return comp_policy(v1, v2, idx); //v1[idx] &lt; v2[idx];
+    };
+
+
+    // rearrange the elements. Do partial sorting
+    // 
+    std::nth_element(begin, begin + median_idx, end , compare);
+
+    // get the data corresponding to the median
+    auto median = *(begin + median_idx);
+
+    // create the left are right sub-trees
+    auto left = std::make_pair&lt;Iterator,   Iterator&gt;(std::forward&lt;Iterator&gt;(begin), begin + median_idx);
+    auto right = std::make_pair&lt;Iterator,   Iterator&gt;(begin + median_idx + 1, std::forward&lt;Iterator&gt;(end));
+    return std::make_tuple(median, left, right);
+
+}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The implementation above uses <a href="https://en.cppreference.com/w/cpp/algorithm/nth_element">std::nth_element</a> to partially sort the elements. According to the documentation:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>_<code>nth_element</code> is a partial sorting algorithm that rearranges elements in <code>[first, last)</code> such that_</p>
+<ul>
+<li><em>The element pointed at by nth is changed to whatever element would occur in that position if <code>[first, last)</code> were sorted.</em></li>
+<li><em>All of the elements before this new nth element are less than or equal to the elements after the new nth element.</em></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We then recursively build the tree using <code>do_create_</code></p>
 
 </div>
 </div>
