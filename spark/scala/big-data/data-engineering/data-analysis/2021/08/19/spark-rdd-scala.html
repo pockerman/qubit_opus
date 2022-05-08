@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      4 min read
     
 </span></p>
 
@@ -127,7 +127,11 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#-Overview"> Overview </a></li>
-<li class="toc-entry toc-h2"><a href="#Create-Spark-RDD-with-Scala">Create Spark RDD with Scala </a></li>
+<li class="toc-entry toc-h2"><a href="#The-RDD-abstraction">The RDD abstraction </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Create-Spark-RDD-with-Scala">Create Spark RDD with Scala </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#Other-methods">Other methods </a></li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
@@ -151,7 +155,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this post we will see how to create a Spark RDD within a Scala application.  Although, modern applications most likely will be using the <code>DataFrame</code> and/or <code>DataSet</code> APIs, still the RDD data structure is what lies underneath the latter two and therefore always useful to know. As we will see, there are various methods to create an RDD in Spark. The following example is taken for <a href="https://sparkbyexamples.com/apache-spark-rdd/how-to-create-an-rdd-using-parallelize/">Spark by {Examples}</a>.</p>
+<p>In post <a href="https://pockerman.github.io/qubit_opus/spark/scala/big-data/data-engineering/data-analysis/2021/07/06/spark-application-concepts.html">Apache Spark. Application concepts</a> we went over some basic but core concepts associated with Spark. In this post, we will introduce the most basic abstraction in Spark namely the RDD (or the Resilient Distributed Dataset) [2].   Although, modern applications most likely will be using the <code>DataFrame</code> and/or <code>DataSet</code> APIs, still the RDD data structure is what lies underneath the latter two and therefore always useful to know. Moreover, in this post we will see how to create a Spark RDD within a Scala application. As we will see, there are various methods to create an RDD in Spark. The following example is taken for <a href="https://sparkbyexamples.com/apache-spark-rdd/how-to-create-an-rdd-using-parallelize/">Spark by {Examples}</a>.</p>
 
 </div>
 </div>
@@ -159,8 +163,16 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Create-Spark-RDD-with-Scala">
-<a class="anchor" href="#Create-Spark-RDD-with-Scala" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create Spark RDD with Scala<a class="anchor-link" href="#Create-Spark-RDD-with-Scala"> </a>
+<p>You can find the example snippets at <a href="https://github.com/pockerman/comp_stats_scala">Computational Statistics with Scala</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-RDD-abstraction">
+<a class="anchor" href="#The-RDD-abstraction" aria-hidden="true"><span class="octicon octicon-link"></span></a>The RDD abstraction<a class="anchor-link" href="#The-RDD-abstraction"> </a>
 </h2>
 </div>
 </div>
@@ -168,8 +180,45 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A Resilient Distributed Datasets, or RDD for short,  is the  fundamental data structure of Spark and underlies both the <code>DataFrame</code> and <code>DataSet</code> data structures. An RDD is an immutable collection of objects that can be distributed across a cluster of computers. An RDD collection is divided into a number of partitions so that each node on a Spark cluster  can independently perform computations. .</p>
+<p>The RDD is perhaps the most basic abstraction in Spark. An RDD is an immutable collection of objects that can be distributed across a cluster of computers. An RDD collection is divided into a number of partitions so that each node on a Spark cluster  can independently perform computations. There are three concepts associated with an RDD [2]:</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Dependencies</li>
+<li>Partitions</li>
+<li>Compute function</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Partitions provide the ability to split the work and therefore to parallelize computation across executors. The compute function produces the data that will be stored in the RDD. Finally the dependencies, inform Spark how an RDD is constructed. This allows for RDD resiliency as Spark, if needed, is able to recreate the RDD from the dependencies [2].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have a very simplified overview of what an RDD is, let's how we can create one.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-Spark-RDD-with-Scala">
+<a class="anchor" href="#Create-Spark-RDD-with-Scala" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create Spark RDD with Scala<a class="anchor-link" href="#Create-Spark-RDD-with-Scala"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -196,7 +245,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The first method is illustrated in the example below</p>
+<p>The first method is illustrated in the code listing example below</p>
 
 </div>
 </div>
@@ -214,7 +263,7 @@ import org.apache.spark.SparkConf
 object CreateRDD {
   def main(args: Array[String]) {
 
-    val conf = new SparkConf().setAppName("Hello Scala Spark")
+    val conf = new SparkConf().setAppName("Hello Spark RDD")
     val sc = new SparkContext(conf)
 
     val data = Array(1,2,3,4,5,6,7,8,9,10)
@@ -271,7 +320,7 @@ Note that the application above has to create a <code>SparkContext</code> first 
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><strong>Remark</strong></p>
-<p>Creating a <code>SparkContext</code> is not necessary when we use the Scala Spark shell as one such object is already created for us.</p>
+<p>Creating a <code>SparkContext</code> is not necessary when we use the Spark shell as one such object is already created for us.</p>
 <hr>
 
 </div>
@@ -298,7 +347,7 @@ import org.apache.spark.SparkConf
 object CreateRDDFile {
   def main(args: Array[String]) {
 
-    val conf = new SparkConf().setAppName("Hello Scala Spark")
+    val conf = new SparkConf().setAppName("Hello Spark RDD")
     val sc = new SparkContext(conf)
 
     // Should be some file on your system
@@ -306,6 +355,8 @@ object CreateRDDFile {
     val csvRDD = sc.textFile(csvFile)
 
     println("Number of Partitions: "+csvRDD.getNumPartitions)
+
+    // prints the header of the file
     println("Action: First element: "+csvRDD.first()) 
   }
 }</code></pre>
@@ -371,11 +422,18 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 
-<pre><code>// Should be some file on your system
-val csvFile = "/home/alex/qi3/learn_scala/scripts/spark/data/train.csv" 
+<pre><code>object CreateRDDFile {
+  def main(args: Array[String]) {
 
-// use four partitions for the data
-val csvRDD = sc.textFile(csvFile, 4)</code></pre>
+    ...
+
+    // Should be some file on your system
+    val csvFile = "/home/alex/qi3/learn_scala/scripts/spark/data/train.csv" 
+    val csvRDD = sc.textFile(csvFile, 4)
+
+    ...
+  }
+}</code></pre>
 
 </div>
 </div>
@@ -424,6 +482,7 @@ val csvRDD = sc.textFile(csvFile, 4)</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li><a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></li>
+<li>Jules S. Damji, Brooke Wenig, Tathagata Das, Deny Lee, <em>Learning Spark. Lighting-fasts data analytics</em>, 2nd Edition, O'Reilly.</li>
 </ol>
 
 </div>
