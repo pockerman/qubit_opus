@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      6 min read
     
 </span></p>
 
@@ -133,6 +133,13 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#Other-methods">Other methods </a></li>
+<li class="toc-entry toc-h2"><a href="#Transformations-and-actions">Transformations and actions </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Transformations">Transformations </a></li>
+<li class="toc-entry toc-h3"><a href="#Actions">Actions </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Summary">Summary </a></li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -471,6 +478,131 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Transformations-and-actions">
+<a class="anchor" href="#Transformations-and-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transformations and actions<a class="anchor-link" href="#Transformations-and-actions"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In <a href="https://pockerman.github.io/qubit_opus/spark/scala/big-data/data-engineering/data-analysis/2021/07/06/spark-application-concepts.html">Apache Spark. Application concepts</a> we introduced the two types of operations one can apply on an RDD namely transformations and actions [1]. 
+You can find more information on these two operations in <a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a>. Below we just give a brief overview of what each operation entails.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Transformations">
+<a class="anchor" href="#Transformations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transformations<a class="anchor-link" href="#Transformations"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Transformations in Spark transform a <code>DataFrame</code> into a new one. This is done without altering the original data. Hence a transformation is an immutable operation as far as the original data is concerned. Some examples of transformations are listed below [3]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>map(function)</code>: It returns a new data set by operating on each element of the source RDD.</li>
+<li>
+<code>flatMap(function)</code>: Similar to map, but each item can be mapped to zero, one, or more items.</li>
+<li>
+<code>mapPartitions(function)</code>: Similar to map, but works on the partition level.</li>
+<li>
+<p><code>mapPartitionsWithIndex(function)</code>: Similar to <code>mapPartitions</code>, but provides a function with an Int value to indicate the index position of the partition.</p>
+</li>
+<li>
+<p><code>filter(function)</code>: It returns a new RDD that contains only elements that satisfy the predicate.</p>
+</li>
+<li>
+<p><code>union(otherDataset)</code>: It returns a new data set that contains the elements of the source RDD and the <code>otherDataset</code>  RDD. Note that the participating RDDs should be of the same data type.</p>
+</li>
+<li>
+<p><code>intersection(otherDataset)</code>: It returns a new data set that contains the intersection of elements from the source RDD and the argument RDD.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Actions">
+<a class="anchor" href="#Actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Actions<a class="anchor-link" href="#Actions"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An action triggers the lazy evaluation of all the recorded transformations [1]. A list of actions is given below [3].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>collect()</code>: Returns all the elements of the data set are returned as an array to the driver program.</li>
+<li>
+<code>count()</code>:  Returns the number of elements in the data set.</li>
+<li>
+<p><code>reduce(function)</code>: It returns a data set by aggregating the elements of the RDD it is applied on. The aggregation is done by using  the user provided <code>function</code> argument. The <code>function</code> should take two arguments and returns a single argument. Moreover it should be commutative and associative so that it can be operated in parallel.</p>
+</li>
+<li>
+<p><code>first()</code>: Returns the first element in the data set.</p>
+</li>
+<li>
+<code>take(n)</code>: Returns the first <code>n</code> elements in the data set as an array.</li>
+<li>
+<code>takeOrdered(n, [ordering])</code>: Return the first <code>n</code>  elements of the RDD using either their natural order or a custom comparator.</li>
+<li>
+<code>takeSample(withReplacement, num, [seed])</code>: Returns an array with a random sample of num elements of the dataset, with or without replacement, optionally pre-specifying a random number generator seed.</li>
+<li>
+<code>saveAsTextFile(path)</code>: Write the elements of the RDD as a text file in the local file system, HDFS, or any another supported storage system.</li>
+<li>
+<code>foreach(function)</code>: Applies the <code>function</code> argument on each element in the RDD.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">
+<a class="anchor" href="#Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary<a class="anchor-link" href="#Summary"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this post we saw how to create an RDD in Spark application. Specifically, there are two ways to do so; using the <code>SparkContext.parallelize</code> function and reading from a file. RDDs are now considered as low level Spark programming. Moreover, we reiterated over the concept of transformations and actions and we saw some non-exclusive examples of both.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">
 <a class="anchor" href="#References" aria-hidden="true"><span class="octicon octicon-link"></span></a>References<a class="anchor-link" href="#References"> </a>
 </h2>
@@ -483,6 +615,7 @@ Action: First element: #Duplicate: 0, Delete: 1, Normal-1: 2, TUF: 3, Normal-2: 
 <ol>
 <li><a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></li>
 <li>Jules S. Damji, Brooke Wenig, Tathagata Das, Deny Lee, <em>Learning Spark. Lighting-fasts data analytics</em>, 2nd Edition, O'Reilly.</li>
+<li>Subhashini Chellappan, Dharanitharan Ganesan, <em>Practical Apache Spark. Using the Scala API</em>, Apress</li>
 </ol>
 
 </div>

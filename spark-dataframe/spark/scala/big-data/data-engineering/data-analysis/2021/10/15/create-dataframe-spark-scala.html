@@ -135,6 +135,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#Specify-a-schema">Specify a schema </a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h2"><a href="#Summary">Summary </a></li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -157,7 +158,15 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this post, we will review how to create a <code>DataFrame</code> in Spark using the Scala API.</p>
+<p>In the post <a href="https://pockerman.github.io/qubit_opus/spark/scala/big-data/data-engineering/data-analysis/2021/08/19/spark-rdd-scala.html">Apache Spark. Create an RDD with Scala</a> we saw how to create an RDD within a Scala Spark application. RDDs however are considered as low level. In this post,  we will review how to create a <code>DataFrame</code> in Spark using the Scala API.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can find the example snippets at <a href="https://github.com/pockerman/comp_stats_scala">Computational Statistics with Scala</a>.</p>
 
 </div>
 </div>
@@ -174,7 +183,23 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The Spark <code>DataFrame</code> is inspired by the equivalent pandas <code>DataFrame</code>. A <code>DataFrame</code> is Spark is like a distributed in-memory table with named columns and schemas [1]. Similar to an RDD, a <code>DataFrame</code> is also immutable and Spark keeps a lineage of all the transformations. Thus, when we add or change the names and types of the columns, a new <code>DataFrame</code> is actually created.</p>
+<p>The Spark <code>DataFrame</code> is inspired by the equivalent pandas <code>DataFrame</code>. A <code>DataFrame</code> in Spark is like a distributed in-memory table with named columns and schemas [1]. Similar to an RDD, a <code>DataFrame</code> is also immutable and Spark keeps a lineage of all the transformations. Thus, when we add or change the names and types of the columns, a new <code>DataFrame</code> is actually created.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <code>DataFrame</code> is a structured data container. Given this, a number of advantages exist such as better performance and space efficiencies. The <code>DataFrame</code> is one of the high-level structured APIs and it is built on top of <a href="https://spark.apache.org/sql/">Spark SQL engine</a> [1].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following code snippet shows how to create a <code>DataFrame</code> in Spark</p>
 
 </div>
 </div>
@@ -375,6 +400,15 @@ object CreateDataFrame {
 +-----+-----+-----+
 only showing top 5 rows</code></pre>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">
+<a class="anchor" href="#Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary<a class="anchor-link" href="#Summary"> </a>
+</h2>
 </div>
 </div>
 </div>
