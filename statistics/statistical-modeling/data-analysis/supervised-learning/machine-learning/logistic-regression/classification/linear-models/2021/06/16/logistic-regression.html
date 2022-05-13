@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Logistic Regression | qubit-computing</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Logistic Regression" />
+<meta name="author" content="Alexandros Giavaras" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction to the logistic regression classification model" />
+<meta property="og:description" content="Introduction to the logistic regression classification model" />
+<link rel="canonical" href="https://pockerman.github.io/qubit_opus/statistics/statistical-modeling/data-analysis/supervised-learning/machine-learning/logistic-regression/classification/linear-models/2021/06/16/logistic-regression.html" />
+<meta property="og:url" content="https://pockerman.github.io/qubit_opus/statistics/statistical-modeling/data-analysis/supervised-learning/machine-learning/logistic-regression/classification/linear-models/2021/06/16/logistic-regression.html" />
+<meta property="og:site_name" content="qubit-computing" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://pockerman.github.io/qubit_opus/statistics/statistical-modeling/data-analysis/supervised-learning/machine-learning/logistic-regression/classification/linear-models/2021/06/16/logistic-regression.html","@type":"BlogPosting","headline":"Logistic Regression","dateModified":"2021-06-16T00:00:00-05:00","datePublished":"2021-06-16T00:00:00-05:00","author":{"@type":"Person","name":"Alexandros Giavaras"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pockerman.github.io/qubit_opus/statistics/statistical-modeling/data-analysis/supervised-learning/machine-learning/logistic-regression/classification/linear-models/2021/06/16/logistic-regression.html"},"description":"Introduction to the logistic regression classification model","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/qubit_opus/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://pockerman.github.io/qubit_opus/feed.xml" title="qubit-computing" /><link rel="shortcut icon" type="image/x-icon" href="/qubit_opus/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/qubit_opus/">qubit-computing</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/qubit_opus/about/">About Me</a><a class="page-link" href="/qubit_opus/projects/">Projects</a><a class="page-link" href="/qubit_opus/search/">Search</a><a class="page-link" href="/qubit_opus/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Logistic Regression</h1><p class="page-description">Introduction to the logistic regression classification model</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-06-16T00:00:00-05:00" itemprop="datePublished">
+        Jun 16, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandros Giavaras</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#statistics">statistics</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#statistical-modeling">statistical-modeling</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#data-analysis">data-analysis</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#supervised-learning">supervised-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#machine-learning">machine-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#logistic-regression">logistic-regression</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#classification">classification</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/qubit_opus/categories/#linear-models">linear-models</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/pockerman/qubit_opus/tree/master/_notebooks/2021-06-16-logistic-regression.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/qubit_opus/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/pockerman/qubit_opus/master?filepath=_notebooks%2F2021-06-16-logistic-regression.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/qubit_opus/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/pockerman/qubit_opus/blob/master/_notebooks/2021-06-16-logistic-regression.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/qubit_opus/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#-Overview"> Overview </a></li>
+<li class="toc-entry toc-h2"><a href="#-Logistic-regression"> Logistic regression </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#-Fitting-the-model"> Fitting the model </a></li>
+<li class="toc-entry toc-h3"><a href="#-Evaluating-the-model"> Evaluating the model </a></li>
+<li class="toc-entry toc-h3"><a href="#-Example"> Example </a></li>
+<li class="toc-entry toc-h3"><a href="#LDA-and-logistic-regression">LDA and logistic regression </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Summary">Summary </a></li>
+<li class="toc-entry toc-h2"><a href="#-References"> References </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-06-16-logistic-regression.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Overview">
+<a class="anchor" href="#-Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="overview"></a> Overview<a class="anchor-link" href="#-Overview"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this section, we review the <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> model. This is a simple linear classifier. We will go over the model by assuming that the dependent variable $Y$ is a <strong>dichotomous variable</strong> i.e. a variable that assumes two values or two classes. In particular, in this section we cover the following topics:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>The logistic regression model </li>
+<li>Estimating the model parameters</li>
+<li>Model evaluation</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A nice introduction to the topic can be found at <a href="https://www.datacamp.com/tutorial/understanding-logistic-regression-python">Understanding Logistic Regression in Python Tutorial</a>. An equally nice tutorial on logistic regression can be found at <a href="https://machinelearningmastery.com/logistic-regression-with-maximum-likelihood-estimation/">A Gentle Introduction to Logistic Regression With Maximum Likelihood Estimation</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can find out more on this and other topics at <a href="https://github.com/pockerman/ml_notes">Statistics, Probability and Machine Learning Notes</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-Logistic-regression">
+<a class="anchor" href="#-Logistic-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ekf"></a> Logistic regression<a class="anchor-link" href="#-Logistic-regression"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's consider the scenario where we are dealing with a binary classification problem i.e. two classes. We have a certain number of features $x_i$ and we want to predict $y_i$. A logistic regression model is very similar to a linear regression model. Indeed, both techniques model the target variable with a line (or hyperplane, depending on the number of dimensions of input. Linear regression fits the line to the data. We can use it to predict a new quantity, whereas logistic regression fits a line to best separate the two classes.
+Hence the logistic regression equation also consists of a bias term and separate logistic regression coefficients one for each independent variable [3]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$y = w_0 + w_1x_{1}+ \dots + w_{k}x_{k} + \epsilon
+\label{eq:eq1}\tag{1}$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we already know, this model can produce a $y$ in the range $(-\infty, +\infty)$ and this is not suitable for us. In particular, this model does not force $y=0$ or $y=1$ despite the fact that sometimes it can produce a decent classifier [4]. Let us introduce the following transformation</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\label{eq:eq2}\tag{2}$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following Python snippet plots the values of $\sigma$</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">sigma</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"z"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"$\sigma(z)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Equation (<a href="#mjx-eqn-sigmoid">2</a>) is called the <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a>. The sigmoid function, also called logistic function, produces an ‘S’ shaped curve. It takes any real-valued number and map it into a value between 0 and 1. If the curve goes to positive infinity, then $y$ is predicted as 1, and if the curve goes to negative infinity, $y$ is predicted as 0. Another interesting property of the sigmoid function is that its derivative is given by equation (<a href="#mjx-eqn-sigmoid">3</a>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$\frac{d\sigma}{dz}=\sigma(z)(1-\sigma(z))
+\label{eq:eq3}\tag{3}$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Thus the logistic regression model is given by equation (<a href="#mjx-eqn-sigmoid">4</a>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$y = \sigma(w_0 + w_1x_{1}+ \dots + w_{k}x_{k}) + \epsilon \label{eq:eq4}\tag{4}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The model output $y$ is the logit function. It can be converted to  as a predicted probability for belonging to class 1 [3].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><strong>logit</strong></p>
+<p>The <a href="https://en.wikipedia.org/wiki/Logit">logit</a> is defined as the inverse of the  sigmoid function i.e.</p>
+<p>
+$$logit(p) = \sigma^{-1}(p) = ln\left(\frac{p}{1-p}\right) \label{eq:eq5}\tag{5}$$
+</p>
+<p>The ratio of probabilities</p>
+<p>
+$$\frac{p}{1-p} \label{eq:eq6}\tag{6}$$
+</p>
+<p>is called the odds.</p>
+<p>Since the odds often do not follow the shape of a normal distribution and they often display nonlinearities, we transform it using the natural logarithm i.e. the logit [3]. The following Python snippet illustrates the difference between the logit and the odds</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Probability of event p=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Odds=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)))</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Probability of event p=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Odds=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)))</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Probability of event p=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Odds=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Probability of event p=0.6
+Odds=1.4999999999999998
+Probability of event p=0.5
+Odds=1.0
+Probability of event p=0.3
+Odds=0.4285714285714286
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Thus the odds indicate how may times the event is more likely to occur. We can go from the logit function to $p$ using the following formula</p>
+<p>
+$$ p = \frac{\text{odds}}{\text{odds + 1}} \label{eq:eq7}\tag{7}$$
+</p>
+<p>where the odds is given by</p>
+<p>
+$$\text{odds} = exp(y) \label{eq:eq8}\tag{8}$$
+</p>
+<p>giving,</p>
+<p>
+$$ p =\frac{1}{1 + exp(-y)} \label{eq:eq9}\tag{9}$$
+</p>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="-Fitting-the-model">
+<a class="anchor" href="#-Fitting-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="subsec3"></a> Fitting the model<a class="anchor-link" href="#-Fitting-the-model"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now turn our attention into fitting the model i.e. estimating the parameters $\mathbf{w}$. In contrast to multiple linear regression model where we use a least-squares estimation, for logistic regression we use an iterative procedure. Indeed as mentioned above, with logistic regression, the output $y$ is the log-odd ration i.e.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$y = log\left(\frac{p}{1-p}\right) \label{eq:eq10}\tag{10}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Consider the function $l$:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$l = \hat{y}y + (1-\hat{y})(1-y) \label{eq:eq11}\tag{11}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The function $l$ returns a large probability when the model is close to the matching class value, and a small value when it is far away. The following script confirms this</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">yhat</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"y=1, yhat=0.9 l=</span><span class="si">{</span><span class="n">l</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"y=1, yhat=0.1 l=</span><span class="si">{</span><span class="n">l</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"y=0, yhat=0.1 l=</span><span class="si">{</span><span class="n">l</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"y=0, yhat=0.9 l=</span><span class="si">{</span><span class="n">l</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>y=1, yhat=0.9 l=0.9
+y=1, yhat=0.1 l=0.1
+y=0, yhat=0.1 l=0.9
+y=0, yhat=0.9 l=0.09999999999999998
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Taking the log transform gives us the following likelihood model</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$l=log\left(\hat{y}\right)y + log\left(1-\hat{y}\right)(1-y) \label{eq:eq12}\tag{12}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Summing the likelihood function across all examples in the dataset we get the loss function we will try to minimize</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$L = \sum_{i}^N log\left(\hat{y}_i\right)y_i + log\left(1-\hat{y}_i\right)(1-y_i) \label{eq:eq13}\tag{13}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Unfortunately, this is a non-linear function resulting in a non-linear optimization problem. Hence, we cannot use ordinary least squares like we did with linear regression.  Therefore, an iterative optimization algorithm must be used like <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="-Evaluating-the-model">
+<a class="anchor" href="#-Evaluating-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="subsec3"></a> Evaluating the model<a class="anchor-link" href="#-Evaluating-the-model"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok, so we fitter the model, now we want to evaluate how good is the fit. The performance of classification algorithms is typically assessed using metrics such as the accuracy of the model. This is defined as the ratio of</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$\text{Accuracy} = \frac{\text{Number of correct classification}}{\text{Total number of points}} \label{eq:eq14}\tag{14}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Knowing the accuracy allows to calculate the error rate and vice versa as the two are related according to</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$\text{Error rate} = 1 - \text{Accuracy} \label{eq:eq15}\tag{15}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, when we deal with imbalanced classes this metric is not enough and can even be misleading. A <a href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrix</a> allows us to visualize  various quality metrics associated with the goodness of fit.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="-Example">
+<a class="anchor" href="#-Example" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="#"></a> Example<a class="anchor-link" href="#-Example"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we know how to fit the model in the data and evaluate it, let's go over a hands-on practical example. We will use scikit-learn. However, you can find examples in <a href="https://github.com/pockerman/comp_stats_scala">Scala</a>. For simple Python implementations you can check <a href="https://machinelearningmastery.com/implement-logistic-regression-stochastic-gradient-descent-scratch-python/">How To Implement Logistic Regression From Scratch in Python</a> or [5]. The following example is taken from the official <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">scikit-learn documentation</a>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/alex/.local/lib/python3.8/site-packages/sklearn/linear_model/_logistic.py:762: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>LogisticRegression(random_state=0)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.9733333333333334</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="LDA-and-logistic-regression">
+<a class="anchor" href="#LDA-and-logistic-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>LDA and logistic regression<a class="anchor-link" href="#LDA-and-logistic-regression"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Logistic regression is very similar to <a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis">linear discriminant analysis</a> or LDA in the sense that both lead to a linear classification rule [4]. We will say more about LDA in a next section.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">
+<a class="anchor" href="#Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary<a class="anchor-link" href="#Summary"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this section we touched upon the logistic regression model. This is simple linear classifier that has low computational cost. It works both with numeric and nominal values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, as a linear model cannot handle cases where the decision boundary is non-linear. Thus, it is a model that may exhibit high bias and therefore exhibit underfitting.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The logistic regression model is similar to the linear regression equation; it consists of a bias term and separate logistic regression coefficients one for each independent variable. The logistic or sigmoid function is used in order to map the $(-\infty, +\infty)$ interval that typically is the range of values for the linear regression model to the $[0,1]$ range. The output of the model is the so-called logit or log-odds.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="-References">
+<a class="anchor" href="#-References" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="refs"></a> References<a class="anchor-link" href="#-References"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<a href="https://en.wikipedia.org/wiki/Logistic_regression">Logistic regression</a> </li>
+<li>Kevin P. Murphy, <em>Machine learning. A probabilistic perspective</em>, The MIT Press.</li>
+<li>Larry Hatcher, <em>Advanced statistics in research</em>, Shadow Finch Media.</li>
+<li>Larry Wasserman, <em>All of Statistics: A concise course in statistical inference</em>, Springer.</li>
+<li>Joel Grus, <em>Data science from scratch. First principles with Python</em>, O'Reilly.</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><a class="u-url" href="/qubit_opus/statistics/statistical-modeling/data-analysis/supervised-learning/machine-learning/logistic-regression/classification/linear-models/2021/06/16/logistic-regression.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/qubit_opus/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/qubit_opus/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/qubit_opus/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Computing is fun (most of the times...)</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/pockerman" target="_blank" title="pockerman"><svg class="svg-icon grey"><use xlink:href="/qubit_opus/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
