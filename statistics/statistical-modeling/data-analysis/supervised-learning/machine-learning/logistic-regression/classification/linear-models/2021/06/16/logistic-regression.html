@@ -260,7 +260,7 @@ $$y = w_0 + w_1x_{1}+ \dots + w_{k}x_{k} + \epsilon
 <div class="text_cell_render border-box-sizing rendered_html">
 $$
 \sigma(z) = \frac{1}{1 + e^{-z}}
-\label{eq:eq2}\tag{2}$$
+\tag{2}$$
 </div>
 </div>
 </div>
@@ -345,7 +345,7 @@ $$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 $$\frac{d\sigma}{dz}=\sigma(z)(1-\sigma(z))
-\label{eq:eq3}\tag{3}$$
+\tag{3}$$
 </div>
 </div>
 </div>
@@ -361,7 +361,7 @@ $$\frac{d\sigma}{dz}=\sigma(z)(1-\sigma(z))
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$y = \sigma(w_0 + w_1x_{1}+ \dots + w_{k}x_{k}) + \epsilon \label{eq:eq4}\tag{4}$$
+$$y = \sigma(w_0 + w_1x_{1}+ \dots + w_{k}x_{k}) + \epsilon \tag{4}$$
 </p>
 
 </div>
@@ -382,11 +382,11 @@ $$y = \sigma(w_0 + w_1x_{1}+ \dots + w_{k}x_{k}) + \epsilon \label{eq:eq4}\tag{4
 <p><strong>logit</strong></p>
 <p>The <a href="https://en.wikipedia.org/wiki/Logit">logit</a> is defined as the inverse of the  sigmoid function i.e.</p>
 <p>
-$$logit(p) = \sigma^{-1}(p) = ln\left(\frac{p}{1-p}\right) \label{eq:eq5}\tag{5}$$
+$$logit(p) = \sigma^{-1}(p) = ln\left(\frac{p}{1-p}\right) \tag{5}$$
 </p>
 <p>The ratio of probabilities</p>
 <p>
-$$\frac{p}{1-p} \label{eq:eq6}\tag{6}$$
+$$\frac{p}{1-p} \tag{6}$$
 </p>
 <p>is called the odds.</p>
 <p>Since the odds often do not follow the shape of a normal distribution and they often display nonlinearities, we transform it using the natural logarithm i.e. the logit [3]. The following Python snippet illustrates the difference between the logit and the odds</p>
@@ -445,15 +445,15 @@ Odds=0.4285714285714286
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Thus the odds indicate how may times the event is more likely to occur. We can go from the logit function to $p$ using the following formula</p>
 <p>
-$$ p = \frac{\text{odds}}{\text{odds + 1}} \label{eq:eq7}\tag{7}$$
+$$ p = \frac{\text{odds}}{\text{odds + 1}} \tag{7}$$
 </p>
 <p>where the odds is given by</p>
 <p>
-$$\text{odds} = exp(y) \label{eq:eq8}\tag{8}$$
+$$\text{odds} = exp(y) \tag{8}$$
 </p>
 <p>giving,</p>
 <p>
-$$ p =\frac{1}{1 + exp(-y)} \label{eq:eq9}\tag{9}$$
+$$ p =\frac{1}{1 + exp(-y)} \tag{9}$$
 </p>
 <hr>
 
@@ -481,7 +481,7 @@ $$ p =\frac{1}{1 + exp(-y)} \label{eq:eq9}\tag{9}$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$y = log\left(\frac{p}{1-p}\right) \label{eq:eq10}\tag{10}$$
+$$y = log\left(\frac{p}{1-p}\right) \tag{10}$$
 </p>
 
 </div>
@@ -499,7 +499,7 @@ $$y = log\left(\frac{p}{1-p}\right) \label{eq:eq10}\tag{10}$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$l = \hat{y}y + (1-\hat{y})(1-y) \label{eq:eq11}\tag{11}$$
+$$l = \hat{y}y + (1-\hat{y})(1-y) \tag{11}$$
 </p>
 
 </div>
@@ -580,7 +580,7 @@ y=0, yhat=0.9 l=0.09999999999999998
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$l=log\left(\hat{y}\right)y + log\left(1-\hat{y}\right)(1-y) \label{eq:eq12}\tag{12}$$
+$$l=log\left(\hat{y}\right)y + log\left(1-\hat{y}\right)(1-y) \tag{12}$$
 </p>
 
 </div>
@@ -598,7 +598,7 @@ $$l=log\left(\hat{y}\right)y + log\left(1-\hat{y}\right)(1-y) \label{eq:eq12}\ta
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$L = \sum_{i}^N log\left(\hat{y}_i\right)y_i + log\left(1-\hat{y}_i\right)(1-y_i) \label{eq:eq13}\tag{13}$$
+$$L = \sum_{i}^N log\left(\hat{y}_i\right)y_i + log\left(1-\hat{y}_i\right)(1-y_i) \tag{13}$$
 </p>
 
 </div>
@@ -633,7 +633,7 @@ $$L = \sum_{i}^N log\left(\hat{y}_i\right)y_i + log\left(1-\hat{y}_i\right)(1-y_
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\text{Accuracy} = \frac{\text{Number of correct classification}}{\text{Total number of points}} \label{eq:eq14}\tag{14}$$
+$$\text{Accuracy} = \frac{\text{Number of correct classification}}{\text{Total number of points}} \tag{14}$$
 </p>
 
 </div>
@@ -651,7 +651,7 @@ $$\text{Accuracy} = \frac{\text{Number of correct classification}}{\text{Total n
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>
-$$\text{Error rate} = 1 - \text{Accuracy} \label{eq:eq15}\tag{15}$$
+$$\text{Error rate} = 1 - \text{Accuracy} \tag{15}$$
 </p>
 
 </div>
