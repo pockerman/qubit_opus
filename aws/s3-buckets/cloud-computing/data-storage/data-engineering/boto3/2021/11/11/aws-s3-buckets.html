@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
@@ -139,6 +139,8 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#CORS-Configuration">CORS Configuration </a></li>
+<li class="toc-entry toc-h2"><a href="#AWS-Glacier">AWS Glacier </a></li>
+<li class="toc-entry toc-h2"><a href="#Summary">Summary </a></li>
 <li class="toc-entry toc-h2"><a href="#References">References </a></li>
 </ul><!--
 #################################################
@@ -161,7 +163,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this notebook, we are going to have a brief view on AWS S3 storage. Concretely, we are going to discuss the following:</p>
+<p>In this notebook we are going to have a brief view on the <a href="https://aws.amazon.com/s3/?nc=sn&amp;loc=0">AWS S3 storage</a> (a high level overview of the storage types in AWS can be found in <a href="https://pockerman.github.io/qubit_opus/aws/aws-storage-services/cloud-computing/data-storage/2022/05/30/aws-storage-services.html">AWS. Storage services</a> this literally a 2 minutes read). Concretely, we are going to discuss the following:</p>
 
 </div>
 </div>
@@ -200,7 +202,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>AWS S3 is an object storage system. S3 stands for Simple Storage Service. By design, S3  has 11 9's of durability and stores data for millions of applications. S3 files are referred to as objects. You can find more information about S3 <a href="https://aws.amazon.com/s3/?p=ft&amp;c=st&amp;z=3">here</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">here</a>.</p>
+<p>AWS S3 is an object storage system. It is designed to store any type of data. Furthermore, it is a serverless service. Items in S3 are stored in buckets. As we add items to the buckets its size grows. In theory there is no limit on the size a bucket can get. By design, S3  has 11 9's of durability and stores data for millions of applications. S3 files are referred to as objects. You can find more information about S3 <a href="https://aws.amazon.com/s3/?p=ft&amp;c=st&amp;z=3">here</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">here</a>.</p>
 
 </div>
 </div>
@@ -208,7 +210,29 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We will use the Boto3 Python package to interact with AWS S3; that is to create a bucket, upload and download files in the created bucket.</p>
+<p>Items in S3 are stored in buckets. The user/application must create a bucket before storing any data on S3. The bucket name must</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Be unique</li>
+<li>Be at least 3 and no more than 63 character long</li>
+<li>Cannot be an IP address format</li>
+<li>Be lowercase</li>
+<li>Must not contain uppercase characters or underscores</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Below we will use the Boto3 Python package to interact with AWS S3; that is to create a bucket, upload and upload files in the created bucket.</p>
 
 </div>
 </div>
@@ -320,6 +344,19 @@ window.onload = wrap_img;
    'content-length': '0'},
   'RetryAttempts': 0},
  'Location': 'http://coursera-s3-bucket.s3.amazonaws.com/'}</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>S3 access can be modified via:</p>
+<ul>
+<li>IAM policies</li>
+<li>Bucket policies</li>
+<li>Access control lists</li>
+</ul>
 
 </div>
 </div>
@@ -453,6 +490,52 @@ window.onload = wrap_img;
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="AWS-Glacier">
+<a class="anchor" href="#AWS-Glacier" aria-hidden="true"><span class="octicon octicon-link"></span></a>AWS Glacier<a class="anchor-link" href="#AWS-Glacier"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="https://aws.amazon.com/s3/storage-classes/glacier/">Glacier</a> storage is the cheapest storage option in AWS. It is used for long term storage of data. Just like S3 is a serverless service. However, it is not as readily accessible as S3. Given this, typically Glacier storage is used for archiving data rather than storing data used on a daily basis.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It provides three retrieval options</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Expedited (1-5 minutes)</li>
+<li>Standard (3-5 hours)</li>
+<li>Bulk (5-12 hours)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">
+<a class="anchor" href="#Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary<a class="anchor-link" href="#Summary"> </a>
+</h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
